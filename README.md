@@ -11,8 +11,8 @@
 1. Docker で React アプリケーションをローカルにマウントし構築
    1. docker exec で接続し開発
    1. VSCode から接続し開発
+   1. Docker の基本的な操作
 1. Docker を Docker Compose で管理し用意したサンプルコードを Docker にマウントし開発
-1. Docker の基本的な操作
 1. Docker Compose の基本的な操作
 
 ## 1. Docker で React アプリケーションをローカルにマウントし構築
@@ -131,6 +131,14 @@ VSCode -> 拡張機能 -> [Remote Development](https://marketplace.visualstudio.
 
 新しいウインドウで作成した Docker 環境に接続し開発ができる状態であること
 ![docker-02](./images/docker-02.png)
+
+fuga と言うファイルを追加し`Docker-DockerCompose-Training`から確認
+
+```
+$ ls -la app
+```
+
+### 1.3 Docker の基本的な操作
 
 ## サンプルコードの準備
 
