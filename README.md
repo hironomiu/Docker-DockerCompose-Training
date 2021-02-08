@@ -219,78 +219,33 @@ $ docker rmi 43a2ae7ab3ee
 $ docker rmi 96e42e8537de
 ```
 
+### 掃除
+
+`app`内を掃除
+
+```
+$ rm app/*
+```
+
 ## 2. Docker を Docker Compose で管理し用意したサンプルコードを Docker にマウントし開発
 
 ### サンプルコードの準備
 
 ```
-$ mkdir docker-dockercompose
-$ cd docker-dockercompose
+$ cd app
 $ npx create-react-app .
 ```
 
-起動
+### docker-compose.yml の作成
+
+Docker-DockerCompose-Training 直下に[docker-compose.yml](./docker-compose.yml)を作成
+
+### up
+
+Docker-DockerCompose-Training で実行
 
 ```
-$ yarn start
-```
-
-確認できたら Ctrl+C で停止
-
-接続
-
-```
-$ docker exec -it d92f3af9a907 bash
-```
-
-確認
-
-```
-root@d92f3af9a907:/app# node -v
-v15.8.0
-root@d92f3af9a907:/app# ls -la
-total 8
-drwxr-xr-x 2 root root 4096 Feb  5 01:37 .
-drwxr-xr-x 1 root root 4096 Feb  5 01:39 ..
-root@d92f3af9a907:/app# exit
-```
-
-サンプルアプリの作成
-
-```
-root@d92f3af9a907:/app# npx create-react-app .
-```
-
-アプリの起動
-
-```
-$ yarn start
+$ docker-compose up
 ```
 
 ブラウザで`http://localhost:3000`を表示し確認後、Ctrl+C で停止
-
-### VSCode から接続
-
-VSCode -> Remote Explorer -> Containers -> sample:1 -> ディレクトリ選択で`/app`を選択
-
-VSCode からターミナルを開く
-
-```
-$ yarn start
-```
-
-ブラウザに`http://localhost:3000`でアプリが表示されること(Docker 側で別 PORT にリダイレクトする場合あり)
-
-`src/App.js`内を適当に編集しセーブするとブラウザの表示が変わることを確認
-
-`$ yarn start`を行っているターミナルを Ctrl+C で停止し VSCode を閉じる
-
-### 掃除
-
-確認
-
-```
-$ docker ps
-CONTAINER ID   IMAGE      COMMAND                  CREATED             STATUS             PORTS                    NAMES
-d92f3af9a907   sample:1   "docker-entrypoint.s…"   About an hour ago   Up About an hour   0.0.0.0:3000->3000/tcp   sample-1
-```
