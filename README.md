@@ -257,7 +257,7 @@ $ docker-compose up
 
 ### ローカルからの開発
 
-`app/src/App.js`を編集し`hello`を表示されることを確認しましょう
+`app/src/App.js`を編集し`hello`と表示されることを確認しましょう
 
 ```
 import React from 'react'
@@ -274,3 +274,15 @@ export default App;
 ```
 
 ### VSCode から接続し開発
+
+リモートエクスプローラー -> 今回作成した Docker-Compose の環境を選択
+
+![docker-compose-03](./images/docker-compose-03.png)
+
+フォルダを押下
+![docker-compose-04](./images/docker-compose-04.png)
+
+`app`を指定し`OK`を押下(2 回)
+![docker-compose-05](./images/docker-compose-05.png)
+
+`app/src/App.js`を編集し`docker compose hello`と表示されることを確認しましょう
