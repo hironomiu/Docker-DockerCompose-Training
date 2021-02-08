@@ -248,4 +248,9 @@ Docker-DockerCompose-Training で実行
 $ docker-compose up
 ```
 
-ブラウザで`http://localhost:3000`を表示し確認後、Ctrl+C で停止
+`Compiled successfully!`となること
+![docker-compose-01](./images/docker-compose-01.png)
+
+ブラウザにサンプルコードが`http://localhost:3000`で表示されること(確認後、Ctrl+C で停止)
+
+![docker-compose-02](./images/docker-compose-02.png)
