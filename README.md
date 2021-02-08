@@ -8,7 +8,7 @@
 
 ## すること
 
-1. Docker で React アプリケーションをローカルにマウントし構築
+1. Docker で ボリュームをマウントし構築
    1. docker exec で接続し開発
    1. VSCode から接続し開発
    1. Docker の基本的な操作
