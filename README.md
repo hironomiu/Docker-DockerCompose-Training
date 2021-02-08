@@ -6,16 +6,22 @@
 
 [Docker Desktop](https://www.docker.com/get-started)で可能
 
+## 公式ドキュメント
+
+[docker docs](https://docs.docker.com/)
+
 ## すること
 
-1. Docker で ボリュームをマウントし構築
+1. Docker で環境構築
    1. docker exec で接続し開発
    1. VSCode から接続し開発
    1. Docker の基本的な操作
-1. Docker を Docker Compose で管理し用意したサンプルコードを Docker にマウントし開発
-1. Docker Compose の基本的な操作
+1. Docker Compose で環境構築
+   1. Docker をマウントし開発
+   1. VSCode から接続し開発
+   1. Docker Compose の基本的な操作
 
-## 1. Docker で React アプリケーションをローカルにマウントし構築
+## 1. Docker で環境構築
 
 ### 今回の作業ディレクトリの作成
 
@@ -227,9 +233,9 @@ $ docker rmi 96e42e8537de
 $ rm app/*
 ```
 
-## 2. Docker を Docker Compose で管理し用意したサンプルコードを Docker にマウントし開発
+## 2. Docker Compose で環境構築
 
-### サンプルコードの準備
+### React サンプルコードの準備
 
 ```
 $ cd app
@@ -255,7 +261,7 @@ $ docker-compose up
 
 ![docker-compose-02](./images/docker-compose-02.png)
 
-### ローカルからの開発
+### 2.1 Docker をマウントし React のサンプルコードを用い開発
 
 `app/src/App.js`を編集し`hello`と表示されることを確認しましょう
 
@@ -273,7 +279,7 @@ const App = () => {
 export default App;
 ```
 
-### VSCode から接続し開発
+### 2.2 VSCode から接続し開発
 
 リモートエクスプローラー -> 今回作成した Docker-Compose の環境を選択
 
