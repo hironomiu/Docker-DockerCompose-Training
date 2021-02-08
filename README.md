@@ -73,7 +73,7 @@ node         latest    96e42e8537de   2 days ago           936MB
 $ docker ps -a
 ```
 
-### Docker コンテナの起動
+### 新しい Docker コンテナの起動
 
 ```
 $ docker run -v `pwd`/app:/app -it -d --name sample-1 -p 3000:3000 sample:1
@@ -140,7 +140,88 @@ $ ls -la app
 
 ### 1.3 Docker の基本的な操作
 
-## サンプルコードの準備
+#### Docker イメージの確認
+
+```
+$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED             SIZE
+sample       1         43a2ae7ab3ee   About an hour ago   936MB
+node         latest    96e42e8537de   2 days ago          936MB
+```
+
+#### build
+
+**build 済みなので実行しない**
+
+~~`Docker-DockerCompose-Training`から実行~~
+
+```
+$ docker build --file=./docker/app/Dockerfile -t sample:1 .
+```
+
+#### Docker コンテナの確認
+
+```
+$ docker ps -a
+CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS                     PORTS                               NAMES
+d621283c4a42   sample:1   "docker-entrypoint.s…"   16 minutes ago   Up 16 minutes              0.0.0.0:3000->3000/tcp              sample-1
+```
+
+#### 新しい Docker コンテナの起動
+
+**実行済みなので実行しない**
+
+```
+$ docker run -v `pwd`/app:/app -it -d --name sample-1 -p 3000:3000 sample:1
+```
+
+#### Docker コンテナの停止
+
+`docker ps -a`で確認した`CONTAINER ID`を指定
+
+```
+$ docker stop d621283c4a42
+```
+
+#### Docker コンテナの起動
+
+`docker ps -a`で確認した`CONTAINER ID`を指定
+
+```
+$ docker start d621283c4a42
+```
+
+#### Docker コンテナの削除
+
+停止後`docker ps -a`で確認した`CONTAINER ID`を指定
+
+```
+$ docker rm d621283c4a42
+```
+
+確認
+
+```
+$ docker ps -a
+```
+
+#### Docker イメージの削除
+
+`docker images`で確認した`IMAGE ID`を指定
+
+```
+$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED        SIZE
+sample       1         43a2ae7ab3ee   2 hours ago    936MB
+node         latest    96e42e8537de   2 days ago     936MB
+
+$ docker rmi 43a2ae7ab3ee
+$ docker rmi 96e42e8537de
+```
+
+## 2. Docker を Docker Compose で管理し用意したサンプルコードを Docker にマウントし開発
+
+### サンプルコードの準備
 
 ```
 $ mkdir docker-dockercompose
