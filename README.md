@@ -254,3 +254,23 @@ $ docker-compose up
 ブラウザにサンプルコードが`http://localhost:3000`で表示されること(確認後、Ctrl+C で停止)
 
 ![docker-compose-02](./images/docker-compose-02.png)
+
+### ローカルからの開発
+
+`app/src/App.js`を編集し`hello`を表示されることを確認しましょう
+
+```
+import React from 'react'
+
+const App = () => {
+ return (
+   <>
+     hello
+   </>
+ );
+}
+
+export default App;
+```
+
+### VSCode から接続し開発
