@@ -281,6 +281,8 @@ export default App;
 
 ### 2.2 VSCode から接続し開発
 
+#### 接続
+
 リモートエクスプローラー -> 今回作成した Docker-Compose の環境を選択
 
 ![docker-compose-03](./images/docker-compose-03.png)
@@ -291,4 +293,43 @@ export default App;
 `app`を指定し`OK`を押下(2 回)
 ![docker-compose-05](./images/docker-compose-05.png)
 
+#### 開発
+
 `app/src/App.js`を編集し`docker compose hello`と表示されることを確認しましょう
+
+### 2.3 Docker Compose の基本的な操作
+
+#### 起動
+
+フォアグランドで起動(停止は Ctrl+C)
+
+```
+$ docker-compose up
+```
+
+バックグラウンドで起動
+
+```
+$ docker-compose up
+```
+
+#### 起動
+
+```
+$ docker-compose start
+```
+
+#### 停止
+
+```
+$ docker-compose stop
+```
+
+#### 確認
+
+```
+$ docker-compose ps
+               Name                              Command               State           Ports
+-----------------------------------------------------------------------------------------------------
+docker-dockercompose-training_app_1   docker-entrypoint.sh yarn  ...   Up      0.0.0.0:3000->3000/tcp
+```
