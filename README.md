@@ -333,9 +333,9 @@ services:
     command: yarn start
 ```
 
-### up
+### docker-compose up
 
-Docker-DockerCompose-Training で実行
+`Docker-DockerCompose-Training` 直下で実行
 
 ```
 $ docker-compose up
@@ -344,14 +344,29 @@ $ docker-compose up
 `Compiled successfully!`となること
 ![docker-compose-01](./images/docker-compose-01.png)
 
-ブラウザにサンプルコードが`http://localhost:3000`で表示されること(確認後、Ctrl+C で停止)
+ブラウザに`http://localhost:3000`を入力しサンプルコードが表示されること(確認後、Ctrl+C で停止できる、ただし今はこのまま動作させ続けること)
 
 ![docker-compose-02](./images/docker-compose-02.png)
 
-### 2.1 Docker をマウントし React のサンプルコードを用い開発
+### 2.1 Docker にマウントした app 配下の React のサンプルコードを用い開発
 
-`app/src/App.js`を編集し`hello`と表示されることを確認しましょう
+`app/src/index.js`,`app/src/App.js`を編集し`hello`と表示されることを確認しましょう
 
+`index.js`
+```
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./App"
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
+)
+```
+
+`App.js`
 ```
 import React from 'react'
 
@@ -365,6 +380,8 @@ const App = () => {
 
 export default App;
 ```
+
+表示が変わらない場合は`docker-compose stop`後に`docker-compose start`をし確認する(少し時間が掛かる)
 
 ### 2.2 VSCode から接続し開発
 
