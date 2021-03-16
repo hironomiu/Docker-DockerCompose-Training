@@ -318,6 +318,21 @@ $ npx create-react-app .
 
 `Docker-DockerCompose-Training` 直下に[docker-compose.yml](./docker-compose.yml)を作成
 
+```
+$ cat docker-compose.yml
+version: "3"
+services:
+  app:
+    build: docker/app
+    tty: true
+    volumes:
+      - ./app:/app
+    ports:
+      - "3000:3000"
+    user: node
+    command: yarn start
+```
+
 ### up
 
 Docker-DockerCompose-Training で実行
