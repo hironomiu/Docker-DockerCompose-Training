@@ -1,0 +1,19 @@
+version: "3"
+services:
+  react-app:
+    build: docker/react-app
+    tty: true
+    volumes:
+      - ./react-app:/react-app
+    ports:
+      - "3000:3000"
+    user: node
+
+  express-app:
+    build: docker/express-app
+    tty: true
+    volumes:
+      - ./express-app:/express-app
+    ports:
+      - "5000:5000"
+    user: node
