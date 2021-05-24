@@ -44,26 +44,77 @@ RUN npx create-react-app .
 
 #### image build
 
-docker イメージを作成する
+docker イメージを作成します。確認 -> 作成 -> 確認の手順で行います
+
+確認
+
+```
+$ docker image ls
+REPOSITORY                  TAG       IMAGE ID       CREATED         SIZE
+```
+
+作成
 
 ```
 $ docker image build --file=./docker/react-app/Dockerfile -t react-app:1 .
 ```
 
+確認(`react-app`が存在すること)
+
+```
+$ docker image ls
+REPOSITORY                  TAG       IMAGE ID       CREATED          SIZE
+react-app                   1         29ad70606561   32 seconds ago   1.23GB
+```
+
 #### volume create
 
-今回立ち上げるコンテナと mount する volume を作成する(※ Mac 以外は要確認)
+今回立ち上げるコンテナに mount し永続化する volume を作成します(※ Mac 以外は要確認)。確認 -> 作成 -> 確認の手順で行います
+
+確認
+
+```
+$ docker volume ls
+DRIVER    VOLUME NAME
+```
+
+作成
 
 ```
 $ docker volume create react-app
 ```
 
+確認(`react-app`が存在すること)
+
+```
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     react-app
+```
+
 #### container up
 
-docker コンテナの起動(port 3000 で React アプリはアクセスするよう設定)
+docker コンテナの起動(port 3000 で React アプリはアクセスするよう設定)確認 -> 起動 -> 確認の手順で行います
+
+確認(`-a`は停止しているコンテナも出力)
+
+```
+$ docker container ls -a
+CONTAINER ID   IMAGE                              COMMAND                  CREATED       STATUS                     PORTS                               NAMES
+```
+
+起動
 
 ```
 $ docker container run -p 3000:3000 --mount type=volume,src=react-app,dst=/react-app -it -d --name react-app-1 react-app:1
+```
+
+確認(`react-app-1`の STATUS が`UP`になっていること)
+
+```
+$ docker container ls -a
+CONTAINER ID   IMAGE                              COMMAND                  CREATED          STATUS                     PORTS                                       NAMES
+f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   46 seconds ago   Up 41 seconds              0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   react-app-1
 ```
 
 #### VSCode で接続
@@ -71,7 +122,9 @@ $ docker container run -p 3000:3000 --mount type=volume,src=react-app,dst=/react
 #### アプリ起動
 
 ```
+
 $ yarn start
+
 ```
 
 #### サンプルコード React
@@ -79,46 +132,52 @@ $ yarn start
 Index.js
 
 ```
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+<React.StrictMode>
+<App />
+</React.StrictMode>,
+document.getElementById('root')
 )
+
 ```
 
 App.js
 
 ```
+
 import React,{useState,useEffect} from 'react'
 
 const App = () => {
-  const [message,setMessage] = useState("hoge")
+const [message,setMessage] = useState("hoge")
 
-  useEffect(() => {
-    fetch('http://localhost:5000/')
-    .then(response => response.json())
-    .then(data => setMessage(data.message))
-  },[])
+useEffect(() => {
+fetch('http://localhost:5000/')
+.then(response => response.json())
+.then(data => setMessage(data.message))
+},[])
 
-  return (
-    <div>
-      hello:{message}
-    </div>
-  )
+return (
+<div>
+hello:{message}
+</div>
+)
 }
 
 export default App
+
 ```
 
 起動(3000)
 
 ```
+
 $ yarn start
+
 ```
 
 ### express-app
@@ -126,10 +185,13 @@ $ yarn start
 create Dockerfile
 
 ```
+
 $ mkdir -p docker/express-app
+
 ```
 
 ```
+
 FROM node:latest
 
 ENV APP_PATH=/express-app
@@ -138,24 +200,31 @@ WORKDIR $APP_PATH
 
 RUN npm init -y
 RUN npm install -y express cors
+
 ```
 
 image build
 
 ```
+
 $ docker image build --file=./docker/express-app/Dockerfile -t express-app:1 .
+
 ```
 
 volume create
 
 ```
+
 $ docker volume create express-app
+
 ```
 
 container up
 
 ```
+
 $ docker container run -p 5000:5000 --mount type=volume,src=express-app,dst=/express-app -it -d --name express-app-1 express-app:1
+
 ```
 
 ### Express
@@ -163,6 +232,7 @@ $ docker container run -p 5000:5000 --mount type=volume,src=express-app,dst=/exp
 index.js
 
 ```
+
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -170,25 +240,28 @@ const http = require('http')
 const server = http.createServer(app)
 
 app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true,
-  optionsSuccessStatus: 200
+origin: 'http://localhost:3000',
+credentials: true,
+optionsSuccessStatus: 200
 }))
 
 app.get('/',(req,res) => {
-  res.json({
-    message:"fugaaaaaa!!"
-  })
+res.json({
+message:"fugaaaaaa!!"
+})
 })
 server.listen(5000,() => {
-  console.log('listening on *:5000')
+console.log('listening on \*:5000')
 })
+
 ```
 
 起動(5000)
 
 ```
+
 $ node index.js
+
 ```
 
 #### 掃除
@@ -196,17 +269,25 @@ $ node index.js
 react-app
 
 ```
+
 $ docker container stop react-app-1
 $ docker container rm react-app-1
 $ docker volume rm react-app
 $ docker image rm react-app:1
+
 ```
 
 express-app
 
 ```
+
 $ docker container stop express-app-1
 $ docker container rm express-app-1
 $ docker volume rm express-app
 $ docker image rm express-app:1
+
+```
+
+```
+
 ```
