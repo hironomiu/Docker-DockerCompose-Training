@@ -19,7 +19,7 @@ VSCode
 
 ### フロントサーバ(react-app)
 
-ここでは React 動作する node 環境を docker で立ち上げていきます
+ここでは React アプリを立ち上げるための node 環境を docker で立ち上げていきます
 
 #### create Dockerfile
 
@@ -191,9 +191,22 @@ server.listen(5000,() => {
 $ node index.js
 ```
 
-### 掃除
+#### 掃除
+
+react-app
 
 ```
-$ docker stop react-app-1
-$ docker rm react-app-1
+$ docker container stop react-app-1
+$ docker container rm react-app-1
+$ docker volume rm react-app
+$ docker image rm react-app:1
+```
+
+express-app
+
+```
+$ docker container stop express-app-1
+$ docker container rm express-app-1
+$ docker volume rm express-app
+$ docker image rm express-app:1
 ```
