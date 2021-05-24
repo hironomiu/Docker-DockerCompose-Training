@@ -128,6 +128,7 @@ f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   46 
 ![docker-02](./images/docker-02.png)
 
 React アプリの環境が作成されていることを確認
+
 ![docker-03](./images/docker-03.png)
 
 #### アプリ起動
@@ -482,3 +483,39 @@ express-app_1  | Type ".help" for more information.
 react-app_1    | Welcome to Node.js v16.2.0.
 react-app_1    | Type ".help" for more information.
 ```
+
+#### Express VSCode で接続
+
+`Remote Explorer`から`Containers`を選択し`express-app_1`のディレクトリを押下
+
+![docker-compose-01](./images/docker-compose-01.png)
+
+Open Folder を押下
+
+![docker-compose-02](./images/docker-compose-02.png)
+
+`express-app`ディレクトリを指定(もしくは入力)し OK を押下
+
+![docker-compose-03](./images/docker-compose-03.png)
+
+Express アプリの環境が作成されていることを確認
+
+![docker-compose-03](./images/docker-compose-03.png)
+
+#### React VSCode で接続
+
+`Remote Explorer`から`Containers`を選択し`react-app_1`のディレクトリを押下
+
+![docker-compose-01](./images/docker-compose-01.png)
+
+Open Folder を押下
+
+![docker-compose-02](./images/docker-compose-02.png)
+
+`react-app`ディレクトリを指定(もしくは入力)し OK を押下
+
+![docker-compose-05](./images/docker-compose-05.png)
+
+React アプリの環境が作成されていることを確認
+
+![docker-compose-06](./images/docker-compose-06.png)
