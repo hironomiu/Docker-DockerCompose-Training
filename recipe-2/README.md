@@ -15,7 +15,7 @@ VSCode
 
 ## Part 1
 
-ここでは docker で 2 つのコンテナを立ち上げフロントサーバ、API サーバとして動作させる
+ここでは docker で 2 つのコンテナを立ち上げフロントサーバ、API サーバとして動作させます
 
 ### フロントサーバ(react-app)
 
@@ -436,4 +436,49 @@ $ docker container stop express-app-1
 $ docker container rm express-app-1
 $ docker volume rm express-app
 $ docker image rm express-app:1
+```
+
+## Part 2
+
+ここでは Part 1 で構築した環境を Docker Compose で作成していきます
+
+[docker-compose.yml](./docker-compose.yml)を直下に作成
+
+```
+version: "3"
+services:
+  react-app:
+    build: docker/react-app
+    tty: true
+    volumes:
+      - react-app:/react-app
+    ports:
+      - "3000:3000"
+    user: node
+
+  express-app:
+    build: docker/express-app
+    tty: true
+    volumes:
+      - express-app:/express-app
+    ports:
+      - "5000:5000"
+    user: node
+volumes:
+  react-app:
+  express-app:
+```
+
+起動(フォワグランド実行)
+
+```
+$ docker-compose up
+
+Creating recipe-2_react-app_1   ... done
+Creating recipe-2_express-app_1 ... done
+Attaching to recipe-2_express-app_1, recipe-2_react-app_1
+express-app_1  | Welcome to Node.js v16.2.0.
+express-app_1  | Type ".help" for more information.
+react-app_1    | Welcome to Node.js v16.2.0.
+react-app_1    | Type ".help" for more information.
 ```

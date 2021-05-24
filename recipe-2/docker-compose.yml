@@ -4,7 +4,7 @@ services:
     build: docker/react-app
     tty: true
     volumes:
-      - ./react-app:/react-app
+      - react-app:/react-app
     ports:
       - "3000:3000"
     user: node
@@ -13,7 +13,10 @@ services:
     build: docker/express-app
     tty: true
     volumes:
-      - ./express-app:/express-app
+      - express-app:/express-app
     ports:
       - "5000:5000"
     user: node
+volumes:
+  react-app:
+  express-app:
