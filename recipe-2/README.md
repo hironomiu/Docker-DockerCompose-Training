@@ -11,7 +11,8 @@ VSCode
 1. 全体を通して Docker、Docker Compose の基本的な使い方の理解
 2. 全体を通して VSCode から Docker コンテナに接続しアプリケーションコードを作成
 3. docker を用いてフロントサーバ、API サーバをたて連携(Part 1)
-4. 3 を Docker Compose で行う(Part 2)
+4. 3 の環境構築を Docker Compose で行う(Part 2)
+5. 4 で改めて環境構築し 3 のアプリを実装(Part 3)
 
 ## Part 1
 
@@ -122,6 +123,10 @@ f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   46 
 `Remote Explorer`から`Containers`を選択し`react-app:1`のディレクトリを押下
 
 ![docker-01](./images/docker-01.png)
+
+Open Folder を押下
+
+![docker-compose-02](./images/docker-compose-02.png)
 
 `react-app`ディレクトリを指定(もしくは入力)し OK を押下
 
@@ -321,6 +326,10 @@ f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   Abo
 
 ![docker-06](./images/docker-06.png)
 
+Open Folder を押下
+
+![docker-compose-02](./images/docker-compose-02.png)
+
 `express-app`ディレクトリを指定(もしくは入力)し OK を押下
 
 ![docker-07](./images/docker-07.png)
@@ -470,7 +479,7 @@ volumes:
   express-app:
 ```
 
-起動(フォワグランド実行)
+起動(フォワグランド実行)(`-d`をつけることでバックグラウンドで起動可能)
 
 ```
 $ docker-compose up
@@ -519,3 +528,80 @@ Open Folder を押下
 React アプリの環境が作成されていることを確認
 
 ![docker-compose-06](./images/docker-compose-06.png)
+
+#### 基本操作
+
+一旦、現在フォアグランドで立ち上げている docker-compose を Ctrl+C で停止する
+
+```
+^CGracefully stopping... (press Ctrl+C again to force)
+Stopping recipe-2_express-app_1 ... done
+Stopping recipe-2_react-app_1   ... done
+```
+
+確認 1
+
+```
+$ docker-compose ps
+         Name                     Command             State     Ports
+---------------------------------------------------------------------
+recipe-2_express-app_1   docker-entrypoint.sh node   Exit 137
+recipe-2_react-app_1     docker-entrypoint.sh node   Exit 137
+```
+
+確認 2
+
+```
+$ docker compose ls -a
+NAME                STATUS
+recipe-2            exited(2)
+```
+
+起動(バックグラウンド起動)
+
+```
+$ docker-compose start
+Starting react-app   ... done
+Starting express-app ... done
+```
+
+停止
+
+```
+$ docker-compose stop
+Stopping recipe-2_express-app_1 ... done
+Stopping recipe-2_react-app_1   ... done
+```
+
+削除
+
+```
+$ docker-compose rm
+Going to remove recipe-2_express-app_1, recipe-2_react-app_1
+Are you sure? [yN] y
+Removing recipe-2_express-app_1 ... done
+Removing recipe-2_react-app_1   ... done
+```
+
+#### 掃除
+
+上記操作の場合は image,volume は残るため改めて削除する
+
+```
+$ docker image rm recipe-2_express-app
+$ docker image rm recipe-2_react-app
+$ docker volume rm recipe-2_express-app
+$ docker volume rm recipe-2_react-app
+```
+
+## Part 3
+
+ここでは Part 1,2 で行った環境構築、AP の実装を改めて行いましょう
+
+起動
+
+```
+$ docker-compose up -d
+```
+
+Express,React の Docker 環境に VSCode で接続しアプリを実装しましょう
