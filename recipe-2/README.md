@@ -119,17 +119,44 @@ f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   46 
 
 #### VSCode で接続
 
+`Remote Explorer`から`Containers`を選択し`react-app:1`のディレクトリを押下
+
+![docker-01](./images/docker-01.png)
+
+`react-app`ディレクトリを指定(もしくは入力)し OK を押下
+
+![docker-02](./images/docker-02.png)
+
+React アプリの環境が作成されていることを確認
+![docker-03](./images/docker-03.png)
+
 #### アプリ起動
 
-```
+以降は上で接続した VSCode で作業を行います
 
+React のサンプルをターミナルから起動
+
+```
 $ yarn start
 
+Compiled successfully!
+
+You can now view react-app in the browser.
+
+  Local:            http://localhost:3000
+  On Your Network:  http://172.17.0.2:3000
+
+Note that the development build is not optimized.
+To create a production build, use yarn build.
 ```
+
+起動完了後`localhost:3000`で React アプリが動作していることを確認(違う port で開いた場合は 3000 に書き換えて確認)
+
+![docker-04](./images/docker-04.png)
 
 #### サンプルコード React
 
-Index.js
+[src/Index.js](./sample/react-app/Index.js)を以下に修正
 
 ```
 
@@ -146,7 +173,7 @@ document.getElementById('root')
 
 ```
 
-App.js
+`src/App.js`を[src/components/App.js](./sample/react-app/components/App.js)として修正
 
 ```
 
@@ -169,16 +196,17 @@ hello:{message}
 }
 
 export default App
-
 ```
 
-起動(3000)
+念のためターミナルで起動しているアプリを Ctrl + C で停止し再起動(3000)
 
 ```
-
 $ yarn start
-
 ```
+
+dev tools を立ち上げ確認(現在は API サーバをたてていないのでエラーとなる)
+
+![docker-05](./images/docker-05.png)
 
 ### express-app
 
