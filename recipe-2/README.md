@@ -208,18 +208,21 @@ dev tools を立ち上げ確認(現在は API サーバをたてていないの�
 
 ![docker-05](./images/docker-05.png)
 
-### express-app
+### API サーバ(express-app)
 
-create Dockerfile
+ここでは Express にて API サーバをを立ち上げるための node 環境を docker で立ち上げていきます
+
+#### create Dockerfile
+
+docker ファイルの格納ディレクトリ`docker/express-app`を作成する(VSCode のターミナル、Exploer から直接作成のどちらでも良い)
 
 ```
-
 $ mkdir -p docker/express-app
-
 ```
 
-```
+上記ディレクトリ配下に`Dockerfile`として`cat`で表示した内容を転記する
 
+```
 FROM node:latest
 
 ENV APP_PATH=/express-app
@@ -228,39 +231,109 @@ WORKDIR $APP_PATH
 
 RUN npm init -y
 RUN npm install -y express cors
-
 ```
 
-image build
+#### image build
+
+docker イメージを作成します。確認 -> 作成 -> 確認の手順で行います
+
+確認(先に作成した`react-app-1`が存在)
 
 ```
+$ docker image ls
+REPOSITORY                  TAG       IMAGE ID       CREATED             SIZE
+react-app                   1         29ad70606561   About an hour ago   1.23GB
+```
 
+作成
+
+```
 $ docker image build --file=./docker/express-app/Dockerfile -t express-app:1 .
-
 ```
 
-volume create
+確認(`express-app`が作成されていること)
 
 ```
+$ docker image ls
+REPOSITORY                  TAG       IMAGE ID       CREATED             SIZE
+express-app                 1         007fdae2e275   20 seconds ago      914MB
+react-app                   1         29ad70606561   About an hour ago   1.23GB
+```
 
+#### volume create
+
+今回立ち上げるコンテナに mount し永続化する volume を作成します(※ Mac 以外は要確認)。確認 -> 作成 -> 確認の手順で行います
+
+確認(先に作成した`react-app`が存在)
+
+```
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     react-app
+```
+
+作成
+
+```
 $ docker volume create express-app
-
 ```
 
-container up
+確認(`express-app`が存在すること)
 
 ```
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     express-app
+local     react-app
+```
 
+#### container up
+
+docker コンテナの起動(port 5000 で Expres API サーバはアクセスするよう設定)確認 -> 起動 -> 確認の手順で行います
+
+確認(`-a`は停止しているコンテナも出力)
+
+```
+$ docker container ls -a
+CONTAINER ID   IMAGE                              COMMAND                  CREATED             STATUS                     PORTS                                       NAMES
+f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   About an hour ago   Up About an hour           0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   react-app-1
+```
+
+起動
+
+```
 $ docker container run -p 5000:5000 --mount type=volume,src=express-app,dst=/express-app -it -d --name express-app-1 express-app:1
-
 ```
 
-### Express
-
-index.js
+確認(`express-app-1`の STATUS が`UP`になっていること)
 
 ```
+$ docker container ls -a
+CONTAINER ID   IMAGE                              COMMAND                  CREATED             STATUS                     PORTS                                       NAMES
+e0d2b654f0dd   express-app:1                      "docker-entrypoint.s…"   14 seconds ago      Up 11 seconds              0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   express-app-1
+f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   About an hour ago   Up About an hour           0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   react-app-1
+```
 
+#### VSCode で接続
+
+`Remote Explorer`から`Containers`を選択し`express-app:1`のディレクトリを押下
+
+![docker-06](./images/docker-06.png)
+
+`express-app`ディレクトリを指定(もしくは入力)し OK を押下
+
+![docker-07](./images/docker-07.png)
+
+Express アプリの環境が作成されていることを確認
+![docker-08](./images/docker-08.png)
+
+#### サンプルコード Express
+
+以降は上で接続した VSCode で作業を行います
+
+[index.js](./sample/express-app/index.js)を`express-app`直下に作成
+
+```
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -275,21 +348,74 @@ optionsSuccessStatus: 200
 
 app.get('/',(req,res) => {
 res.json({
-message:"fugaaaaaa!!"
+message:"Hello Express App!!"
 })
 })
 server.listen(5000,() => {
 console.log('listening on \*:5000')
 })
-
 ```
 
-起動(5000)
+#### アプリ起動
+
+Express アプリをターミナルから起動(5000)
 
 ```
-
 $ node index.js
+listening on *:5000
+```
 
+ブラウザでアクセスしている React アプリをリロードし API 呼び出しが行われたか確認(エラーが消えメッセージが変わっていることを確認)
+
+![docker-09](./images/docker-09.png)
+
+#### 基本操作
+
+確認
+
+```
+$ docker container ls -a
+CONTAINER ID   IMAGE                              COMMAND                  CREATED       STATUS                     PORTS                                       NAMES
+e0d2b654f0dd   express-app:1                      "docker-entrypoint.s…"   2 hours ago   Up 2 hours                 0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   express-app-1
+f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   3 hours ago   Up 3 hours                 0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   react-app-1
+```
+
+bash モードで接続
+
+```
+$ docker container exec -it express-app-1 bash
+root@e0d2b654f0dd:/express-app# ls -la
+total 52
+drwxr-xr-x  3 root root  4096 May 24 11:03 .
+drwxr-xr-x  1 root root  4096 May 24 10:17 ..
+-rw-r--r--  1 root root   391 May 24 11:06 index.js
+drwxr-xr-x 54 root root  4096 May 24 10:17 node_modules
+-rw-r--r--  1 root root 32438 May 24 10:13 package-lock.json
+-rw-r--r--  1 root root   297 May 24 10:13 package.json
+root@e0d2b654f0dd:/express-app# exit
+exit
+```
+
+停止(+確認)
+
+```
+$ docker container stop express-app-1
+express-app-1
+$ docker container ls -a
+CONTAINER ID   IMAGE                              COMMAND                  CREATED       STATUS                        PORTS                                       NAMES
+e0d2b654f0dd   express-app:1                      "docker-entrypoint.s…"   2 hours ago   Exited (137) 15 seconds ago                                               express-app-1
+f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   3 hours ago   Up 3 hours                    0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   react-app-1
+```
+
+起動(+確認)
+
+```
+$ docker container start express-app-1
+express-app-1
+$ docker container ls -a
+CONTAINER ID   IMAGE                              COMMAND                  CREATED       STATUS                     PORTS                                       NAMES
+e0d2b654f0dd   express-app:1                      "docker-entrypoint.s…"   2 hours ago   Up 19 seconds              0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   express-app-1
+f1f0a91fb71d   react-app:1                        "docker-entrypoint.s…"   3 hours ago   Up 3 hours                 0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   react-app-1
 ```
 
 #### 掃除
@@ -297,25 +423,17 @@ $ node index.js
 react-app
 
 ```
-
 $ docker container stop react-app-1
 $ docker container rm react-app-1
 $ docker volume rm react-app
 $ docker image rm react-app:1
-
 ```
 
 express-app
 
 ```
-
 $ docker container stop express-app-1
 $ docker container rm express-app-1
 $ docker volume rm express-app
 $ docker image rm express-app:1
-
-```
-
-```
-
 ```

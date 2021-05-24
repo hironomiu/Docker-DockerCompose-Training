@@ -14,7 +14,7 @@ app.use(
 
 app.get("/", (req, res) => {
   res.json({
-    message: "fugaaaaaa!!",
+    message: "Hello Express App!!",
   })
 })
 server.listen(5000, () => {
