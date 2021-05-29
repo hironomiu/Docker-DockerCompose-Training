@@ -601,7 +601,7 @@ $ docker volume rm recipe-2_react-app
 起動
 
 ```
-$ docker-compose up -d
+$ docker-compose up --build -d
 ```
 
 Express,React の Docker 環境に VSCode で接続しアプリを実装しましょう
