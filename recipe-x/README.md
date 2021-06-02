@@ -104,9 +104,16 @@ $
 
 MySQL 上に`test`DB の作成例
 
-ローカルに MySQL Client がインストールされている場合(パスワードは`mysql`)
+bash モードでコンテナに接続し MySQL の接続(パスワードは`mysql`)
 
-接続
+```
+$ docker container exec -it mysqld bash
+root@88f10acb0dc0:/#
+
+root@88f10acb0dc0:/#　mysql -u root -p
+```
+
+ローカルに MySQL Client がインストールされている場合(パスワードは`mysql`)の接続
 
 ```
 $ mysql -u root -p -h127.0.0.1
