@@ -105,10 +105,12 @@ $
 MySQL 上に`test`DB の作成例
 
 bash モードでコンテナに接続し MySQL の接続(パスワードは`mysql`)
+※日本語入力を可能にするために`apt-get`,`source`をし反映させてから`mysql`コマンドを実行しましょう
 
 ```
 $ docker container exec -it mysqld bash
-root@88f10acb0dc0:/#
+root@88f10acb0dc0:/# apt-get update && apt-get install -y locales && locale-gen ja_JP.UTF-8 && echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc
+root@88f10acb0dc0:/# source ~/.bashrc
 
 root@88f10acb0dc0:/#　mysql -u root -p
 ```
