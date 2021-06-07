@@ -614,3 +614,6 @@ $ docker-compose up --build -d
 ```
 
 Express,React の Docker 環境に VSCode で接続しアプリを実装しましょう
+
+- 例 POST を実装してみましょう
+- 例 GET リクエストのレスポンスを遅くしてみましょう
