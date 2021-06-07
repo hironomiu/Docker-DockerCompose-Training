@@ -473,7 +473,7 @@ services:
       - react-app:/react-app
     ports:
       - "3000:3000"
-    user: node
+    user: root
 
   express-app:
     build: docker/express-app
@@ -482,7 +482,7 @@ services:
       - express-app:/express-app
     ports:
       - "5000:5000"
-    user: node
+    user: root
 volumes:
   react-app:
   express-app:
