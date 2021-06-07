@@ -617,3 +617,33 @@ Express,React の Docker 環境に VSCode で接続しアプリを実装しま�
 
 - 例 POST を実装してみましょう
 - 例 GET リクエストのレスポンスを遅くしてみましょう
+
+## Memo
+
+### curl
+
+GET
+
+```
+$ curl localhost:5000
+{"message":"Hello Express Get App!!"}$
+```
+
+POST
+
+```
+$ curl -X POST -H  "Content-Type: application/json" -d '{"name":"hello"}' localhost:5000
+{"message":"Hello Express Post hello App!!"}$
+```
+
+GET(jq を使った例)
+
+```
+$ curl localhost:5000 | jq
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    37  100    37    0     0    492      0 --:--:-- --:--:-- --:--:--   493
+{
+  "message": "Hello Express Get App!!"
+}
+```
