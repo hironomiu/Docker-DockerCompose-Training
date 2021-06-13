@@ -558,20 +558,20 @@ NAME                STATUS
 recipe-2            exited(2)
 ```
 
-起動(バックグラウンド起動)
-
-```
-$ docker-compose start
-Starting react-app   ... done
-Starting express-app ... done
-```
-
 停止
 
 ```
 $ docker-compose stop
 Stopping recipe-2_express-app_1 ... done
 Stopping recipe-2_react-app_1   ... done
+```
+
+起動(バックグラウンド起動)
+
+```
+$ docker-compose start
+Starting react-app   ... done
+Starting express-app ... done
 ```
 
 削除
