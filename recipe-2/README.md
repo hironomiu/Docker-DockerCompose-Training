@@ -488,10 +488,10 @@ volumes:
   express-app:
 ```
 
-起動(フォワグランド実行)(`-d`をつけることでバックグラウンドで起動可能)
+起動(バックグランド実行)(`-d`をつけることでバックグラウンドで起動)
 
 ```
-$ docker-compose up
+$ docker-compose up --build -d
 
 Creating recipe-2_react-app_1   ... done
 Creating recipe-2_express-app_1 ... done
@@ -597,10 +597,10 @@ Removing recipe-2_react-app_1   ... done
 上記操作の場合は image,volume は残るため改めて削除する
 
 ```
-$ docker image rm recipe-2_express-app
-$ docker image rm recipe-2_react-app
-$ docker volume rm recipe-2_express-app
-$ docker volume rm recipe-2_react-app
+$ docker image rm docker-react-express_express-app
+$ docker image rm docker-react-express_react-app
+$ docker volume rm docker-react-express_express-app
+$ docker volume rm docker-react-express_react-app
 ```
 
 ## Part 3
