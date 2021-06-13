@@ -14,7 +14,7 @@ VSCode
 4. 3 の環境構築を Docker Compose で行う(Part 2)
 5. 4 で改めて環境構築し 3 のアプリを実装(Part 3)
 
-## Paet 0(準備)
+## Part 0(準備)
 
 今回のハンズオンを行うためのディレクトリを作成し VSCode で開く(以降は`Docker-React-Express`がホームディレクトリとなり特に指定がない場合は`Docker-React-Express`からコマンドを実行する)
 
