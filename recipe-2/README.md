@@ -540,22 +540,14 @@ React アプリの環境が作成されていることを確認
 
 #### 基本操作
 
-一旦、現在フォアグランドで立ち上げている docker-compose を Ctrl+C で停止する
-
-```
-^CGracefully stopping... (press Ctrl+C again to force)
-Stopping recipe-2_express-app_1 ... done
-Stopping recipe-2_react-app_1   ... done
-```
-
 確認 1
 
 ```
 $ docker-compose ps
-         Name                     Command             State     Ports
----------------------------------------------------------------------
-recipe-2_express-app_1   docker-entrypoint.sh node   Exit 137
-recipe-2_react-app_1     docker-entrypoint.sh node   Exit 137
+               Name                           Command            State                    Ports
+-----------------------------------------------------------------------------------------------------------------
+docker-react-express_express-app_1   docker-entrypoint.sh node   Up      0.0.0.0:5000->5000/tcp,:::5000->5000/tcp
+docker-react-express_react-app_1     docker-entrypoint.sh node   Up      0.0.0.0:3000->3000/tcp,:::3000->3000/tcp
 ```
 
 確認 2
