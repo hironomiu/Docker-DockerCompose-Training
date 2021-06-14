@@ -1,10 +1,10 @@
-# Docker-DockerCompose-Training
+# recipe-1 Docker-DockerCompose-Training
 
 ## 動作環境
 
 [Docker](https://www.docker.com/)、[Docker Compose](https://docs.docker.com/compose/)が動作すること([Docker Desktop](https://www.docker.com/get-started)で可能)
 
-Node.js,npmが動作すること
+Node.js,npm が動作すること
 
 ```
 $ node -v
@@ -42,12 +42,15 @@ $ cd Docker-DockerCompose-Training
 ```
 
 ### サンプルコード用ディレクトリの作成
-ReactのサンプルコードをDockerコンテナにマウントする際に利用する`app`ディレクトリを作成する
+
+React のサンプルコードを Docker コンテナにマウントする際に利用する`app`ディレクトリを作成する
+
 ```
 $ mkdir app
 ```
 
-### gitignoreの作成
+### gitignore の作成
+
 [gitignore.io](https://www.toptal.com/developers/gitignore)で`vscode`を指定して作成する(ローカルで作成しても問題ない)
 
 `.gitignore`に以下を追記し管理対象から除外
@@ -85,7 +88,7 @@ $ docker images
 
 ```
 $ docker build --file=./docker/app/Dockerfile -t sample:1 .
-[+] Building 39.6s (7/7) FINISHED                                                                                                                                
+[+] Building 39.6s (7/7) FINISHED
  => [internal] load build definition from Dockerfile                                                                                                        0.0s
  => => transferring dockerfile: 115B                                                                                                                        0.0s
  => [internal] load .dockerignore                                                                                                                           0.0s
@@ -119,11 +122,12 @@ $ docker build --file=./docker/app/Dockerfile -t sample:1 .
  => exporting to image                                                                                                                                      0.0s
  => => exporting layers                                                                                                                                     0.0s
  => => writing image sha256:22d744614838a22ae305967921f49f179fac325b2f4987a3f54511180075f7bf                                                                0.0s
- => => naming to docker.io/library/sample:1           
+ => => naming to docker.io/library/sample:1
 ```
 
 ### Docker イメージの確認
-buildで作成したイメージ`sample`が存在すること
+
+build で作成したイメージ`sample`が存在すること
 
 ```
 $ docker images
@@ -132,6 +136,7 @@ sample       1         43a2ae7ab3ee   About a minute ago   936MB
 ```
 
 ### Docker コンテナの確認
+
 イメージをコンテナと起動していないため何も出力されないこと
 
 ```
@@ -139,6 +144,7 @@ $ docker ps -a
 ```
 
 ### 新しい Docker コンテナの起動
+
 **`pwd`がローカルで実行できない場合、フルパスを出力し書き換えて実行する**
 
 ```
@@ -146,6 +152,7 @@ $ docker run -v `pwd`/app:/app -it -d --name sample-1 -p 3000:3000 sample:1
 ```
 
 ### Docker コンテナの確認
+
 **`CONTAINER ID`を今後は指定するので控えること**
 
 `NAMES`に`sample-1`が存在し`STATUS`が`UP`であること
@@ -178,6 +185,7 @@ drwxr-xr-x 1 root root 4096 Feb  8 06:18 ..
 ```
 
 #### ファイルの確認
+
 `app`内に`hoge`が存在すれば`docker`にマウントが成功している
 
 ```
@@ -302,11 +310,12 @@ $ docker rmi 43a2ae7ab3ee
 $ rm app/*
 ```
 
-コンテナから開いていたVSCodeも閉じる
+コンテナから開いていた VSCode も閉じる
 
 ## 2. Docker Compose で環境構築
 
 ### React サンプルコードの準備
+
 ローカルの`Docker-DockerCompose-Training`直下から実行
 
 ```
@@ -353,6 +362,7 @@ $ docker-compose up
 `app/src/index.js`,`app/src/App.js`を編集し`hello`と表示されることを確認しましょう
 
 `index.js`
+
 ```
 import React from "react"
 import ReactDOM from "react-dom"
@@ -367,6 +377,7 @@ ReactDOM.render(
 ```
 
 `App.js`
+
 ```
 import React from 'react'
 
