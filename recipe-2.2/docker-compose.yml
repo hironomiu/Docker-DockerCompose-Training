@@ -1,0 +1,40 @@
+version: "3"
+services:
+  react-app:
+    build: docker/react-app
+    tty: true
+    volumes:
+      - react-app:/react-app
+    ports:
+      - "3000:3000"
+    user: root
+  express-app:
+    build: docker/express-app
+    tty: true
+    volumes:
+      - express-app:/express-app
+    ports:
+      - "5000:5000"
+    user: root
+    depends_on:
+      - db
+  db:
+    build: docker/mysql
+    tty: true
+    volumes:
+      - mysql:/var/lib/mysql
+      - mysql-log/var/log/mysql
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: mysql
+    expose:
+      - "3306"
+    ports:
+      - "3307:3306"
+volumes:
+  react-app:
+  express-app:
+  mysql:
+  mysql-log:
