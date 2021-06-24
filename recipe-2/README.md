@@ -577,6 +577,7 @@ Starting express-app ... done
 削除
 
 ```
+$ docker-compose stop
 $ docker-compose rm
 Going to remove recipe-2_express-app_1, recipe-2_react-app_1
 Are you sure? [yN] y
