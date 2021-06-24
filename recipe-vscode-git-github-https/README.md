@@ -1,4 +1,4 @@
-# VSCode + Git & GitHub
+# VSCode + Git & GitHub + https
 
 VSCode Remote Explorer から Docker コンテナに接続した際に VSCode の機能で Git & GitHub を https で扱う例
 
