@@ -35,6 +35,8 @@ VSCode Remote Explorer から Docker コンテナに接続し Git&GitHub を扱�
 
 `git push`を初回行うと VSCode から認証を聞かれるので指示通り進む
 
+![git-00](./images/git-00.png)
+
 `Continue` を押下
 
 ![git-01](./images/git-01.png)
@@ -48,3 +50,5 @@ GitHub アカウントのパスワードを入力し`Confirm password`を押下
 ![git-03](./images/git-03.png)
 
 対象のリポジトリに push が成功していることを確認（以降は設定されているのでこのオペレーションは不要）
+
+![git-04](./images/git-04.png)
