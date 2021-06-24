@@ -1,6 +1,6 @@
 # VSCode + Git & GitHub
 
-VSCode Remote Explorer から Docker コンテナに接続し Git&GitHub を扱う例
+VSCode Remote Explorer から Docker コンテナに接続した際に VSCode の機能で Git & GitHub を https で扱う例
 
 ターミナルを開く
 
