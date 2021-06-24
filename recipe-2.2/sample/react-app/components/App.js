@@ -4,7 +4,6 @@ const URL = "http://localhost:5000"
 const DUMMY_USER = JSON.stringify({ userId: "001", passWord: "qwerty" })
 
 const App = () => {
-  const [message, setMessage] = useState("hoge")
   const [token, setToken] = useState("")
   const [user, setUser] = useState({})
   const [csrfToken, setCsrfToken] = useState("")
@@ -21,7 +20,6 @@ const App = () => {
   }, [])
   return (
     <div>
-      hello!:{message}
       <form action="">
         <button
           onClick={(e) => {
