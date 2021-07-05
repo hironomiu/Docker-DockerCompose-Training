@@ -1,0 +1,26 @@
+version: "3"
+services:
+  web:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: web
+    container_name: web
+    ports:
+      - 8080:80
+
+  app:
+    build:
+      context: ./docker/api
+      dockerfile: Dockerfile
+    tty: true
+    image: api
+    container_name: api
+    ports:
+      - 5001:5001
+    user: root
+    volumes:
+      - api:/api
+    command: ["npm", "start"]
+volumes:
+  api:
