@@ -1,0 +1,17 @@
+version: "3"
+services:
+  express-app:
+    build: docker/express-app
+    tty: true
+    ports:
+      - "5003:5003"
+    user: root
+    depends_on:
+      - redis
+  redis:
+    image: "redis:latest"
+    tty: true
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
