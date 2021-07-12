@@ -1,18 +1,18 @@
-const redis = require("socket.io-redis")
+// express
 const express = require("express")
 const app = express()
 const http = require("http")
 const server = http.createServer(app)
+
+// socket-io + redis
+const redis = require("socket.io-redis")
 const { Server } = require("socket.io")
 const io = new Server(server)
 const HOST = "redis"
-const PORT = 6379
+const REDIS_PORT = 6379
+const WEB_PORT = 5010
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html")
-})
-
-io.adapter(redis({ host: HOST, port: PORT }))
+io.adapter(redis({ host: HOST, port: REDIS_PORT }))
 
 io.on("connection", (socket) => {
   socket.on("chat message", (msg) => {
@@ -21,6 +21,10 @@ io.on("connection", (socket) => {
   })
 })
 
-server.listen(5010, () => {
-  console.log("listening on *:5010")
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/index.html")
+})
+
+server.listen(WEB_PORT, () => {
+  console.log(`listening on *:${WEB_PORT}`)
 })
