@@ -9,7 +9,9 @@ ENV MYSQL_PASSWORD=appuser
 RUN apt-get update
 RUN apt-get install -y vim
 RUN apt-get install -y locales
-RUN locale-gen ja_JP.UTF-8
-RUN echo "export LANG=ja_JP.UTF-8"
+RUN sed -i -E 's/# (ja_JP.UTF-8)/\1/' /etc/locale.gen
+RUN locale-gen
+RUN update-locale LANG=ja_JP.UTF-8
+RUN echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc
 
 EXPOSE 3306

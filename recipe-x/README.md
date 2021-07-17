@@ -2,7 +2,7 @@
 
 ## 事前準備
 
-Docker
+Docker が動作すること
 
 ## すること
 
@@ -10,20 +10,20 @@ Docker
 
 ## MysSQL
 
-イメージの確認
+### イメージの確認
 
 ```
 $ docker image ls
 REPOSITORY                  TAG       IMAGE ID       CREATED         SIZE
 ```
 
-run(イメージを取得しコンテナの起動)
+### run(イメージを取得しコンテナの起動)
 
 ```
 $ docker run --name mysqld -e MYSQL_ROOT_PASSWORD=mysql -d -p 3306:3306 mysql
 ```
 
-イメージの確認
+### イメージの確認
 
 ```
 $ docker image ls
@@ -31,7 +31,7 @@ REPOSITORY                  TAG       IMAGE ID       CREATED         SIZE
 mysql                       latest    c0cdc95609f1   13 days ago     556MB
 ```
 
-コンテナの確認
+### コンテナの確認
 
 ```
 $ docker container ls -a
@@ -39,14 +39,22 @@ CONTAINER ID   IMAGE                              COMMAND                  CREAT
 88f10acb0dc0   mysql                              "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes               0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp   mysqld
 ```
 
-bash モードでコンテナに接続
+### bash モードでコンテナに接続
 
 ```
 $ docker container exec -it mysqld bash
 root@88f10acb0dc0:/#
 ```
 
-MySQL の操作(パスワードは`mysql`)
+※日本語入力を可能にするために`apt-get`,`~/.bashrc`に反映する。このターミナルで続けて作業をする場合は`source`をし反映させ作業を行う。(docker container start では以下は行わなくて良い)
+
+```
+apt-get update && apt-get install locales -y  && sed -i -E 's/# (ja_JP.UTF-8)/\1/' /etc/locale.gen && locale-gen && update-locale LANG=ja_JP.UTF-8 && echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc
+
+source ~/.bashrc
+```
+
+### MySQL の操作(パスワードは`mysql`)
 
 ```
 root@88f10acb0dc0:/# mysql -u root -p
@@ -105,13 +113,9 @@ $
 MySQL 上に`test`DB の作成例
 
 bash モードでコンテナに接続し MySQL の接続(パスワードは`mysql`)
-※日本語入力を可能にするために`apt-get`,`source`をし反映させてから`mysql`コマンドを実行しましょう(`docker container start|stop`では初回だけ行えば良い)
 
 ```
 $ docker container exec -it mysqld bash
-root@88f10acb0dc0:/# apt-get update && apt-get install -y locales && locale-gen ja_JP.UTF-8 && echo "export LANG=ja_JP.UTF-8" >> ~/.bashrc
-root@88f10acb0dc0:/# source ~/.bashrc
-
 root@88f10acb0dc0:/#　mysql -u root -p
 ```
 
