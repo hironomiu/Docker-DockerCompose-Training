@@ -375,6 +375,50 @@ console.log('listening on \*:5000')
 })
 ```
 
+`import export`(ES6)で記述する場合は`package.json`に以下を追記し`index.js`を記述
+
+```
+"type": "module",
+```
+
+`index.js`
+
+```
+import express from 'express'
+import cors from 'cors'
+import http from 'http'
+
+const app = express()
+const server = http.createServer(app)
+
+app.use(cors({
+  origin:'http://localhost:3000',
+  credentials:true,
+  optionsSuccessStatus:200
+}))
+
+app.get('/',(req,res) => {
+  res.json({
+    message:"Hello express app!"
+  })
+})
+
+app.get('/api/users',(req,res) => {
+  res.json({
+    message:"request api/users"
+  })
+})
+
+app.post('/api/users/:id',(req,res) => {
+  console.log(req.params.id)
+  res.json({message:`request no ${req.params.id} is OK`})
+})
+
+server.listen(5000,() => {
+  console.log('listening on \*:5000')
+})
+```
+
 #### アプリ起動
 
 Express アプリをターミナルから起動(5000)
