@@ -198,7 +198,7 @@ const App = () => {
 const [message,setMessage] = useState("hoge")
 
 useEffect(() => {
-fetch('http://localhost:5000/')
+fetch('http://localhost:5000/api/users')
 .then(response => response.json())
 .then(data => setMessage(data.message))
 },[])
@@ -366,10 +366,17 @@ optionsSuccessStatus: 200
 }))
 
 app.get('/',(req,res) => {
-res.json({
-message:"Hello Express App!!"
+  res.json({
+    message:"Hello Express App!!"
+  })
 })
+
+app.get('/api/users',(req,res) => {
+  res.json({
+    message:"request api/users"
+  })
 })
+
 server.listen(5000,() => {
 console.log('listening on \*:5000')
 })
