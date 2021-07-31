@@ -24,6 +24,8 @@
   2. 全体を通して VSCode から Docker コンテナに接続しアプリケーションコードを作成
   3. docker を用いてフロントサーバ、API サーバをたて連携(Part 1)
   4. 3 の環境構築を Docker Compose で行う(Part 2)
-  5. 4 で改めて環境構築し 3 のアプリを実装(Part 3)
+  5. (Training) 4 で改めて環境構築した環境で 3 のアプリを実装(Part 3)し他の機能も追加する
+- [recipe-2-1](./recipe-2-1/README.md)
+  1. [recipe-2](./recipe-2/README.md) に MySQL を追加
 - [recipe-x](./recipe-x/README.md)
   1. Docker で MySQL を起動し接続
