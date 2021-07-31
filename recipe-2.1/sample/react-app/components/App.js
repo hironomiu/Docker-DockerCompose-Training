@@ -1,41 +1,56 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
+
+const userEntry = async (name, setUsers, setName) => {
+  const bodyData = JSON.stringify({ name: name })
+
+  const res = await fetch('http://localhost:5000/api/users', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: bodyData,
+  })
+  const data = await res.json()
+
+  setUsers((users) => [...users, { id: data.insertId, name: name }])
+  setName('')
+}
+
+const getUsers = async (setUsers) => {
+  const res = await fetch('http://localhost:5000/api/users')
+  const json = await res.json()
+  setUsers([...json])
+}
 
 const App = () => {
-  const [message, setMessage] = useState("hoge")
+  const [name, setName] = useState('bob')
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000")
-      .then((res) => res.json())
-      .then((res) => setMessage(res.message))
+    getUsers(setUsers)
   }, [])
+
   return (
     <div>
-      hello!:{message}
-      <form action="">
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            const data = JSON.stringify({ name: "hoge" })
-            console.log(data)
-            fetch("http://localhost:5000", {
-              method: "POST",
-              mode: "cors",
-              cache: "no-cache",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              redirect: "follow",
-              body: data,
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                setMessage(res.message)
-              })
-          }}
-        >
-          push
-        </button>
-      </form>
+      {users.map((user, index) => (
+        <div key={index}>
+          {user.id}:{user.name}
+        </div>
+      ))}
+      <input
+        type="text"
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+      />
+      <button
+        onClick={() => {
+          userEntry(name, setUsers, setName)
+        }}
+      >
+        push
+      </button>
     </div>
   )
 }

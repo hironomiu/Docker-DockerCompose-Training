@@ -1,51 +1,44 @@
-const express = require("express")
+import express from 'express'
+import http from 'http'
+import cors from 'cors'
+import { promisePool } from './config/db.js'
+import { ORIGIN_URL } from './config/index.js'
+import users from './router/api/users.js'
+
 const app = express()
-const cors = require("cors")
-const http = require("http")
 const server = http.createServer(app)
-const mysql = require("mysql")
+
+app.set('view engine', 'pug')
+
+app.use('/static', express.static('static'))
+
+app.use(
+  cors({
+    origin: ORIGIN_URL,
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+)
 
 app.use(
   express.urlencoded({
     extended: true,
   })
 )
+
 app.use(express.json())
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    optionsSuccessStatus: 200,
-  })
-)
+app.use('/api/users', users)
+app.use('/api/users/:id', users)
 
-app.get("/", (req, res) => {
-  let message = "Hello Express App!!solution is -> "
-  const connection = mysql.createConnection({
-    host: "db",
-    user: "appuser",
-    password: "mysql",
-    database: "test",
-  })
-  connection.connect()
-  connection.query("SELECT 1 + 1 AS solution", (err, rows, fields) => {
-    if (err) throw err
-    message += rows[0].solution
-    connection.end()
-    res.json({
-      message: message,
-    })
-  })
-})
-
-app.post("/", (req, res) => {
-  console.log(req.body)
-  res.json({
-    message: "Hello Express Post " + req.body.name + " App!!",
+app.get('/', async (req, res) => {
+  const [rows, fields] = await promisePool.query('select 1 as num')
+  res.render('index', {
+    title: 'Hey',
+    message: `Hello there!num is ${rows[0].num}`,
   })
 })
 
 server.listen(5000, () => {
-  console.log("listening on *:5000")
+  console.log('listening 5000')
 })
