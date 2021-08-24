@@ -359,6 +359,8 @@ const cors = require('cors')
 const http = require('http')
 const server = http.createServer(app)
 
+app.set('view engine', 'pug')
+
 app.use(cors({
 origin: 'http://localhost:3000',
 credentials: true,
@@ -366,8 +368,9 @@ optionsSuccessStatus: 200
 }))
 
 app.get('/',(req,res) => {
-  res.json({
-    message:"Hello Express App!!"
+  res.render('index',{
+    title:'Hey',
+    message: 'Hello there!',
   })
 })
 
@@ -398,6 +401,8 @@ import http from 'http'
 const app = express()
 const server = http.createServer(app)
 
+app.set('view engine', 'pug')
+
 app.use(cors({
   origin:'http://localhost:3000',
   credentials:true,
@@ -405,8 +410,9 @@ app.use(cors({
 }))
 
 app.get('/',(req,res) => {
-  res.json({
-    message:"Hello express app!"
+  res.render('index',{
+    title:'Hey',
+    message: 'Hello there!',
   })
 })
 

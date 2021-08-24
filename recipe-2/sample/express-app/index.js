@@ -4,6 +4,8 @@ const cors = require('cors')
 const http = require('http')
 const server = http.createServer(app)
 
+app.set('view engine', 'pug')
+
 app.use(
   cors({
     origin: 'http://localhost:3000',
@@ -13,8 +15,9 @@ app.use(
 )
 
 app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello Express App!!',
+  res.render('index', {
+    title: 'Hey',
+    message: 'Hello there!',
   })
 })
 
