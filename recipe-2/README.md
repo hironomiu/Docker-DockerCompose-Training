@@ -380,6 +380,11 @@ app.get('/api/users',(req,res) => {
   })
 })
 
+app.get('/api/users/:id',(req,res) => {
+  console.log(req.params.id)
+  res.json({message:`request no ${req.params.id} is OK`})
+})
+
 server.listen(5000,() => {
 console.log('listening on \*:5000')
 })
@@ -422,7 +427,7 @@ app.get('/api/users',(req,res) => {
   })
 })
 
-app.post('/api/users/:id',(req,res) => {
+app.get('/api/users/:id',(req,res) => {
   console.log(req.params.id)
   res.json({message:`request no ${req.params.id} is OK`})
 })
