@@ -707,7 +707,7 @@ $ curl localhost:5000/api/users
 POST
 
 ```
-$ curl -X POST -H  "Content-Type: application/json" -d '{"name":"hello"}' localhost:5000
+$ curl -X POST -H  "Content-Type: application/json" -d '{"name":"hello"}' localhost:5000/api/users
 {"message":"Hello Express Post hello App!!"}$
 ```
 
