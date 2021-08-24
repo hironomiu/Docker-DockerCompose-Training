@@ -700,8 +700,8 @@ Express,React の Docker 環境に VSCode で接続しアプリを実装しま�
 GET
 
 ```
-$ curl localhost:5000
-{"message":"Hello Express Get App!!"}$
+$ curl localhost:5000/api/users
+{"message":"request api/users"}%$
 ```
 
 POST
