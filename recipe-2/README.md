@@ -408,7 +408,7 @@ html
 
 `http://localhost:5000`でテンプレートの表示
 
-![template-01](./images/template-01.png)
+![docker-09](./images/docker-09.png)
 
 `import export`(ES6)で記述する場合は`package.json`に以下を追記し`index.js`を記述
 
@@ -468,7 +468,7 @@ listening on *:5000
 
 ブラウザでアクセスしている React アプリをリロードし API 呼び出しが行われたか確認(エラーが消えメッセージが変わっていることを確認)
 
-![docker-09](./images/docker-09.png)
+![docker-10](./images/docker-10.png)
 
 #### 基本操作
 
