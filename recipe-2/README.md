@@ -390,6 +390,26 @@ console.log('listening on \*:5000')
 })
 ```
 
+テンプレートの配置
+
+```
+$ mkdir views
+```
+
+`views`配下に`index.pug`を作成
+
+```
+html
+  head
+    title= title
+  body
+    h1= message
+```
+
+`http://localhost:5000`でテンプレートの表示
+
+![template-01](./images/template-01.png)
+
 `import export`(ES6)で記述する場合は`package.json`に以下を追記し`index.js`を記述
 
 ```
