@@ -351,39 +351,39 @@ Express アプリの環境が作成されていることを確認
 
 ```
 const express = require('express')
-const app = express()
 const cors = require('cors')
 const http = require('http')
+
+const app = express()
 const server = http.createServer(app)
 
 app.set('view engine', 'pug')
 
-app.use(cors({
-origin: 'http://localhost:3000',
-credentials: true,
-optionsSuccessStatus: 200
-}))
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+)
 
-app.get('/',(req,res) => {
-  res.render('index',{
-    title:'Hey',
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Hey',
     message: 'Hello there!',
   })
 })
 
-app.get('/api/users',(req,res) => {
-  res.json({
-    message:"request api/users"
-  })
+app.get('/api/users', (req, res) => {
+  res.json([{ name: 'Bob' }, { name: '花子' }, { name: '太郎' }])
 })
 
-app.get('/api/users/:id',(req,res) => {
-  console.log(req.params.id)
-  res.json({message:`request no ${req.params.id} is OK`})
+app.get('/api/users/:id', (req, res) => {
+  res.json({ name: `No.${req.params.id} is Bob` })
 })
 
-server.listen(5000,() => {
-console.log('listening on \*:5000')
+server.listen(5000, () => {
+  console.log('listening on *:5000')
 })
 ```
 
@@ -425,32 +425,31 @@ const server = http.createServer(app)
 
 app.set('view engine', 'pug')
 
-app.use(cors({
-  origin:'http://localhost:3000',
-  credentials:true,
-  optionsSuccessStatus:200
-}))
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+)
 
-app.get('/',(req,res) => {
-  res.render('index',{
-    title:'Hey',
+app.get('/', (req, res) => {
+  res.render('index', {
+    title: 'Hey',
     message: 'Hello there!',
   })
 })
 
-app.get('/api/users',(req,res) => {
-  res.json({
-    message:"request api/users"
-  })
+app.get('/api/users', (req, res) => {
+  res.json([{ name: 'Bob' }, { name: '花子' }, { name: '太郎' }])
 })
 
-app.get('/api/users/:id',(req,res) => {
-  console.log(req.params.id)
-  res.json({message:`request no ${req.params.id} is OK`})
+app.get('/api/users/:id', (req, res) => {
+  res.json({ name: `No.${req.params.id} is Bob` })
 })
 
-server.listen(5000,() => {
-  console.log('listening on \*:5000')
+server.listen(5000, () => {
+  console.log('listening on *:5000')
 })
 ```
 

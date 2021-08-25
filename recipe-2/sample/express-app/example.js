@@ -34,7 +34,7 @@ app.get('/api/users', (req, res) => {
 })
 
 app.get('/api/users/:id', (req, res) => {
-  res.json({ name: `No ${req.params.id} is Bob` })
+  res.json({ name: `No.${req.params.id} is Bob` })
 })
 
 app.post('/api/users', (req, res) => {

@@ -23,13 +23,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/users', (req, res) => {
-  res.json({
-    message: 'request api/users',
-  })
+  res.json([{ name: 'Bob' }, { name: '花子' }, { name: '太郎' }])
 })
 
 app.get('/api/users/:id', (req, res) => {
-  res.json({ message: `request no ${req.params.id} is OK` })
+  res.json({ name: `No.${req.params.id} is Bob` })
 })
 
 server.listen(5000, () => {
