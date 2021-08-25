@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 
 const App = () => {
-  const [message, setMessage] = useState("hoge")
+  const [message, setMessage] = useState('hoge')
 
   useEffect(() => {
-    fetch("http://localhost:5000")
+    fetch('http://localhost:5000/api/users')
       .then((res) => res.json())
       .then((res) => setMessage(res.message))
   }, [])
@@ -15,16 +15,16 @@ const App = () => {
         <button
           onClick={(e) => {
             e.preventDefault()
-            const data = JSON.stringify({ name: "hoge" })
+            const data = JSON.stringify({ name: 'hoge' })
             console.log(data)
-            fetch("http://localhost:5000", {
-              method: "POST",
-              mode: "cors",
-              cache: "no-cache",
+            fetch('http://localhost:5000/api/users', {
+              method: 'POST',
+              mode: 'cors',
+              cache: 'no-cache',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
-              redirect: "follow",
+              redirect: 'follow',
               body: data,
             })
               .then((res) => res.json())
