@@ -697,24 +697,32 @@ GET
 
 ```
 $ curl localhost:5000/api/users
-{"message":"request api/users"}%$
+[{"name":"Bob"},{"name":"花子"},{"name":"太郎"}]%
 ```
 
 POST
 
 ```
-$ curl -X POST -H  "Content-Type: application/json" -d '{"name":"hello"}' localhost:5000/api/users
-{"message":"Hello Express Post hello App!!"}$
+$ curl -X POST -H  "Content-Type: application/json" -d '{"name":"John"}' localhost:5000/api/users
+{"message":"POST John Successful"}%
 ```
 
 GET(jq を使った例)
 
 ```
-$ curl localhost:5000 | jq
+$ curl localhost:5000/api/users | jq
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100    37  100    37    0     0    492      0 --:--:-- --:--:-- --:--:--   493
-{
-  "message": "Hello Express Get App!!"
-}
+100    52  100    52    0     0  10400      0 --:--:-- --:--:-- --:--:-- 10400
+[
+  {
+    "name": "Bob"
+  },
+  {
+    "name": "花子"
+  },
+  {
+    "name": "太郎"
+  }
+]
 ```
