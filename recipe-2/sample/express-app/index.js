@@ -1,7 +1,8 @@
 const express = require('express')
-const app = express()
 const cors = require('cors')
 const http = require('http')
+
+const app = express()
 const server = http.createServer(app)
 
 app.set('view engine', 'pug')
