@@ -41,7 +41,6 @@ app.get('/api/users/:id', (req, res) => {
 })
 
 app.post('/api/users', (req, res) => {
-  console.log(req.body)
   res.json({
     message: 'Hello Express Post ' + req.body.name + ' App!!',
   })
