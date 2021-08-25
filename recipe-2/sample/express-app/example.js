@@ -1,6 +1,6 @@
-const express = require('express')
-const cors = require('cors')
-const http = require('http')
+import express from 'express'
+import cors from 'cors'
+import http from 'http'
 
 const app = express()
 const server = http.createServer(app)
@@ -30,19 +30,16 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/users', (req, res) => {
-  res.json({
-    message: 'request api/users',
-  })
+  res.json([{ name: 'Bob' }, { name: '花子' }, { name: '太郎' }])
 })
 
 app.get('/api/users/:id', (req, res) => {
-  console.log(req.params.id)
-  res.json({ message: `request no ${req.params.id} is OK` })
+  res.json({ name: `No ${req.params.id} is Bob` })
 })
 
 app.post('/api/users', (req, res) => {
   res.json({
-    message: 'Hello Express Post ' + req.body.name + ' App!!',
+    message: 'POST ' + req.body.name + ' Successful',
   })
 })
 
