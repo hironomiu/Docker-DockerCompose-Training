@@ -174,40 +174,37 @@ To create a production build, use yarn build.
 [src/Index.js](./sample/react-app/Index.js)を以下に修正
 
 ```
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App'
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./components/App"
 
 ReactDOM.render(
-<React.StrictMode>
-<App />
-</React.StrictMode>,
-document.getElementById('root')
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
 )
-
 ```
 
 `src/App.js`を[src/components/App.js](./sample/react-app/components/App.js)として修正
 
 ```
-
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
 const App = () => {
-const [message,setMessage] = useState("hoge")
-
-useEffect(() => {
-fetch('http://localhost:5000/api/users')
-.then(response => response.json())
-.then(data => setMessage(data.message))
-},[])
-
-return (
-<div>
-hello:{message}
-</div>
-)
+  const [users, setUsers] = useState([{ name: '一郎' }, { name: 'Mike' }])
+  useEffect(() => {
+    fetch('http://localhost:5000/api/users')
+      .then((res) => res.json())
+      .then((data) => setUsers([...data]))
+  })
+  return (
+    <div>
+      {users.map((user, index) => (
+        <div key={index}>{user.name}</div>
+      ))}
+    </div>
+  )
 }
 
 export default App

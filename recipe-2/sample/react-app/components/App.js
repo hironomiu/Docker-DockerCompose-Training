@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 
 const App = () => {
-  const [message, setMessage] = useState('hoge')
-
+  const [users, setUsers] = useState([{ name: '一郎' }, { name: 'Mike' }])
   useEffect(() => {
     fetch('http://localhost:5000/api/users')
-      .then((response) => response.json())
-      .then((data) => setMessage(data.message))
-  }, [])
-
-  return <div>hello:{message}</div>
+      .then((res) => res.json())
+      .then((data) => setUsers([...data]))
+  })
+  return (
+    <div>
+      {users.map((user, index) => (
+        <div key={index}>{user.name}</div>
+      ))}
+    </div>
+  )
 }
 
 export default App
