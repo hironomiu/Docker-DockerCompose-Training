@@ -2,9 +2,9 @@
 
 ## 事前準備
 
-Docker
+[Docker](https://www.docker.com/)、[Docker Compose](https://docs.docker.com/compose/)が動作すること([Docker Desktop](https://www.docker.com/get-started)で可能)
 
-VSCode
+VSCode が利用できること
 
 ## すること
 
