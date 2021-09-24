@@ -27,5 +27,9 @@
   5. (Training) 4 で改めて環境構築した環境で 3 のアプリを実装(Part 3)し他の機能も追加する
 - [recipe-2-1](./recipe-2-1/README.md)
   1. [recipe-2](./recipe-2/README.md) に MySQL を追加
-- [recipe-x](./recipe-x/README.md)
-  1. Docker で MySQL を起動し接続
+- [recipe-mysql-dockerfile](./recipe-mysql-dockerfile/README.md)
+  1. Dockerfile を用いた MySQL の環境構築
+- [recipe-mysql-no-dockerfile](./recipe-mysql-no-dockerfile/README.md)
+  1. Dockerfile を用いずコマンドのみでの MySQL の環境構築
+- [recipe-python-flask-blueprint](./recipe-python-flask-blueprint/README.md)
+  1. Docker で Flask の開発環境（Blueprint を用いたサンプルコード`sample`配下まで配置）の構築例

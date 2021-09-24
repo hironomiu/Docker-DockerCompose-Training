@@ -1,6 +1,12 @@
-# recipe-mysql
+# recipe-mysql-dockerfile
 
-MySQL 単体の環境構築
+Dockerfile を用いた MySQL の環境構築
+
+## 事前準備
+
+[Docker](https://www.docker.com/)、[Docker Compose](https://docs.docker.com/compose/)が動作すること([Docker Desktop](https://www.docker.com/get-started)で可能)
+
+## 構成
 
 - PORT
   - host 3306 : guest 3306
@@ -12,7 +18,7 @@ MySQL 単体の環境構築
 - install tools
   - vim
 
-## setup
+## SetUp
 
 ### Dockerfile の配置
 

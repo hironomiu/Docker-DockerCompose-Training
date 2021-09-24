@@ -1,6 +1,10 @@
-# Docker-Flask
+# recipe-python-flask-blueprint
 
-Docker で Flask の開発環境（サンプルコード`sample`配下まで配置）の構築例
+Docker で Flask の開発環境（Blueprint を用いたサンプルコード`sample`配下まで配置）の構築例
+
+## 事前準備
+
+[Docker](https://www.docker.com/)、[Docker Compose](https://docs.docker.com/compose/)が動作すること([Docker Desktop](https://www.docker.com/get-started)で可能)
 
 ## Docker
 

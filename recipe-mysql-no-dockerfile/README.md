@@ -1,8 +1,10 @@
-# recipe-x Docker-MySQL
+# recipe-mysql-no-dockerfile
+
+Dockerfile を用いずコマンドのみでの MySQL の環境構築
 
 ## 事前準備
 
-Docker が動作すること
+[Docker](https://www.docker.com/)、[Docker Compose](https://docs.docker.com/compose/)が動作すること([Docker Desktop](https://www.docker.com/get-started)で可能)
 
 ## すること
 
