@@ -216,7 +216,7 @@ export default App
 $ yarn start
 ```
 
-dev tools を立ち上げ確認(現在は API サーバをたてていないのでエラーとなる)
+dev tools を立ち上げ確認(現在は API サーバをたてていないのでエラーとなる、React のバージョンにより画面もエラーになる場合は fetch を一旦)
 
 ![docker-05](./images/docker-05.png)
 
@@ -403,7 +403,13 @@ html
     h1= message
 ```
 
-`http://localhost:5000`でテンプレートの表示
+サーバの起動(`index.js`の起動)
+
+```
+$ node index.js
+```
+
+起動後`http://localhost:5000`でテンプレートの表示
 
 ![docker-09](./images/docker-09.png)
 
