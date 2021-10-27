@@ -26,7 +26,7 @@
   4. 3 の環境構築を Docker Compose で行う(Part 2)
   5. (Training) 4 で改めて環境構築した環境で 3 のアプリを実装(Part 3)し他の機能も追加する
 - [recipe-2-1](./recipe-2-1/README.md)
-  1. [recipe-2](./recipe-2/README.md) に MySQL を追加
+  1. [recipe-2](./recipe-2/README.md) に MySQL を追加、express-app を router で書き直し
 - [recipe-mysql-dockerfile](./recipe-mysql-dockerfile/README.md)
   1. Dockerfile を用いた MySQL の環境構築
 - [recipe-mysql-no-dockerfile](./recipe-mysql-no-dockerfile/README.md)
