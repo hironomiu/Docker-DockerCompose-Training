@@ -1,6 +1,6 @@
 # recipe-2.1 Docker-React-Express-MySQL-JWT-COOKIE-CSRF
 
-recipe-2.1 に jwt,cookie,csrf を追加
+recipe-2-1 に jwt,cookie,csrf を追加
 
 ```
 $ docker-compose up --build -d
