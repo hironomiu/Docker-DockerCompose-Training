@@ -2,6 +2,10 @@
 
 recipe-2-0 に MySQL を追加、express-app を router で書き直し
 
+## 前提
+
+recipe-2-0 に追加する形で実装(`Docker-React-Express`ディレクトリ配下で実装する)
+
 ## MySQL
 
 `docker`配下に`mysql`ディレクトリを作成し Dockerfile を配置する

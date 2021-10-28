@@ -2,6 +2,35 @@
 
 recipe-2-1 に jwt,cookie,csrf を追加
 
+## 前提
+
+recipe-2-0,recipe-2-1 に追加する形で実装(`Docker-React-Express`ディレクトリ配下で実装する)
+
+## express-app/Dockerfile
+
+`Dockerfile`に`jsonwebtoken`,`cookie-parser`,`csurf`を追記
+
+```
+FROM node:latest
+
+ENV APP_PATH=/express-app
+RUN mkdir $APP_PATH
+WORKDIR $APP_PATH
+
+RUN npm init -y
+RUN npm install -y express cors mysql jsonwebtoken cookie-parser csurf
+```
+
+## react-app/Dockerfile
+
+recipe-2-1 と同じ
+
+## docker-compose.yml
+
+recipe-2-1 と同じ
+
+## up
+
 ```
 $ docker-compose up --build -d
 ```
