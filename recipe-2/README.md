@@ -4,7 +4,7 @@
 
 [Docker](https://www.docker.com/)、[Docker Compose](https://docs.docker.com/compose/)が動作すること([Docker Desktop](https://www.docker.com/get-started)で可能)
 
-VSCode が利用できること
+[VSCode](https://code.visualstudio.com/download) が利用でき、拡張機能[React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=ja)をインストールしていること
 
 ## すること
 
