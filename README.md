@@ -19,14 +19,14 @@
      1. Docker をマウントし開発
      1. VSCode から接続し開発
      1. Docker Compose の基本的な操作
-- [recipe-2](./recipe-2/README.md)
+- [recipe-2-0](./recipe-2-0/README.md)
   1. 全体を通して Docker、Docker Compose の基本的な使い方の理解
   2. 全体を通して VSCode から Docker コンテナに接続しアプリケーションコードを作成
   3. docker を用いてフロントサーバ、API サーバをたて連携(Part 1)
   4. 3 の環境構築を Docker Compose で行う(Part 2)
   5. (Training) 4 で改めて環境構築した環境で 3 のアプリを実装(Part 3)し他の機能も追加する
 - [recipe-2-1](./recipe-2-1/README.md)
-  1. [recipe-2](./recipe-2/README.md) に MySQL を追加、express-app を router で書き直し
+  1. [recipe-2-0](./recipe-2-0/README.md) に MySQL を追加、express-app を router で書き直し
 - [recipe-mysql-dockerfile](./recipe-mysql-dockerfile/README.md)
   1. Dockerfile を用いた MySQL の環境構築
 - [recipe-mysql-no-dockerfile](./recipe-mysql-no-dockerfile/README.md)
