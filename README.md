@@ -27,6 +27,8 @@
   5. (Training) 4 で改めて環境構築した環境で 3 のアプリを実装(Part 3)し他の機能も追加する
 - [recipe-2-1](./recipe-2-1/README.md)
   1. [recipe-2-0](./recipe-2-0/README.md) に MySQL を追加、express-app を router で書き直し
+- [recipe-2-2](./recipe-2-2/README.md)
+  1. [recipe-2-0](./recipe-2-0/README.md),[recipe-2-1](./recipe-2-1/README.md) に jwt,cookie,csrf を追加
 - [recipe-mysql-dockerfile](./recipe-mysql-dockerfile/README.md)
   1. Dockerfile を用いた MySQL の環境構築
 - [recipe-mysql-no-dockerfile](./recipe-mysql-no-dockerfile/README.md)
