@@ -40,3 +40,41 @@ $ docker-compose up --build -d
 ```
 $ node -e "console.log(require('jsonwebtoken').sign({username:'hoge'},'my_secret'))"
 ```
+
+## MySQL
+
+recipe-2-1 と以下同じ（email,password(一旦平文)を追加）
+
+MySQL に接続し`test`DB に api 用のテーブルを作成する
+
+```
+mysql -u root -p --port=3307 -h127.0.0.1
+
+mysql> use test
+
+```
+
+以下を実行
+
+```
+create table users (
+    id int auto_increment not null,
+    name varchar(10) not null ,
+    email varchar(100) not null,
+    password varchar(100) not null,
+    primary key(id),
+    unique (email)
+);
+```
+
+サンプルデータを insert する
+
+```
+insert into users(name,email,password) values('太郎','taro@example.com','abcd'),('John','john@example.com','abcd'),('花子','hanako@example.com','abcd');
+```
+
+exit
+
+```
+mysql> exit
+```
