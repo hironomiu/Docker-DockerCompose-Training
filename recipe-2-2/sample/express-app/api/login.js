@@ -1,28 +1,54 @@
-const router = require("express").Router()
-const jwt = require("jsonwebtoken")
-const config = require("../config/jwt.config")
+const router = require('express').Router()
+const jwt = require('jsonwebtoken')
+const config = require('../config/jwt.config')
+const promisePool = require('../config/db.js')
 
-router.get("/", (req, res) => {
-  console.log("login get")
-  res.send("hello")
+router.get('/', (req, res) => {
+  const authHeader = req.headers.authorization
+  const token = req.cookies.token
+    ? req.cookies.token
+    : authHeader && authHeader.split(' ')[1]
+  if (token) {
+    jwt.verify(token, config.jwt.secret, (error, _) => {
+      if (error) {
+        return res.status(200).send({
+          isSuccess: false,
+          message: 'トークンの認証に失敗しました。',
+        })
+      } else {
+        return res.status(200).send({
+          isSuccess: true,
+          message: 'success',
+        })
+      }
+    })
+  } else {
+    return res.status(200).send({
+      isSuccess: false,
+      message: 'トークンがありません。',
+    })
+  }
 })
 
-router.post("/", (req, res) => {
+router.post('/', async (req, res) => {
+  const [rows, fields] = await promisePool.query(
+    'select id,name,email,password from users where email = ?',
+    req.body.email
+  )
+
   if (
-    (req.body.userId == "001" && req.body.passWord == "qwerty") ||
-    (req.body.userId == "002" && req.body.passWord == "asdfgh")
+    req.body.email === rows[0].email &&
+    req.body.passWord === rows[0].password
   ) {
     const payload = {
-      userId: req.body.userId,
+      email: req.body.email,
     }
-
     const token = jwt.sign(payload, config.jwt.secret, config.jwt.options)
-
-    res.cookie("token", token, {
+    res.cookie('token', token, {
       httpOnly: true,
-      domain: "localhost",
-      path: "/",
-      sameSite: "none",
+      domain: 'localhost',
+      path: '/',
+      sameSite: 'none',
       secure: true,
     })
 
@@ -33,8 +59,9 @@ router.post("/", (req, res) => {
   } else {
     res.json({
       isSuccess: false,
-      message: "ユーザーIDまたはパスワードが違います。",
+      message: 'ユーザーIDまたはパスワードが違います。',
     })
   }
 })
+
 module.exports = router

@@ -1,17 +1,18 @@
-const express = require("express")
+const express = require('express')
 const app = express()
-const cors = require("cors")
-const http = require("http")
-const csrf = require("csurf")
-const cookieParser = require("cookie-parser")
+const cors = require('cors')
+const http = require('http')
+const csrf = require('csurf')
+const cookieParser = require('cookie-parser')
 const server = http.createServer(app)
-const mysql = require("mysql")
+const mysql = require('mysql')
+const promisePool = require('./config/db.js')
 
 const MYSQL_CONFIG = {
-  host: "db",
-  user: "appuser",
-  password: "mysql",
-  database: "test",
+  host: 'db',
+  user: 'appuser',
+  password: 'mysql',
+  database: 'test',
 }
 
 const csrfProtection = csrf({
@@ -30,7 +31,7 @@ app.use(express.json())
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: 'http://localhost:3000',
     credentials: true,
     optionsSuccessStatus: 200,
   })
@@ -38,41 +39,36 @@ app.use(
 
 app.use(csrfProtection)
 
-app.get("/", (req, res) => {
-  let message = "Hello Express App!!solution is -> "
+app.get('/', async (req, res) => {
+  const [rows, fields] = await promisePool.query('select 1 as num')
+  let message = 'Hello Express App!!solution is -> '
+  message += rows[0].num
 
-  const connection = mysql.createConnection(MYSQL_CONFIG)
-
-  connection.connect()
-  connection.query("SELECT 1 + 1 AS solution", (err, rows, fields) => {
-    if (err) throw err
-    message += rows[0].solution
-    connection.end()
-    res.json({
-      message: message,
-    })
+  res.json({
+    message: message,
   })
 })
 
-app.post("/", (req, res) => {
+app.post('/', (req, res) => {
   console.log(req.body)
   res.json({
-    message: "Hello Express Post " + req.body.name + " App!!",
+    message: 'Hello Express Post ' + req.body.name + ' App!!',
   })
 })
 
 app.use(
-  "/api/v1",
+  '/api/v1',
   (() => {
     const router = express.Router()
-    router.use("/login", require("./api/login.js"))
-    router.use("/logout", require("./api/logout.js"))
-    router.use("/users", require("./api/users.js"))
-    router.use("/csrf-token", require("./api/csrfToken.js"))
+    router.use('/login', require('./api/login.js'))
+    router.use('/logout', require('./api/logout.js'))
+    router.use('/users', require('./api/users.js'))
+    router.use('/users/:id', require('./api/users.js'))
+    router.use('/csrf-token', require('./api/csrfToken.js'))
     return router
   })()
 )
 
 server.listen(5000, () => {
-  console.log("listening on *:5000")
+  console.log('listening on *:5000')
 })
