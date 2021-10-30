@@ -10,28 +10,29 @@ const App = () => {
   const [email, setEmail] = useState('taro@example.com')
   const [password, setPassword] = useState('abcd')
 
+  const init = async () => {
+    const res = await fetch(URL + '/api/v1/csrf-token', {
+      method: 'GET',
+      credentials: 'include',
+    }).catch((err) => console.log(err))
+    if (res) {
+      const data = await res.json()
+      console.log(data.csrfToken)
+      setCsrfToken(data.csrfToken)
+    }
+    const res2 = await fetch(URL + '/api/v1/login', {
+      method: 'GET',
+      credentials: 'include',
+    }).catch((err) => null)
+    const status = await res.status
+    console.log(status)
+    if (res2) {
+      const data = await res2.json()
+      if (data.isSuccess) setIsLogin(true)
+    }
+  }
   useEffect(() => {
-    ;(async () => {
-      const res = await fetch(URL + '/api/v1/csrf-token', {
-        method: 'GET',
-        credentials: 'include',
-      }).catch((err) => console.log(err))
-      if (res) {
-        const data = await res.json()
-        console.log(data.csrfToken)
-        setCsrfToken(data.csrfToken)
-      }
-      const res2 = await fetch(URL + '/api/v1/login', {
-        method: 'GET',
-        credentials: 'include',
-      }).catch((err) => null)
-      const status = await res.status
-      console.log(status)
-      if (res2) {
-        const data = await res2.json()
-        if (data.isSuccess) setIsLogin(true)
-      }
-    })()
+    init()
   }, [])
 
   const login = () => {
@@ -91,7 +92,6 @@ const App = () => {
                     Authorization: `Bearer ${token}`,
                   },
                 })
-
                 const data = await res.json()
                 console.log('data:', data)
                 setUser(data)
@@ -104,7 +104,7 @@ const App = () => {
         {isLogin ? (
           <button
             onClick={(e) => {
-              // e.preventDefault()
+              e.preventDefault()
               ;(async () => {
                 const res = await fetch(URL + '/api/v1/logout', {
                   method: 'POST',
@@ -121,6 +121,7 @@ const App = () => {
                 setToken(data.token)
                 setUser({})
                 setIsLogin(false)
+                init()
               })()
             }}
           >

@@ -5,7 +5,6 @@ const http = require('http')
 const csrf = require('csurf')
 const cookieParser = require('cookie-parser')
 const server = http.createServer(app)
-const mysql = require('mysql')
 const promisePool = require('./config/db.js')
 
 const MYSQL_CONFIG = {
@@ -29,6 +28,8 @@ app.use(
 
 app.use(express.json())
 
+app.set('view engine', 'pug')
+
 app.use(
   cors({
     origin: 'http://localhost:3000',
@@ -39,20 +40,11 @@ app.use(
 
 app.use(csrfProtection)
 
-app.get('/', async (req, res) => {
+app.get('/', async (_, res) => {
   const [rows, fields] = await promisePool.query('select 1 as num')
-  let message = 'Hello Express App!!solution is -> '
-  message += rows[0].num
-
-  res.json({
-    message: message,
-  })
-})
-
-app.post('/', (req, res) => {
-  console.log(req.body)
-  res.json({
-    message: 'Hello Express Post ' + req.body.name + ' App!!',
+  res.render('index', {
+    title: 'Hey',
+    message: `Hello there!num is ${rows[0].num}`,
   })
 })
 

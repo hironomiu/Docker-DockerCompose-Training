@@ -31,7 +31,7 @@ app.use(express.json())
 app.use('/api/users', users)
 app.use('/api/users/:id', users)
 
-app.get('/', async (req, res) => {
+app.get('/', async (_, res) => {
   const [rows, fields] = await promisePool.query('select 1 as num')
   res.render('index', {
     title: 'Hey',
@@ -40,5 +40,5 @@ app.get('/', async (req, res) => {
 })
 
 server.listen(5000, () => {
-  console.log('listening 5000')
+  console.log('listening on *:5000')
 })
