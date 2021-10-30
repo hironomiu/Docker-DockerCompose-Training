@@ -4,7 +4,7 @@ const URL = 'http://localhost:5000'
 
 const App = () => {
   const [token, setToken] = useState('')
-  const [user, setUser] = useState({})
+  const [users, setUsers] = useState([])
   const [csrfToken, setCsrfToken] = useState('')
   const [isLogin, setIsLogin] = useState(false)
   const [email, setEmail] = useState('taro@example.com')
@@ -34,6 +34,23 @@ const App = () => {
   useEffect(() => {
     init()
   }, [])
+
+  useEffect(() => {
+    if (!isLogin) return
+    if (!token) return
+    ;(async () => {
+      const res = await fetch(URL + '/api/v1/users', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      const data = await res.json()
+      console.log('data:', data)
+      setUsers([...data])
+    })()
+  }, [isLogin, token])
 
   const login = () => {
     return (
@@ -76,63 +93,50 @@ const App = () => {
       </div>
     )
   }
+
+  const logout = () => {
+    return (
+      <>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            ;(async () => {
+              const res = await fetch(URL + '/api/v1/logout', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'include',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'CSRF-Token': csrfToken,
+                },
+                redirect: 'follow',
+              })
+              const data = await res.json()
+              setToken(data.token)
+              setUsers([])
+              setIsLogin(false)
+              init()
+            })()
+          }}
+        >
+          logout
+        </button>
+        <br />
+        <span>token:{token}</span>
+        <br />
+        {users.map((user) => (
+          <div key={user.id}>{user.name}</div>
+        ))}
+      </>
+    )
+  }
   return (
     <div>
       <form action="">
         {isLogin ? null : login()}
-        {isLogin ? (
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              ;(async () => {
-                const res = await fetch(URL + '/api/v1/users', {
-                  method: 'GET',
-                  credentials: 'include',
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                })
-                const data = await res.json()
-                console.log('data:', data)
-                setUser(data)
-              })()
-            }}
-          >
-            user
-          </button>
-        ) : null}
-        {isLogin ? (
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              ;(async () => {
-                const res = await fetch(URL + '/api/v1/logout', {
-                  method: 'POST',
-                  mode: 'cors',
-                  cache: 'no-cache',
-                  credentials: 'include',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'CSRF-Token': csrfToken,
-                  },
-                  redirect: 'follow',
-                })
-                const data = await res.json()
-                setToken(data.token)
-                setUser({})
-                setIsLogin(false)
-                init()
-              })()
-            }}
-          >
-            logout
-          </button>
-        ) : null}
+        {isLogin ? logout() : null}
       </form>
-      token:{token}
-      <br />
-      user:{user.userId ? user.userId : null}
-      {user.name ? ',' + user.name : null}
     </div>
   )
 }
