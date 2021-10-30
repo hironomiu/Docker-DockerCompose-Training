@@ -6,6 +6,7 @@ const csrf = require('csurf')
 const cookieParser = require('cookie-parser')
 const server = http.createServer(app)
 const promisePool = require('./config/db.js')
+const ORIGIN_URL = require('./config/index.js')
 
 const MYSQL_CONFIG = {
   host: 'db',
@@ -32,7 +33,7 @@ app.set('view engine', 'pug')
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: ORIGIN_URL,
     credentials: true,
     optionsSuccessStatus: 200,
   })
