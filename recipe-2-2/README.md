@@ -67,10 +67,10 @@ create table users (
 );
 ```
 
-サンプルデータを insert する
+サンプルデータを insert する(太郎のみ bcrypt で hash 化してあり認証が通る)
 
 ```
-insert into users(name,email,password) values('太郎','taro@example.com','abcd'),('John','john@example.com','abcd'),('花子','hanako@example.com','abcd');
+insert into users(name,email,password) values('太郎','taro@example.com','$2b$10$iFCxa4wOsuZhklYp00bnCuk0sBJxGOU.e4YnfqvoDEyIk1C1rrd0K'),('John','john@example.com','abcd'),('花子','hanako@example.com','abcd');
 ```
 
 exit
