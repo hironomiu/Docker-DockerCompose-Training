@@ -19,6 +19,7 @@ router.get('/', (req, res) => {
         return res.status(200).send({
           isSuccess: true,
           message: 'success',
+          token: token,
         })
       }
     })

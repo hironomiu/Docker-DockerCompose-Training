@@ -8,13 +8,6 @@ const server = http.createServer(app)
 const promisePool = require('./config/db.js')
 const ORIGIN_URL = require('./config/index.js')
 
-const MYSQL_CONFIG = {
-  host: 'db',
-  user: 'appuser',
-  password: 'mysql',
-  database: 'test',
-}
-
 const csrfProtection = csrf({
   cookie: true,
 })

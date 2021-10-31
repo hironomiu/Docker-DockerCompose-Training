@@ -11,6 +11,7 @@ const App = () => {
   const [password, setPassword] = useState('abcd')
 
   const init = async () => {
+    console.log('called1')
     const res = await fetch(URL + '/api/v1/csrf-token', {
       method: 'GET',
       credentials: 'include',
@@ -28,7 +29,10 @@ const App = () => {
     console.log(status)
     if (res2) {
       const data = await res2.json()
-      if (data.isSuccess) setIsLogin(true)
+      if (data.isSuccess) {
+        setIsLogin(true)
+        setToken(data.token)
+      }
     }
   }
   useEffect(() => {
