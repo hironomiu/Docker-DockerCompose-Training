@@ -8,7 +8,7 @@ recipe-2-0,recipe-2-1 に追加する形で実装(`Docker-React-Express`ディ�
 
 ## express-app/Dockerfile
 
-`Dockerfile`に`jsonwebtoken`,`cookie-parser`,`csurf`を追記
+`Dockerfile`に`jsonwebtoken`,`cookie-parser`,`csurf`,`bcrypt`を追記
 
 ```
 FROM node:latest

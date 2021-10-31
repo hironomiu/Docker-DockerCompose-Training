@@ -2,6 +2,7 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const config = require('../config/jwt.config')
 const promisePool = require('../config/db.js')
+const bcrypt = require('bcrypt')
 
 router.get('/', (req, res) => {
   const authHeader = req.headers.authorization
@@ -37,10 +38,20 @@ router.post('/', async (req, res) => {
     req.body.email
   )
 
-  if (
-    req.body.email === rows[0].email &&
-    req.body.passWord === rows[0].password
-  ) {
+  // sigIn を作成する際は以下でhashを作成しusersのpasswordにinsertする
+  // const hash = new Promise((resolve) => bcrypt.hash(req.body.passWord, 10, (err, hash) => resolve(hash)))
+  // const password = await hash
+
+  const ret = await new Promise((resolve) =>
+    bcrypt.compare(
+      req.body.passWord,
+      rows[0].password.toString(),
+      (err, isValid) => resolve(isValid)
+    )
+  )
+  console.log(ret)
+
+  if (req.body.email === rows[0].email && ret) {
     const payload = {
       email: req.body.email,
     }

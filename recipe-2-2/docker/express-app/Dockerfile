@@ -5,4 +5,4 @@ RUN mkdir $APP_PATH
 WORKDIR $APP_PATH
 
 RUN npm init -y
-RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf
+RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf bcrypt

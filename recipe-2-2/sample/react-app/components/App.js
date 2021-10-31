@@ -87,8 +87,12 @@ const App = () => {
                 body: JSON.stringify({ email: email, passWord: password }),
               })
               const data = await res.json()
-              setToken(data.token)
-              setIsLogin(true)
+              if (data.isSuccess) {
+                setToken(data.token)
+                setIsLogin(true)
+              } else {
+                alert('認証エラー')
+              }
             })()
           }}
         >
