@@ -9,11 +9,9 @@ router
     const [rows, fields] = await promisePool.query(
       'select id,name,email from users'
     )
-    console.log(rows)
     let results = {}
     console.log(req.decoded.email)
     if (req.decoded.email == 'taro@example.com') {
-      console.log('OK')
       results = {
         userId: req.decoded.userId,
         name: '太郎',
@@ -28,23 +26,21 @@ router
     res.json(rows)
   })
   .post(async (req, res) => {
-    console.log('users posted:', req.body.password)
     // sigUp を作成したらそちらに移行する（以下でhashを作成しusersのpasswordにinsertする）
     const hash = new Promise((resolve) =>
       bcrypt.hash(req.body.password, 10, (err, hash) => {
-        // errorハンドリングをいれる
-        console.log(err)
+        if (err) res.json({ isSuccess: false, message: '登録エラー' })
         resolve(hash)
       })
     )
-    // hashエラーだった場合のresを書く
     const password = await hash
-    const ret = await promisePool.query(
-      'insert into users(name,email,password) values(?,?,?)',
-      [req.body.name, req.body.email, password]
-    )
-    // insertエラー（ユニーク制約、etc）だった場合のresを書く
-    console.log('insertId:', ret[0].insertId)
+    const ret = await promisePool
+      .query('insert into users(name,email,password) values(?,?,?)', [
+        req.body.name,
+        req.body.email,
+        password,
+      ])
+      .catch((_) => res.json({ isSuccess: false, message: '登録エラー' }))
     res.json({ isSuccess: true, message: 'insertId:' + ret[0].insertId })
   })
 
@@ -54,6 +50,7 @@ router.get('/:id', verifyToken, async (req, res) => {
     [req.params.id]
   )
 
+  // payloadにemailが含まれていることの確認
   console.log('payload', req.decoded.email)
 
   let results = { name: rows[0].name }

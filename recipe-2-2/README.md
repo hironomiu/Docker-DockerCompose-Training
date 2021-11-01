@@ -54,9 +54,10 @@ mysql> use test
 
 ```
 
-`users`テーブルの作成
+`users`テーブルの削除＆作成
 
 ```
+drop table users;
 create table users (
     id int auto_increment not null,
     name varchar(10) not null ,
