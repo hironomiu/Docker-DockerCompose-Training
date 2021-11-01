@@ -1,0 +1,69 @@
+import React from 'react'
+
+const Login = ({
+  URL,
+  name,
+  email,
+  setEmail,
+  password,
+  setPassword,
+  csrfToken,
+  setToken,
+  setIsLogin,
+  setIsSignIn,
+}) => {
+  return (
+    <div>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button
+        onClick={(e) => {
+          e.preventDefault()
+          ;(async () => {
+            console.log('csrfToken:', csrfToken)
+            const res = await fetch(URL + '/api/v1/login', {
+              method: 'POST',
+              mode: 'cors',
+              cache: 'no-cache',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': csrfToken,
+              },
+              redirect: 'follow',
+              body: JSON.stringify({ email: email, passWord: password }),
+            })
+            const data = await res.json()
+            if (data.isSuccess) {
+              setToken(data.token)
+              setIsLogin(true)
+            } else {
+              alert('認証エラー')
+            }
+          })()
+        }}
+      >
+        login
+      </button>
+      <br />
+      <span
+        onClick={(e) => {
+          e.preventDefault()
+          setIsSignIn((isSignIn) => !isSignIn)
+        }}
+      >
+        SignIn
+      </span>
+    </div>
+  )
+}
+
+export default Login

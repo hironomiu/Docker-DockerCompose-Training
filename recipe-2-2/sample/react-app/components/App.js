@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import Login from './Login'
+import SignIn from './SignIn'
+import Main from './Main'
 
 const URL = 'http://localhost:5000'
 
@@ -58,165 +61,49 @@ const App = () => {
     })()
   }, [isLogin, token])
 
-  const login = () => {
-    return (
-      <div>
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            setIsSignIn((isSignIn) => !isSignIn)
-          }}
-        >
-          SignIn
-        </button>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            ;(async () => {
-              console.log('csrfToken:', csrfToken)
-              const res = await fetch(URL + '/api/v1/login', {
-                method: 'POST',
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'include',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'CSRF-Token': csrfToken,
-                },
-                redirect: 'follow',
-                body: JSON.stringify({ email: email, passWord: password }),
-              })
-              const data = await res.json()
-              if (data.isSuccess) {
-                setToken(data.token)
-                setIsLogin(true)
-              } else {
-                alert('認証エラー')
-              }
-            })()
-          }}
-        >
-          login
-        </button>
-      </div>
-    )
-  }
-
-  const sigIn = () => {
-    return (
-      <div>
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            setIsSignIn((isSignIn) => !isSignIn)
-          }}
-        >
-          Login
-        </button>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            ;(async () => {
-              console.log('csrfToken:', csrfToken)
-              const res = await fetch(URL + '/api/v1/users', {
-                method: 'POST',
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'include',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'CSRF-Token': csrfToken,
-                },
-                redirect: 'follow',
-                body: JSON.stringify({
-                  name: name,
-                  email: email,
-                  passWord: password,
-                }),
-              })
-              const data = await res.json()
-              if (data.isSuccess) {
-                console.log(data.message)
-                setIsSignIn(false)
-              } else {
-                alert('ユーザ登録エラー')
-              }
-            })()
-          }}
-        >
-          SignIn
-        </button>
-      </div>
-    )
-  }
-
-  const main = () => {
-    return (
-      <>
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            ;(async () => {
-              const res = await fetch(URL + '/api/v1/logout', {
-                method: 'POST',
-                mode: 'cors',
-                cache: 'no-cache',
-                credentials: 'include',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'CSRF-Token': csrfToken,
-                },
-                redirect: 'follow',
-              })
-              const data = await res.json()
-              setToken(data.token)
-              setUsers([])
-              setIsLogin(false)
-              init()
-            })()
-          }}
-        >
-          logout
-        </button>
-        <br />
-        <span>token:{token}</span>
-        <br />
-        {users.map((user) => (
-          <div key={user.id}>{user.name}</div>
-        ))}
-      </>
-    )
-  }
   return (
     <div>
       <form action="">
-        {isLogin ? null : isSignIn ? sigIn() : login()}
-        {isLogin ? main() : null}
+        {isLogin ? null : isSignIn ? (
+          <SignIn
+            URL={URL}
+            name={name}
+            setName={setName}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            csrfToken={csrfToken}
+            setToken={setToken}
+            setIsLogin={setIsLogin}
+            setIsSignIn={setIsSignIn}
+          />
+        ) : (
+          <Login
+            URL={URL}
+            name={name}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            csrfToken={csrfToken}
+            setToken={setToken}
+            setIsLogin={setIsLogin}
+            setIsSignIn={setIsSignIn}
+          />
+        )}
+        {isLogin ? (
+          <Main
+            URL={URL}
+            csrfToken={csrfToken}
+            setToken={setToken}
+            setUsers={setUsers}
+            setIsLogin={setIsLogin}
+            init={init}
+            token={token}
+            users={users}
+          />
+        ) : null}
       </form>
     </div>
   )
