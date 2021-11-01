@@ -10,7 +10,7 @@ const Login = ({
   csrfToken,
   setToken,
   setIsLogin,
-  setIsSignIn,
+  setIsSignUp,
 }) => {
   return (
     <div>
@@ -57,10 +57,10 @@ const Login = ({
       <span
         onClick={(e) => {
           e.preventDefault()
-          setIsSignIn((isSignIn) => !isSignIn)
+          setIsSignUp((isSignUp) => !isSignUp)
         }}
       >
-        SignIn
+        SignUp
       </span>
     </div>
   )

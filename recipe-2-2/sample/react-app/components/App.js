@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Login from './Login'
-import SignIn from './SignIn'
+import SignUp from './SignUp'
 import Main from './Main'
 
 const URL = 'http://localhost:5000'
@@ -13,7 +13,7 @@ const App = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('taro@example.com')
   const [password, setPassword] = useState('abcd')
-  const [isSignIn, setIsSignIn] = useState(false)
+  const [isSignUp, setIsSignUp] = useState(false)
 
   const init = async () => {
     console.log('called1')
@@ -64,8 +64,8 @@ const App = () => {
   return (
     <div>
       <form action="">
-        {isLogin ? null : isSignIn ? (
-          <SignIn
+        {isLogin ? null : isSignUp ? (
+          <SignUp
             URL={URL}
             name={name}
             setName={setName}
@@ -76,7 +76,7 @@ const App = () => {
             csrfToken={csrfToken}
             setToken={setToken}
             setIsLogin={setIsLogin}
-            setIsSignIn={setIsSignIn}
+            setIsSignUp={setIsSignUp}
           />
         ) : (
           <Login
@@ -89,7 +89,7 @@ const App = () => {
             csrfToken={csrfToken}
             setToken={setToken}
             setIsLogin={setIsLogin}
-            setIsSignIn={setIsSignIn}
+            setIsSignUp={setIsSignUp}
           />
         )}
         {isLogin ? (

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SignIn = ({
+const SignUp = ({
   URL,
   name,
   setName,
@@ -11,7 +11,7 @@ const SignIn = ({
   csrfToken,
   setToken,
   setIsLogin,
-  setIsSignIn,
+  setIsSignUp,
 }) => {
   return (
     <div>
@@ -53,21 +53,20 @@ const SignIn = ({
             })
             const data = await res.json()
             if (data.isSuccess) {
-              console.log(data.message)
-              setIsSignIn(false)
+              setIsSignUp(false)
             } else {
               alert('ユーザ登録エラー')
             }
           })()
         }}
       >
-        SignIn
+        SignUp
       </button>
       <br />
       <span
         onClick={(e) => {
           e.preventDefault()
-          setIsSignIn((isSignIn) => !isSignIn)
+          setIsSignUp((isSignUp) => !isSignUp)
         }}
       >
         Login
@@ -76,4 +75,4 @@ const SignIn = ({
   )
 }
 
-export default SignIn
+export default SignUp
