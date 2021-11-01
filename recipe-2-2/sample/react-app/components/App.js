@@ -7,8 +7,10 @@ const App = () => {
   const [users, setUsers] = useState([])
   const [csrfToken, setCsrfToken] = useState('')
   const [isLogin, setIsLogin] = useState(false)
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('taro@example.com')
   const [password, setPassword] = useState('abcd')
+  const [isSignIn, setIsSignIn] = useState(false)
 
   const init = async () => {
     console.log('called1')
@@ -59,6 +61,14 @@ const App = () => {
   const login = () => {
     return (
       <div>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            setIsSignIn((isSignIn) => !isSignIn)
+          }}
+        >
+          SignIn
+        </button>
         <input
           type="email"
           value={email}
@@ -102,7 +112,70 @@ const App = () => {
     )
   }
 
-  const logout = () => {
+  const sigIn = () => {
+    return (
+      <div>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            setIsSignIn((isSignIn) => !isSignIn)
+          }}
+        >
+          Login
+        </button>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            ;(async () => {
+              console.log('csrfToken:', csrfToken)
+              const res = await fetch(URL + '/api/v1/users', {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'include',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'CSRF-Token': csrfToken,
+                },
+                redirect: 'follow',
+                body: JSON.stringify({
+                  name: name,
+                  email: email,
+                  passWord: password,
+                }),
+              })
+              const data = await res.json()
+              if (data.isSuccess) {
+                console.log(data.message)
+                setIsSignIn(false)
+              } else {
+                alert('ユーザ登録エラー')
+              }
+            })()
+          }}
+        >
+          SignIn
+        </button>
+      </div>
+    )
+  }
+
+  const main = () => {
     return (
       <>
         <button
@@ -142,8 +215,8 @@ const App = () => {
   return (
     <div>
       <form action="">
-        {isLogin ? null : login()}
-        {isLogin ? logout() : null}
+        {isLogin ? null : isSignIn ? sigIn() : login()}
+        {isLogin ? main() : null}
       </form>
     </div>
   )

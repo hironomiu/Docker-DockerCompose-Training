@@ -38,10 +38,6 @@ router.post('/', async (req, res) => {
     req.body.email
   )
 
-  // sigIn を作成する際は以下でhashを作成しusersのpasswordにinsertする
-  // const hash = new Promise((resolve) => bcrypt.hash(req.body.passWord, 10, (err, hash) => resolve(hash)))
-  // const password = await hash
-
   const ret = await new Promise((resolve) =>
     bcrypt.compare(
       req.body.passWord,
