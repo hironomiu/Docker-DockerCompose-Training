@@ -48,7 +48,7 @@ const SignUp = ({
               body: JSON.stringify({
                 name: name,
                 email: email,
-                passWord: password,
+                password: password,
               }),
             })
             const data = await res.json()

@@ -8,7 +8,7 @@ recipe-2-0,recipe-2-1 に追加する形で実装(`Docker-React-Express`ディ�
 
 ## express-app/Dockerfile
 
-`Dockerfile`に`jsonwebtoken`,`cookie-parser`,`csurf`,`bcrypt`を追記
+`Dockerfile`に`jsonwebtoken`,`cookie-parser`,`csurf`,`bcrypt`,`express-validator`を追記
 
 ```
 FROM node:latest
@@ -18,7 +18,7 @@ RUN mkdir $APP_PATH
 WORKDIR $APP_PATH
 
 RUN npm init -y
-RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf
+RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf bcrypt express-validator
 ```
 
 ## react-app/Dockerfile

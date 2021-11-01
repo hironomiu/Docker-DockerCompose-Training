@@ -28,10 +28,10 @@ router
     res.json(rows)
   })
   .post(async (req, res) => {
-    console.log('users posted:', req.body.passWord)
-    // sigIn を作成したらそちらに移行する（以下でhashを作成しusersのpasswordにinsertする）
+    console.log('users posted:', req.body.password)
+    // sigUp を作成したらそちらに移行する（以下でhashを作成しusersのpasswordにinsertする）
     const hash = new Promise((resolve) =>
-      bcrypt.hash(req.body.passWord, 10, (err, hash) => {
+      bcrypt.hash(req.body.password, 10, (err, hash) => {
         // errorハンドリングをいれる
         console.log(err)
         resolve(hash)

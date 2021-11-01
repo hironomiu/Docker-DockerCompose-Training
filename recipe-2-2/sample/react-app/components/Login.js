@@ -39,7 +39,7 @@ const Login = ({
                 'CSRF-Token': csrfToken,
               },
               redirect: 'follow',
-              body: JSON.stringify({ email: email, passWord: password }),
+              body: JSON.stringify({ email: email, password: password }),
             })
             const data = await res.json()
             if (data.isSuccess) {
