@@ -68,10 +68,13 @@ create table users (
 );
 ```
 
-`users`テーブルのサンプルデータを insert (太郎のみ `bcrypt` で hash 化してあり認証が通る)
+`users`テーブルのサンプルデータを insert (`bcrypt` で hash 化してある、全てパスワードは`abcd`)
 
 ```
-insert into users(name,email,password) values('太郎','taro@example.com','$2b$10$iFCxa4wOsuZhklYp00bnCuk0sBJxGOU.e4YnfqvoDEyIk1C1rrd0K'),('John','john@example.com','abcd'),('花子','hanako@example.com','abcd');
+insert into users(name,email,password) values
+('太郎','taro@example.com','$2b$10$iFCxa4wOsuZhklYp00bnCuk0sBJxGOU.e4YnfqvoDEyIk1C1rrd0K'),
+('John','john@example.com','$2b$10$8W1a6GfBsmn/gY8jhXjGbOCQwcWfF/PeI5O07ONakuhX9bYIZNe82'),
+('花子','hanako@example.com','$2b$10$TXCGCYDpn6p35Csz5UyoA.UHJ9SkE3Q7JP6lRO9ZgMaXuNwEo.wWW');
 ```
 
 exit
