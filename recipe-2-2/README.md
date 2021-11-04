@@ -43,7 +43,7 @@ $ node -e "console.log(require('jsonwebtoken').sign({username:'hoge'},'my_secret
 
 ## MySQL
 
-recipe-2-1 と以下同じ（email,password(一旦平文)を追加）
+recipe-2-1 と以下同じ（email,password を追加）
 
 MySQL に接続し`test`DB に api 用のテーブルを作成する
 
