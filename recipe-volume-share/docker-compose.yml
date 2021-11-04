@@ -1,0 +1,30 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - 8888:80
+    volumes:
+      - share:/sahre
+
+  express-app:
+    build:
+      context: ./docker/express-app
+      dockerfile: Dockerfile
+    tty: true
+    image: express-app
+    container_name: express-app
+    ports:
+      - 5001:5001
+    user: root
+    volumes:
+      - express-app:/express-app
+      - share:/share
+    command: ['npm', 'start']
+volumes:
+  express-app:
+  share:
