@@ -22,6 +22,35 @@ docker-compose start
 docker-compose stop
 ```
 
+### rails(VSCode Remote Explorerで接続) 
+
+`/rails-app/sample`で実行
+
+#### server 起動
+
+```
+rails s -p 5555 -b 0.0.0.0
+```
+
+#### コントローラー、モデル、マイグレーションサンプル
+
+実行後ブラウザで`localhost:5555/users/new`を開きエンドポイントが作成されていることを確認
+
+```
+rails generate controller Users new
+rails generate model User name:string email:string
+bundle exec rake db:migrate
+```
+
+### Postgresql(VSCode Remote Explorerで接続)
+パスワードは`postgres`、selectの結果が返る場合はrailsからのマイグレーションがPostgresqlに対して成功
+
+```
+psql -U postgres -d test
+
+select * from users;
+```
+
 ### 掃除
 
 ```
@@ -49,14 +78,6 @@ docker container run --name rails -it -d -p 5555:5555 rails
 docker container stop rails
 docker container rm rails
 docker image rm rails
-```
-
-#### rails server 起動
-
-`/rails-app/sample`で実行
-
-```
-rails s -p 5555 -b 0.0.0.0
 ```
 
 ### postgresql
