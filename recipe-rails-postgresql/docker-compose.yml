@@ -1,0 +1,15 @@
+version: '3'
+services:
+  rails:
+    build: docker/rails
+    tty: true
+    ports:
+      - '5555:5555'
+    user: root
+    depends_on:
+      - db
+  db:
+    build: docker/postgresql
+    tty: true
+    ports:
+      - '5432:5432'
