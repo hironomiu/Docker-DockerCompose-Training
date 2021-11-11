@@ -1,5 +1,7 @@
 # recipe-rails-postgresql
 
+rails + postgresqlの環境
+
 ## docker-compose 
 
 ### build & up

@@ -35,3 +35,5 @@
   1. Dockerfile を用いずコマンドのみでの MySQL の環境構築
 - [recipe-python-flask-blueprint](./recipe-python-flask-blueprint/README.md)
   1. Docker で Flask の開発環境（Blueprint を用いたサンプルコード`sample`配下まで配置）の構築例
+- [recipe-rails-postgresql](./recipe-rails-postgresql)
+  1. rails + postgresqlの環境
