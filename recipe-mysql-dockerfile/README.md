@@ -76,6 +76,12 @@ docker image build -t mysql:latest ./docker/mysql/
 docker container run --name mysqld -d -p 3306:3306 mysql
 ```
 
+注：m1 mac の場合 `--platform linux/x86_64` でエミュレートする
+
+```
+docker container run --platform linux/x86_64 --name mysqld -d -p 3306:3306 mysql 
+```
+
 ## 接続
 
 ```
