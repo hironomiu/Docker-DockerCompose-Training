@@ -84,6 +84,8 @@ docker container run --platform linux/x86_64 --name mysqld -d -p 3306:3306 mysql
 
 ## 接続
 
+パスワードは `mysql`
+
 ```
 docker container exec -it mysqld bash
 
