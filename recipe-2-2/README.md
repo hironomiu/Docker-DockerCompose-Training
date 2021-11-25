@@ -1,6 +1,6 @@
 # recipe-2-2 Docker-React-Express-MySQL-JWT-COOKIE-CSRF
 
-recipe-2-1 に jwt,cookie,csrf を追加
+recipe-2-1 に jwt,cookie,csrf,validator を追加
 
 ## 前提
 
@@ -23,7 +23,9 @@ RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf bcry
 
 ## react-app/Dockerfile
 
-recipe-2-1 と同じ
+```
+yarn add @reduxjs/toolkit react-redux
+```
 
 ## docker-compose.yml
 

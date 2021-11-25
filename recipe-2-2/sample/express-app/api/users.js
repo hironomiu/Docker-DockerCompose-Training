@@ -19,7 +19,7 @@ router
       }
     }
 
-    res.json(rows)
+    return res.json(rows)
   })
   .post(async (req, res) => {
     // sigUp を作成したらそちらに移行する（以下でhashを作成しusersのpasswordにinsertする）
@@ -30,14 +30,15 @@ router
       })
     )
     const password = await hash
-    const ret = await promisePool
-      .query('insert into users(name,email,password) values(?,?,?)', [
-        req.body.name,
-        req.body.email,
-        password,
-      ])
-      .catch((_) => res.json(registerErrorMessage))
-    res.json({ isSuccess: true, message: 'insertId:' + ret[0].insertId })
+    try {
+      const ret = await promisePool.query(
+        'insert into users(name,email,password) values(?,?,?)',
+        [req.body.name, req.body.email, password]
+      )
+      res.json({ isSuccess: true, message: 'insertId:' + ret[0].insertId })
+    } catch (err) {
+      res.json(registerErrorMessage)
+    }
   })
 
 router.get('/:id', verifyToken, async (req, res) => {
@@ -50,7 +51,7 @@ router.get('/:id', verifyToken, async (req, res) => {
   console.log('payload', req.decoded.email)
 
   let results = { name: rows[0].name }
-  res.json(results)
+  return res.json(results)
 })
 
 module.exports = router
