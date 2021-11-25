@@ -68,7 +68,7 @@ create table users (
 );
 ```
 
-`users`テーブルのサンプルデータを insert (`bcrypt` で hash 化してある、全てパスワードは`abcd`)
+`users`テーブルのサンプルデータを insert (`bcrypt` で hash 化してある、パスワードは全て`abcd`)
 
 ```
 insert into users(name,email,password) values
