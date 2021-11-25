@@ -1,17 +1,21 @@
-import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../feature/login/loginSlice'
+import {
+  selectCsrfTokenState,
+  setToken,
+} from '../feature/credentials/credentialsSlice'
 
 const Login = ({
   URL,
-  name,
   email,
   setEmail,
   password,
   setPassword,
-  csrfToken,
-  setToken,
-  setIsLogin,
   setIsSignUp,
 }) => {
+  const dispatch = useDispatch()
+  const csrfToken = useSelector(selectCsrfTokenState)
+
   return (
     <div>
       <input
@@ -43,8 +47,8 @@ const Login = ({
             })
             const data = await res.json()
             if (data.isSuccess) {
-              setToken(data.token)
-              setIsLogin(true)
+              dispatch(setToken(data.token))
+              dispatch(login())
             } else {
               alert('認証エラー')
             }

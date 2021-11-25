@@ -2,47 +2,60 @@ import React, { useState, useEffect } from 'react'
 import Login from './Login'
 import SignUp from './SignUp'
 import Main from './Main'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectState, login } from '../feature/login/loginSlice'
+import {
+  setCsrfToken,
+  setToken,
+  selectTokenState,
+  fetchCsrfTokenAsync,
+} from '../feature/credentials/credentialsSlice'
 
 const URL = 'http://localhost:5000'
 
 const App = () => {
-  const [token, setToken] = useState('')
+  const dispatch = useDispatch()
+  const isLogin = useSelector(selectState)
+  const token = useSelector(selectTokenState)
   const [users, setUsers] = useState([])
-  const [csrfToken, setCsrfToken] = useState('')
-  const [isLogin, setIsLogin] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('taro@example.com')
   const [password, setPassword] = useState('abcd')
   const [isSignUp, setIsSignUp] = useState(false)
 
   const init = async () => {
-    console.log('called1')
-    const res = await fetch(URL + '/api/v1/csrf-token', {
-      method: 'GET',
-      credentials: 'include',
-    }).catch((err) => console.log(err))
-    if (res) {
-      const data = await res.json()
-      console.log(data.csrfToken)
-      setCsrfToken(data.csrfToken)
-    }
-    const res2 = await fetch(URL + '/api/v1/login', {
-      method: 'GET',
-      credentials: 'include',
-    }).catch((err) => null)
-    const status = await res.status
-    console.log(status)
-    if (res2) {
-      const data = await res2.json()
-      if (data.isSuccess) {
-        setIsLogin(true)
-        setToken(data.token)
+    try {
+      // dispatch(fetchCsrfTokenAsync())
+      const res = await fetch(URL + '/api/v1/csrf-token', {
+        method: 'GET',
+        credentials: 'include',
+      })
+      if (res) {
+        const data = await res.json()
+        dispatch(setCsrfToken(data.csrfToken))
       }
+
+      const res2 = await fetch(URL + '/api/v1/login', {
+        method: 'GET',
+        credentials: 'include',
+      })
+
+      if (res2) {
+        const data = await res2.json()
+        if (data.isSuccess) {
+          dispatch(login())
+          dispatch(setToken(data.token))
+        }
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
+
+  // init()
   useEffect(() => {
     init()
-  }, [])
+  })
 
   useEffect(() => {
     if (!isLogin) return
@@ -73,9 +86,6 @@ const App = () => {
             setEmail={setEmail}
             password={password}
             setPassword={setPassword}
-            csrfToken={csrfToken}
-            setToken={setToken}
-            setIsLogin={setIsLogin}
             setIsSignUp={setIsSignUp}
           />
         ) : (
@@ -86,19 +96,13 @@ const App = () => {
             setEmail={setEmail}
             password={password}
             setPassword={setPassword}
-            csrfToken={csrfToken}
-            setToken={setToken}
-            setIsLogin={setIsLogin}
             setIsSignUp={setIsSignUp}
           />
         )}
         {isLogin ? (
           <Main
             URL={URL}
-            csrfToken={csrfToken}
-            setToken={setToken}
             setUsers={setUsers}
-            setIsLogin={setIsLogin}
             init={init}
             token={token}
             users={users}

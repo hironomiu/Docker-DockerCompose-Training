@@ -1,4 +1,6 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { selectCsrfTokenState } from '../feature/credentials/credentialsSlice'
 
 const SignUp = ({
   URL,
@@ -8,11 +10,9 @@ const SignUp = ({
   setEmail,
   password,
   setPassword,
-  csrfToken,
-  setToken,
-  setIsLogin,
   setIsSignUp,
 }) => {
+  const csrfToken = useSelector(selectCsrfTokenState)
   return (
     <div>
       <input

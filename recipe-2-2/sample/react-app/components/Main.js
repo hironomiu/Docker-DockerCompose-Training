@@ -1,15 +1,22 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../feature/login/loginSlice'
+import {
+  selectCsrfTokenState,
+  setToken,
+} from '../feature/credentials/credentialsSlice'
 
 const Main = ({
   URL,
-  csrfToken,
-  setToken,
+  // csrfToken,
+  // setToken,
   setUsers,
-  setIsLogin,
   init,
   token,
   users,
 }) => {
+  const dispatch = useDispatch()
+  const csrfToken = useSelector(selectCsrfTokenState)
   return (
     <>
       <button
@@ -28,9 +35,9 @@ const Main = ({
               redirect: 'follow',
             })
             const data = await res.json()
-            setToken(data.token)
+            dispatch(setToken(data.token))
             setUsers([])
-            setIsLogin(false)
+            dispatch(logout())
             init()
           })()
         }}
