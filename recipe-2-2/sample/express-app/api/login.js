@@ -40,8 +40,9 @@ router
           token: token,
         })
       })
+    } else {
+      return res.status(200).send(isNotTokenErrorMessage)
     }
-    return res.status(200).send(isNotTokenErrorMessage)
   })
   .post(
     [checkEmailIsEmpty, checkEmailIsEmail, checkPasswordIsEmpty],
@@ -75,12 +76,12 @@ router
           secure: true,
         })
 
-        res.json({
+        return res.json({
           isSuccess: true,
           token: token,
         })
       }
-      res.json(isNotEmailPassWordErrorMessage)
+      return res.json(isNotEmailPassWordErrorMessage)
     }
   )
 
