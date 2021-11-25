@@ -3,7 +3,16 @@ const jwt = require('jsonwebtoken')
 const config = require('../config/jwt.config')
 const promisePool = require('../config/db.js')
 const bcrypt = require('bcrypt')
-const { check, validationResult } = require('express-validator')
+const {
+  validator,
+  checkEmailIsEmpty,
+  checkEmailIsEmail,
+  checkPasswordIsEmpty,
+} = require('../middlewares/validator')
+const errorMessage = {
+  isSuccess: false,
+  message: 'ユーザーIDまたはパスワードが違います。',
+}
 
 router
   .route('/')
@@ -35,22 +44,15 @@ router
     }
   })
   .post(
-    [
-      check('email').not().isEmpty().isEmail(),
-      check('password').not().isEmpty(),
-    ],
+    [checkEmailIsEmpty, checkEmailIsEmail, checkPasswordIsEmpty],
+    validator,
     async (req, res) => {
-      const errors = validationResult(req)
-      if (!errors.isEmpty()) {
-        return res
-          .status(422)
-          .json({ isSuccess: false, message: errors.array() })
-      }
-
       const [rows, fields] = await promisePool.query(
         'select id,name,email,password from users where email = ?',
         req.body.email
       )
+
+      if (rows.length === 0) return res.json(errorMessage)
 
       const ret = await new Promise((resolve) =>
         bcrypt.compare(
@@ -59,7 +61,6 @@ router
           (err, isValid) => resolve(isValid)
         )
       )
-      console.log(ret)
 
       if (req.body.email === rows[0].email && ret) {
         const payload = {
@@ -79,10 +80,7 @@ router
           token: token,
         })
       } else {
-        res.json({
-          isSuccess: false,
-          message: 'ユーザーIDまたはパスワードが違います。',
-        })
+        res.json(errorMessage)
       }
     }
   )
