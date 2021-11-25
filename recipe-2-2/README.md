@@ -21,11 +21,27 @@ RUN npm init -y
 RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf bcrypt express-validator
 ```
 
+## express-app アプリ
+
+[sample/espress-app](./sample/express-app)以下を`express-app`に記述
+
 ## react-app/Dockerfile
 
+recipe-2-1 から redux-toolkit を追加で使うため template redux の利用に Dockerfile を修正
+
 ```
-yarn add @reduxjs/toolkit react-redux
+FROM node:latest
+
+ENV APP_PATH=/react-app
+RUN mkdir $APP_PATH
+WORKDIR $APP_PATH
+
+RUN npx create-react-app . --template redux
 ```
+
+## react-app アプリ
+
+[sample/react-app](./sample/react-app)以下を`react-app`に記述
 
 ## docker-compose.yml
 
