@@ -2,7 +2,7 @@ const router = require('express').Router()
 const verifyToken = require('../middlewares/verifyToken')
 const promisePool = require('../config/db.js')
 const bcrypt = require('bcrypt')
-
+const registerErrorMessage = { isSuccess: false, message: '登録エラー' }
 router
   .route('/')
   .get(verifyToken, async (req, res) => {
@@ -10,16 +10,12 @@ router
       'select id,name,email from users'
     )
     let results = {}
-    console.log(req.decoded.email)
+
+    // verifiTokeでdecodedの設定確認用（処理では利用していない）
     if (req.decoded.email == 'taro@example.com') {
       results = {
         userId: req.decoded.userId,
         name: '太郎',
-      }
-    } else if (req.decoded.userId == '002') {
-      results = {
-        userId: req.decoded.userId,
-        name: '二郎',
       }
     }
 
@@ -29,7 +25,7 @@ router
     // sigUp を作成したらそちらに移行する（以下でhashを作成しusersのpasswordにinsertする）
     const hash = new Promise((resolve) =>
       bcrypt.hash(req.body.password, 10, (err, hash) => {
-        if (err) res.json({ isSuccess: false, message: '登録エラー' })
+        if (err) res.json(registerErrorMessage)
         resolve(hash)
       })
     )
@@ -40,7 +36,7 @@ router
         req.body.email,
         password,
       ])
-      .catch((_) => res.json({ isSuccess: false, message: '登録エラー' }))
+      .catch((_) => res.json(registerErrorMessage))
     res.json({ isSuccess: true, message: 'insertId:' + ret[0].insertId })
   })
 
@@ -50,7 +46,7 @@ router.get('/:id', verifyToken, async (req, res) => {
     [req.params.id]
   )
 
-  // payloadにemailが含まれていることの確認
+  // verifiTokeでdecodedの設定確認用(payloadにemailが含まれていることの確認)
   console.log('payload', req.decoded.email)
 
   let results = { name: rows[0].name }

@@ -9,9 +9,17 @@ const {
   checkEmailIsEmail,
   checkPasswordIsEmpty,
 } = require('../middlewares/validator')
-const errorMessage = {
+const isNotEmailPassWordErrorMessage = {
   isSuccess: false,
   message: 'ユーザーIDまたはパスワードが違います。',
+}
+const authErrorMessage = {
+  isSuccess: false,
+  message: 'トークンの認証に失敗しました。',
+}
+const isNotTokenErrorMessage = {
+  isSuccess: false,
+  message: 'トークンがありません。',
 }
 
 router
@@ -24,24 +32,16 @@ router
     if (token) {
       jwt.verify(token, config.jwt.secret, (error, _) => {
         if (error) {
-          return res.status(200).send({
-            isSuccess: false,
-            message: 'トークンの認証に失敗しました。',
-          })
-        } else {
-          return res.status(200).send({
-            isSuccess: true,
-            message: 'success',
-            token: token,
-          })
+          return res.status(200).send(authErrorMessage)
         }
-      })
-    } else {
-      return res.status(200).send({
-        isSuccess: false,
-        message: 'トークンがありません。',
+        return res.status(200).send({
+          isSuccess: true,
+          message: 'success',
+          token: token,
+        })
       })
     }
+    return res.status(200).send(isNotTokenErrorMessage)
   })
   .post(
     [checkEmailIsEmpty, checkEmailIsEmail, checkPasswordIsEmpty],
@@ -52,7 +52,7 @@ router
         req.body.email
       )
 
-      if (rows.length === 0) return res.json(errorMessage)
+      if (rows.length === 0) return res.json(isNotEmailPassWordErrorMessage)
 
       const ret = await new Promise((resolve) =>
         bcrypt.compare(
@@ -79,9 +79,8 @@ router
           isSuccess: true,
           token: token,
         })
-      } else {
-        res.json(errorMessage)
       }
+      res.json(isNotEmailPassWordErrorMessage)
     }
   )
 
