@@ -3,13 +3,13 @@ import Login from './Login'
 import SignUp from './SignUp'
 import Main from './Main'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectState, login } from '../feature/login/loginSlice'
+import { selectState, login } from '../features/login/loginSlice'
 import {
   setCsrfToken,
   setToken,
   selectTokenState,
   fetchCsrfTokenAsync,
-} from '../feature/credentials/credentialsSlice'
+} from '../features/credentials/credentialsSlice'
 
 const URL = 'http://localhost:5000'
 

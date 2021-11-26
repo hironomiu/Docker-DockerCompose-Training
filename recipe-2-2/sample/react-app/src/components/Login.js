@@ -1,25 +1,23 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectCsrfTokenState } from '../feature/credentials/credentialsSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { login } from '../features/login/loginSlice'
+import {
+  selectCsrfTokenState,
+  setToken,
+} from '../features/credentials/credentialsSlice'
 
-const SignUp = ({
+const Login = ({
   URL,
-  name,
-  setName,
   email,
   setEmail,
   password,
   setPassword,
   setIsSignUp,
 }) => {
+  const dispatch = useDispatch()
   const csrfToken = useSelector(selectCsrfTokenState)
+
   return (
     <div>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
       <input
         type="email"
         value={email}
@@ -35,7 +33,7 @@ const SignUp = ({
           e.preventDefault()
           ;(async () => {
             console.log('csrfToken:', csrfToken)
-            const res = await fetch(URL + '/api/v1/users', {
+            const res = await fetch(URL + '/api/v1/login', {
               method: 'POST',
               mode: 'cors',
               cache: 'no-cache',
@@ -45,22 +43,19 @@ const SignUp = ({
                 'CSRF-Token': csrfToken,
               },
               redirect: 'follow',
-              body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password,
-              }),
+              body: JSON.stringify({ email: email, password: password }),
             })
             const data = await res.json()
             if (data.isSuccess) {
-              setIsSignUp(false)
+              dispatch(setToken(data.token))
+              dispatch(login())
             } else {
-              alert('ユーザ登録エラー')
+              alert('認証エラー')
             }
           })()
         }}
       >
-        SignUp
+        login
       </button>
       <br />
       <span
@@ -69,10 +64,10 @@ const SignUp = ({
           setIsSignUp((isSignUp) => !isSignUp)
         }}
       >
-        Login
+        SignUp
       </span>
     </div>
   )
 }
 
-export default SignUp
+export default Login

@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../feature/login/loginSlice'
+import { logout } from '../features/login/loginSlice'
 import {
   selectCsrfTokenState,
   setToken,
-} from '../feature/credentials/credentialsSlice'
+} from '../features/credentials/credentialsSlice'
 
 const Main = ({
   URL,
