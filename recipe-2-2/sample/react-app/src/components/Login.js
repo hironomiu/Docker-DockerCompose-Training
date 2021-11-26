@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectCsrfTokenState,
@@ -6,21 +7,23 @@ import {
 } from '../features/auth/authSlice'
 import * as config from '../config/index'
 
-const Login = ({ email, setEmail, password, setPassword, setIsSignUp }) => {
+const NoMemoLogin = ({ user, setUser, setIsSignUp }) => {
   const dispatch = useDispatch()
   const csrfToken = useSelector(selectCsrfTokenState)
+
+  console.log(user)
 
   return (
     <div>
       <input
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={user.email}
+        onChange={(e) => setUser({ ...user, email: e.target.value })}
       />
       <input
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={user.password}
+        onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
       <button
         onClick={(e) => {
@@ -36,7 +39,10 @@ const Login = ({ email, setEmail, password, setPassword, setIsSignUp }) => {
                 'CSRF-Token': csrfToken,
               },
               redirect: 'follow',
-              body: JSON.stringify({ email: email, password: password }),
+              body: JSON.stringify({
+                email: user.email,
+                password: user.password,
+              }),
             })
             const data = await res.json()
             if (data.isSuccess) {
@@ -63,4 +69,4 @@ const Login = ({ email, setEmail, password, setPassword, setIsSignUp }) => {
   )
 }
 
-export default Login
+export const Login = memo(NoMemoLogin)

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectCsrfTokenState, clearToken } from '../features/auth/authSlice'
 import * as config from '../config/index'
 
-const Main = ({ setUsers, init, token, users }) => {
+const Main = ({ setUsers, token, users }) => {
   const dispatch = useDispatch()
   const csrfToken = useSelector(selectCsrfTokenState)
   return (
@@ -26,7 +26,6 @@ const Main = ({ setUsers, init, token, users }) => {
             const data = await res.json()
             dispatch(clearToken(data.token))
             setUsers([])
-            init()
           })()
         }}
       >

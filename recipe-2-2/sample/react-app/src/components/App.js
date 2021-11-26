@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Login from './Login'
+import { Login } from './Login'
 import SignUp from './SignUp'
 import Main from './Main'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,18 +16,16 @@ const App = () => {
   const token = useSelector(selectTokenState)
   const isLogin = useSelector(selectIsAuthentication)
   const [users, setUsers] = useState([])
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('taro@example.com')
-  const [password, setPassword] = useState('abcd')
+  const [user, setUser] = useState({
+    name: 'taro',
+    email: 'taro@example.com',
+    password: 'abcd',
+  })
   const [isSignUp, setIsSignUp] = useState(false)
 
-  const init = async () => {
+  useEffect(() => {
     dispatch(fetchCsrfTokenAsync())
     dispatch(fetchTokenAsync())
-  }
-
-  useEffect(() => {
-    init()
   })
 
   useEffect(() => {
@@ -50,27 +48,12 @@ const App = () => {
     <div>
       <form action="">
         {isLogin ? null : isSignUp ? (
-          <SignUp
-            name={name}
-            setName={setName}
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-            setIsSignUp={setIsSignUp}
-          />
+          <SignUp user={user} setUser={setUser} setIsSignUp={setIsSignUp} />
         ) : (
-          <Login
-            name={name}
-            email={email}
-            setEmail={setEmail}
-            password={password}
-            setPassword={setPassword}
-            setIsSignUp={setIsSignUp}
-          />
+          <Login user={user} setUser={setUser} setIsSignUp={setIsSignUp} />
         )}
         {isLogin ? (
-          <Main setUsers={setUsers} init={init} token={token} users={users} />
+          <Main setUsers={setUsers} token={token} users={users} />
         ) : null}
       </form>
     </div>

@@ -4,12 +4,14 @@ import { selectCsrfTokenState } from '../features/auth/authSlice'
 import * as config from '../config/index'
 
 const SignUp = ({
-  name,
-  setName,
-  email,
-  setEmail,
-  password,
-  setPassword,
+  user,
+  setUser,
+  // name,
+  // setName,
+  // email,
+  // setEmail,
+  // password,
+  // setPassword,
   setIsSignUp,
 }) => {
   const csrfToken = useSelector(selectCsrfTokenState)
@@ -17,18 +19,18 @@ const SignUp = ({
     <div>
       <input
         type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={user.name}
+        onChange={(e) => setUser({ ...user, name: e.target.value })}
       />
       <input
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={user.email}
+        onChange={(e) => setUser({ ...user, email: e.target.value })}
       />
       <input
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={user.password}
+        onChange={(e) => setUser({ ...user, password: e.target.value })}
       />
       <button
         onClick={(e) => {
@@ -46,9 +48,9 @@ const SignUp = ({
               },
               redirect: 'follow',
               body: JSON.stringify({
-                name: name,
-                email: email,
-                password: password,
+                name: user.name,
+                email: user.email,
+                password: user.password,
               }),
             })
             const data = await res.json()
