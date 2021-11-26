@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectCsrfTokenState } from '../features/credentials/credentialsSlice'
+import { selectCsrfTokenState } from '../features/auth/authSlice'
+import * as config from '../config/index'
 
 const SignUp = ({
-  URL,
   name,
   setName,
   email,
@@ -35,7 +35,7 @@ const SignUp = ({
           e.preventDefault()
           ;(async () => {
             console.log('csrfToken:', csrfToken)
-            const res = await fetch(URL + '/api/v1/users', {
+            const res = await fetch(config.URL + '/api/v1/users', {
               method: 'POST',
               mode: 'cors',
               cache: 'no-cache',

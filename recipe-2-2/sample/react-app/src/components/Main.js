@@ -1,20 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from '../features/login/loginSlice'
-import {
-  selectCsrfTokenState,
-  setToken,
-} from '../features/credentials/credentialsSlice'
+import { selectCsrfTokenState, clearToken } from '../features/auth/authSlice'
+import * as config from '../config/index'
 
-const Main = ({
-  URL,
-  // csrfToken,
-  // setToken,
-  setUsers,
-  init,
-  token,
-  users,
-}) => {
+const Main = ({ setUsers, init, token, users }) => {
   const dispatch = useDispatch()
   const csrfToken = useSelector(selectCsrfTokenState)
   return (
@@ -23,7 +12,7 @@ const Main = ({
         onClick={(e) => {
           e.preventDefault()
           ;(async () => {
-            const res = await fetch(URL + '/api/v1/logout', {
+            const res = await fetch(config.URL + '/api/v1/logout', {
               method: 'POST',
               mode: 'cors',
               cache: 'no-cache',
@@ -35,9 +24,8 @@ const Main = ({
               redirect: 'follow',
             })
             const data = await res.json()
-            dispatch(setToken(data.token))
+            dispatch(clearToken(data.token))
             setUsers([])
-            dispatch(logout())
             init()
           })()
         }}

@@ -3,20 +3,18 @@ import Login from './Login'
 import SignUp from './SignUp'
 import Main from './Main'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectState, login } from '../features/login/loginSlice'
 import {
-  setCsrfToken,
-  setToken,
   selectTokenState,
   fetchCsrfTokenAsync,
-} from '../features/credentials/credentialsSlice'
-
-const URL = 'http://localhost:5000'
+  fetchTokenAsync,
+  selectIsAuthentication,
+} from '../features/auth/authSlice'
+import * as config from '../config/index'
 
 const App = () => {
   const dispatch = useDispatch()
-  const isLogin = useSelector(selectState)
   const token = useSelector(selectTokenState)
+  const isLogin = useSelector(selectIsAuthentication)
   const [users, setUsers] = useState([])
   const [name, setName] = useState('')
   const [email, setEmail] = useState('taro@example.com')
@@ -24,35 +22,10 @@ const App = () => {
   const [isSignUp, setIsSignUp] = useState(false)
 
   const init = async () => {
-    try {
-      // dispatch(fetchCsrfTokenAsync())
-      const res = await fetch(URL + '/api/v1/csrf-token', {
-        method: 'GET',
-        credentials: 'include',
-      })
-      if (res) {
-        const data = await res.json()
-        dispatch(setCsrfToken(data.csrfToken))
-      }
-
-      const res2 = await fetch(URL + '/api/v1/login', {
-        method: 'GET',
-        credentials: 'include',
-      })
-
-      if (res2) {
-        const data = await res2.json()
-        if (data.isSuccess) {
-          dispatch(login())
-          dispatch(setToken(data.token))
-        }
-      }
-    } catch (err) {
-      console.log(err)
-    }
+    dispatch(fetchCsrfTokenAsync())
+    dispatch(fetchTokenAsync())
   }
 
-  // init()
   useEffect(() => {
     init()
   })
@@ -61,7 +34,7 @@ const App = () => {
     if (!isLogin) return
     if (!token) return
     ;(async () => {
-      const res = await fetch(URL + '/api/v1/users', {
+      const res = await fetch(config.URL + '/api/v1/users', {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -69,7 +42,6 @@ const App = () => {
         },
       })
       const data = await res.json()
-      console.log('data:', data)
       setUsers([...data])
     })()
   }, [isLogin, token])
@@ -79,7 +51,6 @@ const App = () => {
       <form action="">
         {isLogin ? null : isSignUp ? (
           <SignUp
-            URL={URL}
             name={name}
             setName={setName}
             email={email}
@@ -90,7 +61,6 @@ const App = () => {
           />
         ) : (
           <Login
-            URL={URL}
             name={name}
             email={email}
             setEmail={setEmail}
@@ -100,13 +70,7 @@ const App = () => {
           />
         )}
         {isLogin ? (
-          <Main
-            URL={URL}
-            setUsers={setUsers}
-            init={init}
-            token={token}
-            users={users}
-          />
+          <Main setUsers={setUsers} init={init} token={token} users={users} />
         ) : null}
       </form>
     </div>

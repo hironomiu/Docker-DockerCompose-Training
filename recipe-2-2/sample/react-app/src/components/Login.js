@@ -1,18 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../features/login/loginSlice'
 import {
   selectCsrfTokenState,
   setToken,
-} from '../features/credentials/credentialsSlice'
+  successAuthentication,
+} from '../features/auth/authSlice'
+import * as config from '../config/index'
 
-const Login = ({
-  URL,
-  email,
-  setEmail,
-  password,
-  setPassword,
-  setIsSignUp,
-}) => {
+const Login = ({ email, setEmail, password, setPassword, setIsSignUp }) => {
   const dispatch = useDispatch()
   const csrfToken = useSelector(selectCsrfTokenState)
 
@@ -32,8 +26,7 @@ const Login = ({
         onClick={(e) => {
           e.preventDefault()
           ;(async () => {
-            console.log('csrfToken:', csrfToken)
-            const res = await fetch(URL + '/api/v1/login', {
+            const res = await fetch(config.URL + '/api/v1/login', {
               method: 'POST',
               mode: 'cors',
               cache: 'no-cache',
@@ -48,7 +41,7 @@ const Login = ({
             const data = await res.json()
             if (data.isSuccess) {
               dispatch(setToken(data.token))
-              dispatch(login())
+              dispatch(successAuthentication())
             } else {
               alert('認証エラー')
             }
