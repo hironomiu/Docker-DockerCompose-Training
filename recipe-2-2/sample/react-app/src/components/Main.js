@@ -1,41 +1,38 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCsrfTokenState, clearToken } from '../features/auth/authSlice'
-import * as config from '../config/index'
+import {
+  selectCsrfTokenState,
+  logout,
+  selectTokenState,
+} from '../features/auth/authSlice'
+import { fetchTasksAsync, selectTasksState } from '../features/tasks/tasksSlice'
 
-const Main = ({ setUsers, token, users }) => {
+const Main = () => {
   const dispatch = useDispatch()
   const csrfToken = useSelector(selectCsrfTokenState)
+  const token = useSelector(selectTokenState)
+  const tasks = useSelector(selectTasksState)
+
+  useEffect(() => {
+    dispatch(fetchTasksAsync({ token: token }))
+  }, [dispatch, token])
+
   return (
     <>
       <button
         onClick={(e) => {
           e.preventDefault()
-          ;(async () => {
-            const res = await fetch(config.URL + '/api/v1/logout', {
-              method: 'POST',
-              mode: 'cors',
-              cache: 'no-cache',
-              credentials: 'include',
-              headers: {
-                'Content-Type': 'application/json',
-                'CSRF-Token': csrfToken,
-              },
-              redirect: 'follow',
-            })
-            const data = await res.json()
-            dispatch(clearToken(data.token))
-            setUsers([])
-          })()
+          dispatch(logout({ csrfToken: csrfToken }))
         }}
       >
         logout
       </button>
       <br />
-      <span>token:{token}</span>
       <br />
-      {users.map((user) => (
-        <div key={user.id}>{user.name}</div>
+      {tasks.map((task) => (
+        <div key={task.id}>
+          {task.title}:{task.task}:{task.status}
+        </div>
       ))}
     </>
   )

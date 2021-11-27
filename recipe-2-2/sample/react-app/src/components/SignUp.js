@@ -1,9 +1,9 @@
-import React from 'react'
+import { memo } from 'react'
 import { useSelector } from 'react-redux'
 import { selectCsrfTokenState } from '../features/auth/authSlice'
 import * as config from '../config/index'
 
-const SignUp = ({
+const NoMemoSignUp = ({
   user,
   setUser,
   // name,
@@ -77,4 +77,4 @@ const SignUp = ({
   )
 }
 
-export default SignUp
+export const SignUp = memo(NoMemoSignUp)

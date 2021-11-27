@@ -8,6 +8,8 @@ const initialState = {
   token: '',
   tokenFetchState: 'idle',
   authenticationState: 'idle',
+  postAuthenticationState: 'idle',
+  logoutState: 'idle',
 }
 
 export const fetchCsrfTokenAsync = createAsyncThunk(
@@ -53,15 +55,52 @@ export const authenticationAsync = createAsyncThunk(
     return data
   }
 )
+
+export const postAuthenticationAsync = createAsyncThunk(
+  'auth/postAuthentication',
+  async (credentials) => {
+    const ret = await fetch(C.URL + '/api/v1/login', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'CSRF-Token': credentials.csrfToken,
+      },
+      redirect: 'follow',
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password,
+      }),
+    })
+    const data = await ret.json()
+    return data
+  }
+)
+
+export const logout = createAsyncThunk('auth/logout', async (credentials) => {
+  const ret = await fetch(C.URL + '/api/v1/logout', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'CSRF-Token': credentials.csrfToken,
+    },
+    redirect: 'follow',
+  })
+  const data = await ret.json()
+  return data
+})
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     successAuthentication: (state) => {
       state.isAuthentication = true
-    },
-    logout: (state) => {
-      state.isAuthentication = false
     },
     setToken: (state, action) => {
       state.token = action.payload
@@ -77,18 +116,18 @@ export const authSlice = createSlice({
         state.csrfFetchState = 'loading'
       })
       .addCase(fetchCsrfTokenAsync.fulfilled, (state, action) => {
-        state.csrfFetchState = 'idle'
         state.csrfToken = action.payload
+        state.csrfFetchState = 'idle'
       })
       .addCase(fetchTokenAsync.pending, (state) => {
         state.tokenFetchState = 'loading'
       })
       .addCase(fetchTokenAsync.fulfilled, (state, action) => {
-        state.tokenFetchState = 'idle'
         if (action.payload.isSuccess) {
           state.token = action.payload.token
           state.isAuthentication = true
         }
+        state.tokenFetchState = 'idle'
       })
       .addCase(authenticationAsync.pending, (state) => {
         state.authenticationState = 'loading'
@@ -98,12 +137,36 @@ export const authSlice = createSlice({
           state.token = action.payload.token
           state.isAuthentication = true
         }
+        state.authenticationState = 'idle'
+      })
+      .addCase(postAuthenticationAsync.pending, (state) => {
+        state.postAuthenticationState = 'loading'
+      })
+      .addCase(postAuthenticationAsync.fulfilled, (state, action) => {
+        console.log('called')
+        if (action.payload.isSuccess) {
+          state.token = action.payload.token
+          state.isAuthentication = true
+        } else {
+          alert('認証エラー')
+        }
+        state.postAuthenticationState = 'idle'
+      })
+      .addCase(postAuthenticationAsync.rejected, (state) => {
+        state.postAuthenticationState = 'rejected'
+      })
+      .addCase(logout.pending, (state) => {
+        state.logoutState = 'loading'
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.token = ''
+        state.isAuthentication = false
+        state.logoutState = 'idle'
       })
   },
 })
 
-export const { setToken, clearToken, logout, successAuthentication } =
-  authSlice.actions
+export const { setToken, clearToken, successAuthentication } = authSlice.actions
 export const selectIsAuthentication = (state) => state.auth.isAuthentication
 export const selectCsrfTokenState = (state) => state.auth.csrfToken
 export const selectTokenState = (state) => state.auth.token
