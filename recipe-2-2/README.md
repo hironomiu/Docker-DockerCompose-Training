@@ -238,6 +238,9 @@ docker-compose stop
 docker-compose rm
 
 docker image rm docker-react-express_react-app
-
+docker image rm docker-react-express_express-app
+docker image rm docker-react-express_db
 docker volume rm docker-react-express_react-app
+docker volume rm docker-react-express_express-app
+docker volume rm docker-react-express_mysql
 ```
