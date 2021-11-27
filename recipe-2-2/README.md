@@ -4,7 +4,12 @@ recipe-2-1 に jwt,cookie,csrf,validator を追加
 
 ## 前提
 
-recipe-2-0,recipe-2-1 に追加する形で実装(`Docker-React-Express`ディレクトリ配下で実装する)
+recipe-2-0,recipe-2-1 に追加だが、`create-react-app`のテンプレートを変更するため新規で作成する(`Docker-React-Express`ディレクトリ配下で実装する)
+
+```
+mkdir Docker-React-Express
+cd Docker-React-Express
+```
 
 ## docker/express-app/Dockerfile
 
@@ -24,7 +29,7 @@ RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf bcry
 
 ## docker/react-app/Dockerfile
 
-recipe-2-1 から redux-toolkit を追加で使うため template redux の利用に Dockerfile を修正(`yarn start`でエラーになる場合`FROM node:16.0`を指定し build し直す)、Tailwind 周りのインストールを追加
+recipe-2-1 から テンプレートを redux-toolkit に変更し使うため template redux の利用に Dockerfile を修正(`yarn start`で`node:latest`だとエラーになる場合`FROM node:16.0`を指定し build し直す)、Tailwind 周りのインストールを追加
 
 ```
 FROM node:latest
