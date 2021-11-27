@@ -1,7 +1,8 @@
 const router = require('express').Router()
 
 router.get('/', (req, res) => {
-  res.json({ csrfToken: req.csrfToken() })
+  const csrfToken = req.csrfToken()
+  res.json({ csrfToken: csrfToken })
 })
 
 module.exports = router

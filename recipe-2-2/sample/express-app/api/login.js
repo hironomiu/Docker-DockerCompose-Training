@@ -32,8 +32,10 @@ router
     if (token) {
       jwt.verify(token, config.jwt.secret, (error, _) => {
         if (error) {
+          console.log('authErrorMessage')
           return res.status(200).send(authErrorMessage)
         }
+        console.log('success')
         return res.status(200).send({
           isSuccess: true,
           message: 'success',
@@ -41,6 +43,7 @@ router
         })
       })
     } else {
+      console.log(isNotTokenErrorMessage)
       return res.status(200).send(isNotTokenErrorMessage)
     }
   })
@@ -48,9 +51,10 @@ router
     [checkEmailIsEmpty, checkEmailIsEmail, checkPasswordIsEmpty],
     validator,
     async (req, res) => {
+      console.log(req.body)
       const [rows, fields] = await promisePool.query(
         'select id,name,email,password from users where email = ?',
-        req.body.email
+        [req.body.email]
       )
 
       if (rows.length === 0) return res.json(isNotEmailPassWordErrorMessage)
@@ -65,6 +69,7 @@ router
 
       if (req.body.email === rows[0].email && ret) {
         const payload = {
+          id: rows[0].id,
           email: req.body.email,
         }
         const token = jwt.sign(payload, config.jwt.secret, config.jwt.options)

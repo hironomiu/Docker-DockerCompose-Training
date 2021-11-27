@@ -1,17 +1,19 @@
 const router = require('express').Router()
 const verifyToken = require('../middlewares/verifyToken')
-const promisePool = require('../config/db.js')
+const promisePool = require('../config/db')
 const bcrypt = require('bcrypt')
 const registerErrorMessage = { isSuccess: false, message: '登録エラー' }
 router
   .route('/')
   .get(verifyToken, async (req, res) => {
+    // usersのエンドポイントだが自身しか参照させないためwhere句で絞り込み
     const [rows, fields] = await promisePool.query(
-      'select id,name,email from users'
+      'select id,name,email from users where id = ?',
+      [req.decoded.id]
     )
-    let results = {}
 
     // verifiTokeでdecodedの設定確認用（処理では利用していない）
+    console.log(req.decoded.id)
     if (req.decoded.email == 'taro@example.com') {
       results = {
         userId: req.decoded.userId,
@@ -48,7 +50,12 @@ router.get('/:id', verifyToken, async (req, res) => {
   )
 
   // verifiTokeでdecodedの設定確認用(payloadにemailが含まれていることの確認)
-  console.log('payload', req.decoded.email)
+  console.log(
+    'payload id:',
+    req.decoded.id,
+    'payload email:',
+    req.decoded.email
+  )
 
   let results = { name: rows[0].name }
   return res.json(results)

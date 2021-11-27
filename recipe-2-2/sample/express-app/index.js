@@ -51,6 +51,7 @@ app.use(
     router.use('/users', require('./api/users.js'))
     router.use('/users/:id', require('./api/users.js'))
     router.use('/csrf-token', require('./api/csrfToken.js'))
+    router.use('/tasks', require('./api/tasks.js'))
     return router
   })()
 )
