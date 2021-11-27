@@ -24,7 +24,7 @@ RUN npm install -y express cors mysql2 pug jsonwebtoken cookie-parser csurf bcry
 
 ## docker/react-app/Dockerfile
 
-recipe-2-1 から redux-toolkit を追加で使うため template redux の利用に Dockerfile を修正(`yarn start`でエラーになる場合`FROM node:16.0`を指定し build し直す)
+recipe-2-1 から redux-toolkit を追加で使うため template redux の利用に Dockerfile を修正(`yarn start`でエラーになる場合`FROM node:16.0`を指定し build し直す)、Tailwind 周りのインストールを追加
 
 ```
 FROM node:latest
@@ -34,6 +34,8 @@ RUN mkdir $APP_PATH
 WORKDIR $APP_PATH
 
 RUN npx create-react-app . --template redux
+RUN yarn add -D tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
+RUN yarn add @craco/craco
 ```
 
 ## docker/mysql/Dockerfile
@@ -156,7 +158,71 @@ node index.js
 
 ## react-app アプリ
 
+`package.json`の scripts を`craco`で構成する
+
+before
+
+```
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+```
+
+after(eject は削除)
+
+```
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+```
+
+`craco.config.js`を作成（touch ではなく VSCode からファイル作成でも良い）
+
+```
+touch craco.config.js
+```
+
+作成した`craco.config.js`に以下を記述
+
+```
+module.exports = {
+  style: {
+    postcss: {
+      plugins: [require('tailwindcss'), require('autoprefixer')],
+    },
+  },
+}
+```
+
+tailwind の初期化
+
+```
+npx tailwindcss init -p
+```
+
+`tailwind.config.js`の purge を修正
+
+```
+- purge: [],
+
++ purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+```
+
+`./src/index.css` を tailwind を利用する設定に修正（以下の 3 行に全てを書き換え）
+
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
 [sample/react-app](./sample/react-app)以下を`react-app`に記述
+
+### Run
+
+```
+yarn start
+```
 
 ### Memo
 
