@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Login } from './Login'
 import { SignUp } from './SignUp'
-import Main from './Main'
+import Layout from './Layout'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchCsrfTokenAsync,
@@ -22,7 +22,6 @@ const App = () => {
   const [isSignUp, setIsSignUp] = useState(false)
 
   useEffect(() => {
-    console.log('effect called')
     dispatch(fetchCsrfTokenAsync())
     dispatch(fetchTokenAsync())
   }, [dispatch])
@@ -37,7 +36,8 @@ const App = () => {
         ) : (
           <Login user={user} setUser={setUser} setIsSignUp={setIsSignUp} />
         )}
-        {isLogin ? <Main /> : null}
+
+        {isLogin ? <Layout /> : null}
       </form>
     </div>
   )

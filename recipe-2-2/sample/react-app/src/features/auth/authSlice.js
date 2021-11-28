@@ -143,7 +143,6 @@ export const authSlice = createSlice({
         state.postAuthenticationState = 'loading'
       })
       .addCase(postAuthenticationAsync.fulfilled, (state, action) => {
-        console.log('called')
         if (action.payload.isSuccess) {
           state.token = action.payload.token
           state.isAuthentication = true

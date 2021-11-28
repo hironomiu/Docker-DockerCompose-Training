@@ -4,18 +4,17 @@ import {
   selectCsrfTokenState,
   postAuthenticationAsync,
 } from '../features/auth/authSlice'
+import * as C from '../config/index'
 
 const NoMemoLogin = ({ user, setUser, setIsSignUp }) => {
   const dispatch = useDispatch()
   const csrfToken = useSelector(selectCsrfTokenState)
 
-  console.log(user)
-
   return (
     <div>
       <div className="flex bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex-col font-mono ">
         <h1 className="bg-white pt-10 pb-8 font-bold rounded text-3xl">
-          Super Web Site!!
+          {C.SITE_NAME}
         </h1>
         <h1 className="bg-white pt-6 pb-4 font-bold rounded text-xl">Login</h1>
         <div className="mb-4">
@@ -83,44 +82,6 @@ const NoMemoLogin = ({ user, setUser, setIsSignUp }) => {
       </div>
     </div>
   )
-
-  // return (
-  //   <div>
-  //     <input
-  //       type="email"
-  //       value={user.email}
-  //       onChange={(e) => setUser({ ...user, email: e.target.value })}
-  //     />
-  //     <input
-  //       type="password"
-  //       value={user.password}
-  //       onChange={(e) => setUser({ ...user, password: e.target.value })}
-  //     />
-  //     <button
-  //       onClick={(e) => {
-  // e.preventDefault()
-  // dispatch(
-  //   postAuthenticationAsync({
-  //     csrfToken: csrfToken,
-  //     email: user.email,
-  //     password: user.password,
-  //   })
-  // )
-  //       }}
-  //     >
-  //       login
-  //     </button>
-  //     <br />
-  //     <span
-  //       onClick={(e) => {
-  //         e.preventDefault()
-  //         setIsSignUp((isSignUp) => !isSignUp)
-  //       }}
-  //     >
-  //       SignUp
-  //     </span>
-  //   </div>
-  // )
 }
 
 export const Login = memo(NoMemoLogin)

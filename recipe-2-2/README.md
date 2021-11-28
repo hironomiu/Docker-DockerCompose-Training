@@ -39,6 +39,8 @@ RUN mkdir $APP_PATH
 WORKDIR $APP_PATH
 
 RUN npx create-react-app . --template redux
+RUN yarn add @headlessui/react
+RUN yarn add @heroicons/react
 RUN yarn add -D tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
 RUN yarn add @craco/craco
 ```
@@ -114,7 +116,7 @@ create table tasks (
 
 ```
 
-`users`テーブルのサンプルデータを insert (`bcrypt` で hash 化してある、パスワードは全て`abcd`)
+`users`,`task_status`,`tasks`テーブルのサンプルデータを insert (`bcrypt` で hash 化してある、パスワードは全て`abcd`)
 
 ```
 insert into users(name,email,password) values
@@ -126,10 +128,10 @@ insert into task_status(id,name) values
 (1,'未着手'),(2,'着手中'),(3,'完了');
 
 insert into tasks(title,task,status,user_id) values
-('タスク１','タスク１の詳細',1,1),
-('タスク２','タスク２の詳細',1,1),
-('タスク１','タスク１の詳細',1,2),
-('タスク２','タスク２の詳細',1,2);
+('太郎　タスク１','タスク１の詳細',1,1),
+('太郎　タスク２','タスク２の詳細',1,1),
+('John タスク１','タスク１の詳細',1,2),
+('John タスク２','タスク２の詳細',1,2);
 
 
 ```
@@ -148,7 +150,7 @@ mysql> exit
 
 ```
 mkdir api config middlewares views
-touch api/csrfToken.js api/login.js api/logout.js api/users.js
+touch api/csrfToken.js api/login.js api/logout.js api/users.js api/tasks.js
 touch config/db.js config/index.js config/jwt.config.js
 touch middlewares/validator.js middlewares/verifyToken.js
 touch views/index.pug
@@ -232,8 +234,8 @@ yarn start
 ### Memo
 
 ```
-mkdir src/components src/features/credentials src/features/login
-touch src/components/Login.js src/components/Main.js src/components/SignUp.js src/features/credentials/credentialsSlice.js src/features/login/loginSlice.js
+mkdir src/app src/components src/config src/features/auth src/features/tasks
+touch src/app/store.js src/components/Header.js src/components/Layout.js src/components/Login.js src/components/Main.js src/components/Modal.js src/components/SignUp.js src/config/index.js src/features/auth/authSlice.js src/features/tasks/tasksSlice.js
 ```
 
 ## 掃除
