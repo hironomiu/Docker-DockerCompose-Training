@@ -119,17 +119,22 @@ create table tasks (
 `users`,`task_status`,`tasks`テーブルのサンプルデータを insert (`bcrypt` で hash 化してある、パスワードは全て`abcd`)
 
 ```
+truncate table users;
 insert into users(name,email,password) values
 ('太郎','taro@example.com','$2b$10$iFCxa4wOsuZhklYp00bnCuk0sBJxGOU.e4YnfqvoDEyIk1C1rrd0K'),
 ('John','john@example.com','$2b$10$8W1a6GfBsmn/gY8jhXjGbOCQwcWfF/PeI5O07ONakuhX9bYIZNe82'),
 ('花子','hanako@example.com','$2b$10$TXCGCYDpn6p35Csz5UyoA.UHJ9SkE3Q7JP6lRO9ZgMaXuNwEo.wWW');
 
+truncate table task_status;
 insert into task_status(id,name) values
 (1,'未着手'),(2,'着手中'),(3,'完了');
 
+truncate table tasks;
 insert into tasks(title,task,status,user_id) values
 ('太郎　タスク１','タスク１の詳細',1,1),
 ('太郎　タスク２','タスク２の詳細',1,1),
+('太郎　タスク３','タスク３の詳細',1,1),
+('太郎　タスク３','タスク３の詳細',1,1),
 ('John タスク１','タスク１の詳細',1,2),
 ('John タスク２','タスク２の詳細',1,2);
 
@@ -235,7 +240,7 @@ yarn start
 
 ```
 mkdir src/app src/components src/config src/features/auth src/features/tasks
-touch src/app/store.js src/components/Footer.js src/components/Header.js src/components/Layout.js src/components/Login.js src/components/Main.js src/components/Modal.js src/components/SignUp.js src/config/index.js src/features/auth/authSlice.js src/features/tasks/tasksSlice.js
+touch src/app/store.js src/components/Footer.js src/components/Header.js src/components/Layout.js src/components/Login.js src/components/Main.js src/components/Modal.js src/components/SignUp.js src/components/Task.js src/config/index.js src/features/auth/authSlice.js src/features/tasks/tasksSlice.js
 ```
 
 ## 掃除

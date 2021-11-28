@@ -1,25 +1,29 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectTokenState } from '../features/auth/authSlice'
-import { fetchTasksAsync, selectTasksState } from '../features/tasks/tasksSlice'
+import {
+  fetchTasksAsync,
+  selectTasksState,
+  selectDeleteTaskState,
+} from '../features/tasks/tasksSlice'
+import Task from './Task'
 
 const Main = () => {
   const dispatch = useDispatch()
   const token = useSelector(selectTokenState)
   const tasks = useSelector(selectTasksState)
+  const deleteTaskState = useSelector(selectDeleteTaskState)
 
   useEffect(() => {
     dispatch(fetchTasksAsync({ token: token }))
-  }, [dispatch, token])
+  }, [dispatch, token, deleteTaskState])
 
   return (
-    <>
+    <div>
       {tasks.map((task) => (
-        <div key={task.id} className="mt-2">
-          {task.title}:{task.task}:{task.status}
-        </div>
+        <Task key={task.id} task={task} />
       ))}
-    </>
+    </div>
   )
 }
 
