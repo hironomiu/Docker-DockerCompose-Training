@@ -10,6 +10,8 @@ const initialState = {
   authenticationState: 'idle',
   postAuthenticationState: 'idle',
   logoutState: 'idle',
+  isSignUp: false,
+  signUpState: 'idle',
 }
 
 export const fetchCsrfTokenAsync = createAsyncThunk(
@@ -55,6 +57,27 @@ export const authenticationAsync = createAsyncThunk(
     return data
   }
 )
+
+export const signUp = createAsyncThunk('auth/signUp', async (credentials) => {
+  const res = await fetch(C.URL + '/api/v1/users', {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'CSRF-Token': credentials.csrfToken,
+    },
+    redirect: 'follow',
+    body: JSON.stringify({
+      name: credentials.name,
+      email: credentials.email,
+      password: credentials.password,
+    }),
+  })
+  const data = await res.json()
+  return data
+})
 
 export const postAuthenticationAsync = createAsyncThunk(
   'auth/postAuthentication',
@@ -109,6 +132,9 @@ export const authSlice = createSlice({
       state.token = ''
       state.isAuthentication = false
     },
+    toggleSignUp: (state) => {
+      state.isSignUp = !state.isSignUp
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -162,11 +188,24 @@ export const authSlice = createSlice({
         state.isAuthentication = false
         state.logoutState = 'idle'
       })
+      .addCase(signUp.pending, (state) => {
+        state.signUpState = 'loading'
+      })
+      .addCase(signUp.fulfilled, (state, action) => {
+        if (action.payload.isSuccess) {
+          state.isSignUp = false
+        } else {
+          alert('ユーザ登録エラー')
+        }
+        state.signUpState = 'idle'
+      })
   },
 })
 
-export const { setToken, clearToken, successAuthentication } = authSlice.actions
+export const { setToken, clearToken, successAuthentication, toggleSignUp } =
+  authSlice.actions
 export const selectIsAuthentication = (state) => state.auth.isAuthentication
 export const selectCsrfTokenState = (state) => state.auth.csrfToken
 export const selectTokenState = (state) => state.auth.token
+export const selectIsSignUp = (state) => state.auth.isSignUp
 export default authSlice.reducer

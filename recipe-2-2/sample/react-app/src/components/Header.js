@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { LogoutIcon } from '@heroicons/react/outline'
+import { selectIsAuthentication } from '../features/auth/authSlice'
+import { useSelector } from 'react-redux'
 import * as C from '../config/index'
 import Modal from './Modal'
 
 const Header = () => {
   const [modalOn, setModalOn] = useState(false)
+  const isLogin = useSelector(selectIsAuthentication)
 
   return (
     <>
@@ -16,15 +19,18 @@ const Header = () => {
                 {C.SITE_NAME}
               </span>
             </div>
-            <div>
-              <LogoutIcon
-                className="h-14 w-14 text-gray-300 hover:bg-gray-700 px-1 rounded"
-                aria-hidden="true"
-                onClick={(e) => {
-                  setModalOn(true)
-                }}
-              />
-            </div>
+            {isLogin ? (
+              <div>
+                <LogoutIcon
+                  className="h-14 w-14 text-gray-300 hover:bg-gray-700 px-1 rounded"
+                  aria-hidden="true"
+                  onClick={(e) => {
+                    setModalOn(true)
+                  }}
+                />
+              </div>
+            ) : null}
+
             {modalOn ? <Modal setModalOn={setModalOn} /> : null}
           </div>
         </nav>

@@ -1,26 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { Login } from './Login'
-import { SignUp } from './SignUp'
+import React, { useEffect } from 'react'
+
 import Layout from './Layout'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchCsrfTokenAsync,
   fetchTokenAsync,
-  selectIsAuthentication,
   selectCsrfTokenState,
 } from '../features/auth/authSlice'
 
 const App = () => {
   const dispatch = useDispatch()
-  const isLogin = useSelector(selectIsAuthentication)
   const csrfToken = useSelector(selectCsrfTokenState)
-  const [user, setUser] = useState({
-    name: 'taro',
-    email: 'taro@example.com',
-    password: 'abcd',
-  })
-  const [isSignUp, setIsSignUp] = useState(false)
-
   useEffect(() => {
     dispatch(fetchCsrfTokenAsync())
     dispatch(fetchTokenAsync())
@@ -29,17 +19,9 @@ const App = () => {
   console.log('app csrfToken', csrfToken)
 
   return (
-    <div>
-      <form action="">
-        {isLogin ? null : isSignUp ? (
-          <SignUp user={user} setUser={setUser} setIsSignUp={setIsSignUp} />
-        ) : (
-          <Login user={user} setUser={setUser} setIsSignUp={setIsSignUp} />
-        )}
-
-        {isLogin ? <Layout /> : null}
-      </form>
-    </div>
+    <>
+      <Layout />
+    </>
   )
 }
 
