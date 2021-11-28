@@ -235,7 +235,7 @@ yarn start
 
 ```
 mkdir src/app src/components src/config src/features/auth src/features/tasks
-touch src/app/store.js src/components/Header.js src/components/Layout.js src/components/Login.js src/components/Main.js src/components/Modal.js src/components/SignUp.js src/config/index.js src/features/auth/authSlice.js src/features/tasks/tasksSlice.js
+touch src/app/store.js src/components/Footer.js src/components/Header.js src/components/Layout.js src/components/Login.js src/components/Main.js src/components/Modal.js src/components/SignUp.js src/config/index.js src/features/auth/authSlice.js src/features/tasks/tasksSlice.js
 ```
 
 ## 掃除
