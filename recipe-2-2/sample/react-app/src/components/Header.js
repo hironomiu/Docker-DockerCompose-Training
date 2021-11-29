@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import { memo, useState } from 'react'
 import { LogoutIcon } from '@heroicons/react/outline'
 import { selectIsAuthentication } from '../features/auth/authSlice'
 import { useSelector } from 'react-redux'
 import * as C from '../config/index'
 import Modal from './Modal'
 
-const Header = () => {
+const NoMemoHeader = () => {
   const [modalOn, setModalOn] = useState(false)
   const isLogin = useSelector(selectIsAuthentication)
 
@@ -39,4 +39,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export const Header = memo(NoMemoHeader)

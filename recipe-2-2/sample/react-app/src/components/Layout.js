@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Main from './Main'
-import Header from './Header'
-import Footer from './Footer'
+import { Header } from './Header'
+import { Footer } from './Footer'
 import { Login } from './Login'
 import { SignUp } from './SignUp'
 import {

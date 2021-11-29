@@ -1,7 +1,7 @@
-import React from 'react'
+import { memo } from 'react'
 import * as C from '../config/index'
 
-const Footer = () => {
+const NoMemoFooter = () => {
   return (
     <>
       <footer className="bg-gray-400 w-screen absolute bottom-0 h-12">
@@ -12,4 +12,4 @@ const Footer = () => {
   )
 }
 
-export default Footer
+export const Footer = memo(NoMemoFooter)
