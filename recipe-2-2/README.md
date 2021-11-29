@@ -1,6 +1,6 @@
 # recipe-2-2 Docker-React-Express-MySQL-JWT-COOKIE-CSRF
 
-recipe-2-1 に jwt,cookie,csrf,validator を追加
+recipe-2-1 に サーバサイド jwt,cookie,csrf,validator を追加、フロント redux-toolkit tailwind を追加
 
 ## 前提
 
