@@ -24,7 +24,7 @@ const Header = () => {
                 <LogoutIcon
                   className="h-14 w-14 text-gray-300 hover:bg-gray-700 px-1 rounded"
                   aria-hidden="true"
-                  onClick={(e) => {
+                  onClick={() => {
                     setModalOn(true)
                   }}
                 />

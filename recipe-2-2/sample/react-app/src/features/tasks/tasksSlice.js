@@ -4,6 +4,7 @@ import * as C from '../../config/index'
 const initialState = {
   tasksStatus: 'idle',
   deleteTaskStatus: 'idle',
+  updateTaskStatus: 'idle',
   value: [],
 }
 
@@ -41,6 +42,28 @@ export const deleteTaskAsync = createAsyncThunk(
     return data
   }
 )
+
+export const updateTaskAsync = createAsyncThunk(
+  'tasks/update',
+  async (credentials) => {
+    console.log(credentials.task)
+    const res = await fetch(C.URL + '/api/v1/tasks/' + credentials.task.id, {
+      method: 'PUT',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'CSRF-Token': credentials.csrfToken,
+      },
+      redirect: 'follow',
+      body: JSON.stringify({ task: credentials.task }),
+    })
+    const data = res.json()
+    return data
+  }
+)
+
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -63,9 +86,19 @@ export const tasksSlice = createSlice({
         }
         state.deleteTaskStatus = 'idle'
       })
+      .addCase(updateTaskAsync.pending, (state) => {
+        state.updateTaskStatus = 'loading'
+      })
+      .addCase(updateTaskAsync.fulfilled, (state, action) => {
+        if (!action.payload.isSuccess) {
+          alert('更新エラー')
+        }
+        state.updateTaskStatus = 'idle'
+      })
   },
 })
 
 export const selectTasksState = (state) => state.tasks.value
 export const selectDeleteTaskState = (state) => state.tasks.deleteTaskStatus
+export const selectUpdateTaskState = (state) => state.tasks.updateTaskStatus
 export default tasksSlice.reducer

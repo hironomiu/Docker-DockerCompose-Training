@@ -131,9 +131,9 @@ insert into task_status(id,name) values
 
 truncate table tasks;
 insert into tasks(title,task,status,user_id) values
-('太郎　タスク１','タスク１の詳細',1,1),
+('太郎　タスク１','タスク１の詳細',2,1),
 ('太郎　タスク２','タスク２の詳細',1,1),
-('太郎　タスク３','タスク３の詳細',1,1),
+('太郎　タスク３','タスク３の詳細',3,1),
 ('太郎　タスク３','タスク３の詳細',1,1),
 ('John タスク１','タスク１の詳細',1,2),
 ('John タスク２','タスク２の詳細',1,2);
@@ -240,7 +240,7 @@ yarn start
 
 ```
 mkdir src/app src/components src/config src/features/auth src/features/tasks
-touch src/app/store.js src/components/Footer.js src/components/Header.js src/components/Layout.js src/components/Login.js src/components/Main.js src/components/Modal.js src/components/SignUp.js src/components/Task.js src/config/index.js src/features/auth/authSlice.js src/features/tasks/tasksSlice.js
+touch src/app/store.js src/components/Footer.js src/components/Header.js src/components/Layout.js src/components/Login.js src/components/Main.js src/components/Modal.js src/components/SignUp.js src/components/Task.js src/components/TaskDeleteModal.js src/components/TaskUpdateModal.js src/config/index.js src/features/auth/authSlice.js src/features/tasks/tasksSlice.js
 ```
 
 ## 掃除
