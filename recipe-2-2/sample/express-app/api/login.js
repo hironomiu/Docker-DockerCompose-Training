@@ -52,39 +52,43 @@ router
     validator,
     async (req, res) => {
       console.log(req.body)
-      const [rows, fields] = await promisePool.query(
-        'select id,name,email,password from users where email = ?',
-        [req.body.email]
-      )
-
-      if (rows.length === 0) return res.json(isNotEmailPassWordErrorMessage)
-
-      const ret = await new Promise((resolve) =>
-        bcrypt.compare(
-          req.body.password,
-          rows[0].password.toString(),
-          (err, isValid) => resolve(isValid)
+      try {
+        const [rows, fields] = await promisePool.query(
+          'select id,name,email,password from users where email = ?',
+          [req.body.email]
         )
-      )
 
-      if (req.body.email === rows[0].email && ret) {
-        const payload = {
-          id: rows[0].id,
-          email: req.body.email,
+        if (rows.length === 0) return res.json(isNotEmailPassWordErrorMessage)
+
+        const ret = await new Promise((resolve) =>
+          bcrypt.compare(
+            req.body.password,
+            rows[0].password.toString(),
+            (err, isValid) => resolve(isValid)
+          )
+        )
+
+        if (req.body.email === rows[0].email && ret) {
+          const payload = {
+            id: rows[0].id,
+            email: req.body.email,
+          }
+          const token = jwt.sign(payload, config.jwt.secret, config.jwt.options)
+          res.cookie('token', token, {
+            httpOnly: true,
+            domain: 'localhost',
+            path: '/',
+            sameSite: 'none',
+            secure: true,
+          })
+
+          return res.json({
+            isSuccess: true,
+            token: token,
+          })
         }
-        const token = jwt.sign(payload, config.jwt.secret, config.jwt.options)
-        res.cookie('token', token, {
-          httpOnly: true,
-          domain: 'localhost',
-          path: '/',
-          sameSite: 'none',
-          secure: true,
-        })
-
-        return res.json({
-          isSuccess: true,
-          token: token,
-        })
+      } catch (err) {
+        return res.json({ isSuccess: false, message: 'データベースエラー' })
       }
       return res.json(isNotEmailPassWordErrorMessage)
     }

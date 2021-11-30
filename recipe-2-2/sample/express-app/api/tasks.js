@@ -1,6 +1,12 @@
 const router = require('express').Router()
 const verifyToken = require('../middlewares/verifyToken')
 const promisePool = require('../config/db')
+const {
+  validator,
+  checkTasksTitleIsEmpty,
+  checkTasksTaskIsEmpty,
+  checkTasksStatusIsEmpty,
+} = require('../middlewares/validator')
 
 router
   .route('/')
@@ -11,24 +17,28 @@ router
     )
     return res.json(rows)
   })
-  .post(verifyToken, async (req, res) => {
-    // バリデーションを追加する
-    try {
-      const ret = await promisePool.query(
-        'insert into tasks(title,task,status,user_id) values(?,?,?,?)',
-        [
-          req.body.task.title,
-          req.body.task.task,
-          req.body.task.status,
-          req.decoded.id,
-        ]
-      )
-      return res.json({ isSuccess: true, message: 'ok' })
-    } catch (err) {
-      console.log(err)
-      return res.json({ isSuccess: false, message: 'INSERT ERROR' })
+  .post(
+    [checkTasksTitleIsEmpty, checkTasksTaskIsEmpty, checkTasksStatusIsEmpty],
+    validator,
+    verifyToken,
+    async (req, res) => {
+      try {
+        const ret = await promisePool.query(
+          'insert into tasks(title,task,status,user_id) values(?,?,?,?)',
+          [
+            req.body.task.title,
+            req.body.task.task,
+            req.body.task.status,
+            req.decoded.id,
+          ]
+        )
+        return res.json({ isSuccess: true, message: 'ok' })
+      } catch (err) {
+        console.log(err)
+        return res.json({ isSuccess: false, message: 'INSERT ERROR' })
+      }
     }
-  })
+  )
 
 router
   .route('/:id')

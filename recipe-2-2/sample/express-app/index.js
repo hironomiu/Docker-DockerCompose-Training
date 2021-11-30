@@ -35,11 +35,19 @@ app.use(
 app.use(csrfProtection)
 
 app.get('/', async (_, res) => {
-  const [rows, fields] = await promisePool.query('select 1 as num')
-  res.render('index', {
-    title: 'Hey',
-    message: `Hello there!num is ${rows[0].num}`,
-  })
+  try {
+    const [rows, fields] = await promisePool.query('select 1 as num')
+    res.render('index', {
+      title: 'Hey',
+      message: `Hello there!num is ${rows[0].num}`,
+    })
+  } catch (err) {
+    console.log('error:', err)
+    res.render('index', {
+      title: 'Hey',
+      message: `Hello there!`,
+    })
+  }
 })
 
 app.use(
