@@ -173,7 +173,8 @@ export const authSlice = createSlice({
           state.token = action.payload.token
           state.isAuthentication = true
         } else {
-          alert('認証エラー')
+          console.log(action.payload)
+          alert(action.payload.message)
         }
         state.postAuthenticationState = 'idle'
       })
@@ -195,7 +196,8 @@ export const authSlice = createSlice({
         if (action.payload.isSuccess) {
           state.isSignUp = false
         } else {
-          alert('ユーザ登録エラー')
+          console.log(action.payload)
+          alert(action.payload.message)
         }
         state.signUpState = 'idle'
       })

@@ -121,7 +121,7 @@ export const tasksSlice = createSlice({
       })
       .addCase(insertTaskAsync.fulfilled, (state, action) => {
         if (!action.payload.isSuccess) {
-          alert('新規作成エラー')
+          alert(action.payload.message)
         }
         state.insertTaskStatus = 'idle'
       })
