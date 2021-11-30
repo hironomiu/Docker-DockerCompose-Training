@@ -2,16 +2,14 @@ import { Fragment, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Dialog, Transition } from '@headlessui/react'
 import { RefreshIcon } from '@heroicons/react/outline'
-import { updateTaskAsync } from '../features/tasks/tasksSlice'
+import { insertTaskAsync } from '../features/tasks/tasksSlice'
 
-const TaskUpdateModal = ({ setUpdateModalOn, credentials }) => {
+const TaskInsertModal = ({ setInsertModalOn, credentials }) => {
   const [open, setOpen] = useState(true)
   const [taskState, setTaskState] = useState({
-    id: credentials.task.id,
-    title: credentials.task.title,
-    task: credentials.task.task,
-    status: credentials.task.status,
-    status_name: credentials.task.status_name,
+    title: '',
+    task: '',
+    status: 1,
   })
   const cancelButtonRef = useRef(null)
   const dispatch = useDispatch()
@@ -24,7 +22,7 @@ const TaskUpdateModal = ({ setUpdateModalOn, credentials }) => {
         initialFocus={cancelButtonRef}
         onClose={() => {
           setOpen(false)
-          setUpdateModalOn(false)
+          setInsertModalOn(false)
         }}
       >
         <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -70,7 +68,7 @@ const TaskUpdateModal = ({ setUpdateModalOn, credentials }) => {
                       as="h3"
                       className="text-lg leading-6 font-medium text-gray-900"
                     >
-                      Task Record Update ?
+                      Task Record Insert ?
                     </Dialog.Title>
                     <div className="mt-2">
                       <label
@@ -134,23 +132,23 @@ const TaskUpdateModal = ({ setUpdateModalOn, credentials }) => {
                     e.preventDefault()
                     // バリデーションを入れる
                     dispatch(
-                      updateTaskAsync({
+                      insertTaskAsync({
                         csrfToken: credentials.csrfToken,
                         task: taskState,
                       })
                     )
                     setOpen(false)
-                    setUpdateModalOn(false)
+                    setInsertModalOn(false)
                   }}
                 >
-                  修正
+                  新規登録
                 </button>
                 <button
                   type="button"
                   className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                   onClick={() => {
                     setOpen(false)
-                    setUpdateModalOn(false)
+                    setInsertModalOn(false)
                   }}
                   ref={cancelButtonRef}
                 >
@@ -165,4 +163,4 @@ const TaskUpdateModal = ({ setUpdateModalOn, credentials }) => {
   )
 }
 
-export default TaskUpdateModal
+export default TaskInsertModal

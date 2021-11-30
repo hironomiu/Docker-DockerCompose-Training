@@ -5,6 +5,7 @@ const initialState = {
   tasksStatus: 'idle',
   deleteTaskStatus: 'idle',
   updateTaskStatus: 'idle',
+  insertTaskStatus: 'idle',
   value: [],
 }
 
@@ -64,6 +65,26 @@ export const updateTaskAsync = createAsyncThunk(
   }
 )
 
+export const insertTaskAsync = createAsyncThunk(
+  'tasks/insert',
+  async (credentials) => {
+    const ret = await fetch(C.URL + '/api/v1/tasks', {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'CSRF-Token': credentials.csrfToken,
+      },
+      redirect: 'follow',
+      body: JSON.stringify({ task: credentials.task }),
+    })
+    const data = await ret.json()
+    return data
+  }
+)
+
 export const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -95,10 +116,20 @@ export const tasksSlice = createSlice({
         }
         state.updateTaskStatus = 'idle'
       })
+      .addCase(insertTaskAsync.pending, (state) => {
+        state.insertTaskStatus = 'loading'
+      })
+      .addCase(insertTaskAsync.fulfilled, (state, action) => {
+        if (!action.payload.isSuccess) {
+          alert('新規作成エラー')
+        }
+        state.insertTaskStatus = 'idle'
+      })
   },
 })
 
 export const selectTasksState = (state) => state.tasks.value
 export const selectDeleteTaskState = (state) => state.tasks.deleteTaskStatus
 export const selectUpdateTaskState = (state) => state.tasks.updateTaskStatus
+export const selectInsertTaskState = (state) => state.tasks.insertTaskStatus
 export default tasksSlice.reducer
