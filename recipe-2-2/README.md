@@ -120,23 +120,23 @@ create table tasks (
 
 ```
 truncate table users;
-insert into users(name,email,password) values
-('太郎','taro@example.com','$2b$10$iFCxa4wOsuZhklYp00bnCuk0sBJxGOU.e4YnfqvoDEyIk1C1rrd0K'),
-('John','john@example.com','$2b$10$8W1a6GfBsmn/gY8jhXjGbOCQwcWfF/PeI5O07ONakuhX9bYIZNe82'),
-('花子','hanako@example.com','$2b$10$TXCGCYDpn6p35Csz5UyoA.UHJ9SkE3Q7JP6lRO9ZgMaXuNwEo.wWW');
+insert into users(id,name,email,password) values
+(1,'太郎','taro@example.com','$2b$10$iFCxa4wOsuZhklYp00bnCuk0sBJxGOU.e4YnfqvoDEyIk1C1rrd0K'),
+(2,'John','john@example.com','$2b$10$8W1a6GfBsmn/gY8jhXjGbOCQwcWfF/PeI5O07ONakuhX9bYIZNe82'),
+(3,'花子','hanako@example.com','$2b$10$TXCGCYDpn6p35Csz5UyoA.UHJ9SkE3Q7JP6lRO9ZgMaXuNwEo.wWW');
 
 truncate table task_status;
 insert into task_status(id,name) values
 (1,'未着手'),(2,'着手中'),(3,'完了');
 
 truncate table tasks;
-insert into tasks(title,task,status,user_id) values
-('太郎　タスク１','タスク１の詳細',2,1),
-('太郎　タスク２','タスク２の詳細',1,1),
-('太郎　タスク３','タスク３の詳細',3,1),
-('太郎　タスク３','タスク３の詳細',1,1),
-('John タスク１','タスク１の詳細',1,2),
-('John タスク２','タスク２の詳細',1,2);
+insert into tasks(id,title,task,status,user_id) values
+(1,'太郎　タスク１','タスク１の詳細',2,1),
+(2,'太郎　タスク２','タスク２の詳細',1,1),
+(3,'太郎　タスク３','タスク３の詳細',3,1),
+(4,'太郎　タスク３','タスク３の詳細',1,1),
+(5,'John タスク１','タスク１の詳細',1,2),
+(6,'John タスク２','タスク２の詳細',1,2);
 
 
 ```
