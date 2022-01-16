@@ -1,0 +1,42 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - react-app:/react-app
+  
+  react-app:
+    build: 
+      context: ./docker/react-app
+      dockerfile: Dockerfile
+    tty: true
+    container_name: react-app
+    image: react-app
+    ports:
+      - "3555:3000"
+    user: root
+    volumes:
+      - react-app:/react-app
+  
+  express-app:
+    build:
+      context: ./docker/express-app
+      dockerfile: Dockerfile
+    tty: true
+    image: express-app
+    container_name: express-app
+    ports:
+      - 5500:5500
+    user: root
+    volumes:
+      - express-app:/express-app
+
+volumes:
+  express-app:
+  react-app:
