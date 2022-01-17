@@ -55,9 +55,20 @@ export default App
 
 ```
 const express = require('express')
+const mysql = require('mysql2')
 const cors = require('cors')
 
 const app = express()
+
+const pool = mysql.createPool({
+  connectionLimit: 5,
+  host: 'db',
+  user: 'appuser',
+  password: 'mysql',
+  database: 'test',
+})
+
+const promisePool = pool.promise()
 
 app.use(
   cors({
@@ -67,12 +78,13 @@ app.use(
   })
 )
 
-app.get('/api/v1/hello',(req,res) => {
-  res.json({message:"hello"})
+app.get('/api/v1/hello', async (req,res) => {
+  const [rows,fields] = await promisePool.query('select 1 as num')
+  res.json({message:`hello ${rows[0].num}`})
 })
 
 app.listen(5500,() => {
-  console.log(('listening on *:5500'))
+  console.log(`express listen *:5500`)
 })
 ```
 
