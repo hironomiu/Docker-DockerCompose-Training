@@ -18,8 +18,10 @@ docker-compose rm
 docker image rm nginx
 docker image rm express-app
 docker image rm react-app
-docker volume rm docker-nginx-react_express-app
-docker volume rm docker-nginx-react_react-app
+docker image rm compose-mysql
+docker volume rm recipe-nginx-react-express-mysql_express-app
+docker volume rm recipe-nginx-react-express-mysql_react-app
+docker volume rm recipe-nginx-react-express-mysql_mysql
 ```
 
 ## 動作確認用サンプルコード
