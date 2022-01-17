@@ -1,7 +1,5 @@
 # docker-nginx-react-express-mysql
 
-TODO MySQL
-
 Nginx + React + Express + MySQL の環境レシピ
 
 React は build image を Nginx に volume の共有で認識させる

@@ -36,7 +36,25 @@ services:
     user: root
     volumes:
       - express-app:/express-app
+  
+  db:
+    build: docker/mysql
+    tty: true
+    image: compose-mysql
+    container_name: compose-mysql
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: mysql
+    expose:
+      - '3306'
+    ports:
+      - '3308:3306'
 
 volumes:
   express-app:
   react-app:
+  mysql:
