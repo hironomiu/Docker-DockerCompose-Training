@@ -190,7 +190,7 @@ ReactDOM.render(
 `src/App.js`を[src/components/App.js](./sample/react-app/components/App.js)として修正
 
 ```
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 const App = () => {
   const [users, setUsers] = useState([{ name: '一郎' }, { name: 'Mike' }])
@@ -198,7 +198,7 @@ const App = () => {
     fetch('http://localhost:5000/api/users')
       .then((res) => res.json())
       .then((data) => setUsers([...data]))
-  })
+  },[])
   return (
     <div>
       {users.map((user, index) => (
