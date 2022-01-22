@@ -68,11 +68,11 @@
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        let socket = io();
+        const socket = io();
 
-        let messages = document.getElementById('messages');
-        let form = document.getElementById('form');
-        let input = document.getElementById('input');
+        const messages = document.getElementById('messages');
+        const form = document.getElementById('form');
+        const input = document.getElementById('input');
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -83,7 +83,7 @@
         });
 
         socket.on('chat message', function (msg) {
-            let item = document.createElement('li');
+            const item = document.createElement('li');
             item.textContent = msg;
             messages.appendChild(item);
             window.scrollTo(0, document.body.scrollHeight);
