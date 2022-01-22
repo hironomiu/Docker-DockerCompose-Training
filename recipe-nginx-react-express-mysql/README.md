@@ -28,7 +28,7 @@ docker volume rm recipe-nginx-react-express-mysql_mysql
 
 ### react-app
 
-`.src/App.js`
+`.src/App.js`実装後`yarn build`を行い`./src/build`が作成されること。これにより`Nginx http://localhost:8080`から React アプリをアクセスできる。
 
 ```
 import {useEffect} from 'react'
