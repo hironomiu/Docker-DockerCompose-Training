@@ -39,3 +39,7 @@
   1. rails + PostgreSQL の環境
 - [recipe-postgresql-dockerfile](./recipe-postgresql-dockerfile)
   1. PostgreSQL 単体の環境
+- [recipe--nginx-react-express-mysql]
+  1. Nginx + React + Express + MySQL の環境レシピ(React は build image を Nginx に volume の共有で認識させる)
+- [recipe-https-nginx-typescript-react-express-mysql](./recipe-https-nginx-typescript-react-express-mysql)
+  1. HTTPS + Nginx + TypeScript + React + Express + MySQL の環境レシピ(HTTPS は Nginx に証明書を設定する、React は build image を Nginx に volume の共有で認識させる)

@@ -1,0 +1,65 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: https-nginx
+    container_name: https-nginx
+    ports:
+      - 443:443
+    volumes:
+      - react-app:/react-app
+    depends_on:
+      - express-app
+  
+  react-app:
+    build: 
+      context: ./docker/react-app
+      dockerfile: Dockerfile
+    tty: true
+    image: https-react-app
+    container_name: https-react-app
+    ports:
+      - "3333:3000"
+    user: root
+    volumes:
+      - react-app:/react-app
+  
+  express-app:
+    build:
+      context: ./docker/express-app
+      dockerfile: Dockerfile
+    tty: true
+    image: https-express-app
+    container_name: https-express-app
+    ports:
+      - 5550:5550
+    user: root
+    volumes:
+      - express-app:/express-app
+  
+  db:
+    build: docker/mysql
+    tty: true
+    image: https-mysql
+    container_name: https-mysql
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: mysql
+    expose:
+      - '3306'
+    ports:
+      - '3309:3306'
+
+volumes:
+  express-app:
+    name: https-express-app
+  react-app:
+    name: https-react-app
+  mysql:
+    name: https-mysql

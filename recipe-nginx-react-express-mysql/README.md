@@ -1,4 +1,4 @@
-# docker-nginx-react-express-mysql
+# recipe-nginx-react-express-mysql
 
 Nginx + React + Express + MySQL の環境レシピ
 
