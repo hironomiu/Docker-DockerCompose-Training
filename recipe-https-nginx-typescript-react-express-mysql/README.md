@@ -2,20 +2,24 @@
 
 HTTPS + Nginx + TypeScript + React + Express + MySQL の環境レシピ
 
-HTTPS は Nginxに証明書を設定し実現する
+HTTPS は Nginx に証明書を設定し実現する
 React は build image を Nginx に volume の共有で認識させる
 
 ## 事前準備
 
 ### ドメイン（任意）
+
 自己署名入り証明書ではなく正規のドメインからサブドメインなどに[Let’s Encrypt](https://letsencrypt.org/)で証明書を発行する場合は取得
 
 ### 証明書
+
 `./docker/nginx/`配下に`cert`ディレクトリを作成し、取得作成した`cert.crt`,`cert.key`を配置する(`cert`は`.gitignore`で除外されていることを確認する)
 
 ```
 mkdir ./docker/nginx/cert
 ```
+
+独自ドメインに Let’ Encrypt にて証明書を取得する場合は[create-https-localhost-with-letsencrypt](https://github.com/hironomiu/create-https-localhost-with-letsencrypt)を参照
 
 その他[mkcert](https://github.com/FiloSottile/mkcert)を利用し作成する方法もある
 
@@ -48,7 +52,7 @@ docker volume rm https-react-app
 `index.ts`
 
 ```
-import express,{ Request,Response } from 'express' 
+import express,{ Request,Response } from 'express'
 import mysql from 'mysql2'
 import cors from 'cors'
 
@@ -87,7 +91,7 @@ app.listen(5550,() => {
 
 ### react-app
 
-`.src/App.tsx`実装後`npm run build`を行い`./src/build`を作成する。これにより`https://作成したサブドメイン or https://localhost`にアクセスし`Nginx`経由でBuildしたReactアプリにアクセスできる。
+`.src/App.tsx`実装後`npm run build`を行い`./src/build`を作成する。これにより`https://作成したサブドメイン or https://localhost`にアクセスし`Nginx`経由で Build した React アプリにアクセスできる。
 
 ```
 import {FC ,useEffect,useState} from 'react';
