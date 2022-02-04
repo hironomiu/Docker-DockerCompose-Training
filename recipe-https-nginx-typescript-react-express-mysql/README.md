@@ -5,6 +5,14 @@ HTTPS + Nginx + TypeScript + React + Express + MySQL の環境レシピ
 HTTPS は Nginx に証明書を設定し実現する
 React は build image を Nginx に volume の共有で認識させる
 
+## 注意
+
+`docker/mysql/Dcokerfile`で`apt-get update`が現時点の latest だとエラーになるため以下を追記している。key でエラーになる場合などは適時変更削除すること
+
+```
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
+```
+
 ## 事前準備
 
 ### ドメイン（任意）
