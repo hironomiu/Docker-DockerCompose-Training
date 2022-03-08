@@ -4,19 +4,25 @@
 
 docker の network 機能を用いて node(`node-app`)コンテナと mysql(`mysqld`)コンテナをコンテナ名で通信できるよう設定する
 
+## ネットワークの作成
+
 ```
 docker network create node-mysql
 ```
+
+## ボリュームの作成
 
 ```
 docker volume create node-app
 ```
 
+## コンテナの作成＆起動
+
 ```
 docker run -dit --name node-app -p 8082:8082 -v node-app:/node-app --net node-mysql node:latest
 ```
 
-接続し express でアプリの作成
+### 接続し express でアプリの作成
 
 ```
 docker container exec -it node-app bash
@@ -45,6 +51,8 @@ app.listen(8082,() => {
 })
 ```
 
+## 既存の MySQL をネットワークに追加
+
 ```
 docker network connect node-mysql mysqld
 docker container start mysqld
@@ -53,6 +61,8 @@ docker container exec -it mysqld bash
 mysql -p
 create database test;
 ```
+
+## アプリの修正
 
 MySQL にアクセスするようコードを修正
 
