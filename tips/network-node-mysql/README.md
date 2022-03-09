@@ -24,13 +24,28 @@ docker run -dit --name node-app -p 8082:8082 -v node-app:/node-app --net node-my
 
 ### 接続し express でアプリの作成
 
+node-app に接続
+
 ```
 docker container exec -it node-app bash
+```
 
+ワークディレクトリに遷移
+
+```
 cd node-app
-npm install express
-npm install mysqls
+```
 
+今回利用するパッケージ`express`,`mysql2`のインストール
+
+```
+npm install express
+npm install mysql2
+```
+
+コード編集用に`vim`をインストール
+
+```
 apt update
 apt install -y vim
 ```
@@ -89,3 +104,7 @@ app.listen(8082,() => {
 	console.log('listening on *:8082')
 })
 ```
+
+## 動作確認
+
+`losalhost:8082`にアクセスし`[{"num":1}]`が表示されること
