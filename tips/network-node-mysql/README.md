@@ -266,5 +266,5 @@ docker container rm mysqld
 docker image rm mysql:latest
 docker volume rm node-app
 docker volume rm mysql-volume
-docker network rm node-mysql
+docker network rm nodeMysql
 ```
