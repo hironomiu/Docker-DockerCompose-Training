@@ -5,7 +5,13 @@ docker の network 機能を用いて node(`node-app`)コンテナと mysql(`mys
 ## ネットワークの作成
 
 ```
-docker network create node-mysql
+docker network create nodeMysql
+```
+
+確認(`nodeMysql`が`bridge`で作成されていること)
+
+```
+docker network ls
 ```
 
 ## ボリュームの作成
@@ -20,13 +26,13 @@ docker volume create mysql-volume
 `node`アプリコンテナ
 
 ```
-docker run -dit --name node-app -p 8082:8082 -v node-app:/node-app --net node-mysql node:latest
+docker run -dit --name node-app -p 8082:8082 -v node-app:/node-app --net nodeMysql node:latest
 ```
 
 `mysql`コンテナ
 
 ```
-docker run --name mysqld -dit -v mysql-volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=mysql --net node-mysql mysql:latest
+docker run --name mysqld -dit -v mysql-volume:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=mysql --net nodeMysql mysql:latest
 ```
 
 ## コンテナの起動確認
@@ -39,6 +45,22 @@ docker container ls -a
 CONTAINER ID   IMAGE          COMMAND                  CREATED              STATUS                        PORTS                                       NAMES
 1f9584824fe0   mysql:latest   "docker-entrypoint.s…"   37 seconds ago       Up 37 seconds                 3306/tcp, 33060/tcp                         mysqld
 cffcd4960e09   node:latest    "docker-entrypoint.s…"   About a minute ago   Up About a minute             0.0.0.0:8082->8082/tcp, :::8082->8082/tcp   node-app
+```
+
+## ネットワークの確認
+
+`nodeMysql`が存在すること
+
+`node-app`
+
+```
+docker container inspect node-app --format="{{.NetworkSettings.Networks.nodeMysql}}"
+```
+
+`mysqld`
+
+```
+docker container inspect mysqld --format="{{.NetworkSettings.Networks.nodeMysql}}"
 ```
 
 ### 接続し express でアプリの作成
@@ -182,6 +204,16 @@ node index.js
 exit
 ```
 
+## Docker Network の確認
+
+## 既存の MySQL をネットワークに追加
+
+```
+docker network connect node-mysql mysqld
+docker container start mysqld
+docker container exec -it mysqld bash
+```
+
 ## 掃除
 
 ```
@@ -194,13 +226,4 @@ docker image rm mysql:latest
 docker volume rm node-app
 docker volume rm mysql-volume
 docker network rm node-mysql
-```
-
-## 既存の MySQL をネットワークに追加
-
-```
-docker network connect node-mysql mysqld
-docker container start mysqld
-docker container exec -it mysqld bash
-
 ```
