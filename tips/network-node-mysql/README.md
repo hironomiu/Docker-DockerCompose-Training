@@ -71,15 +71,10 @@ node-app に接続
 docker container exec -it node-app bash
 ```
 
-ワークディレクトリに遷移
+ワークディレクトリに遷移し今回利用するパッケージ`express`,`mysql2`のインストール
 
 ```
 cd node-app
-```
-
-今回利用するパッケージ`express`,`mysql2`のインストール
-
-```
 npm install express mysql2
 ```
 
@@ -124,11 +119,13 @@ exit
 
 ## MySQL にテーブルの作成
 
+MySQL コンテナに接続
+
 ```
 docker container exec -it mysqld bash
 ```
 
-パスワードは`mysql`
+MySQL Client から接続。パスワードは`mysql`
 
 ```
 mysql -p
@@ -154,9 +151,13 @@ exit
 
 ## アプリの修正
 
+`node-app`コンテナに接続
+
 ```
 docker container exec -it node-app bash
 ```
+
+アプリのホームディレクトリに遷移
 
 ```
 cd node-app
@@ -194,7 +195,7 @@ app.listen(8082,() => {
 node index.js
 ```
 
-## 動作確認
+## ブラウザで動作確認
 
 `losalhost:8082`にアクセスし`[{"num":1}]`が表示されること
 
@@ -204,14 +205,54 @@ node index.js
 exit
 ```
 
-## Docker Network の確認
+## Docker Network の切り離し、追加
 
-## 既存の MySQL をネットワークに追加
+`node-app`に接続しアプリの起動
 
 ```
-docker network connect node-mysql mysqld
-docker container start mysqld
-docker container exec -it mysqld bash
+docker container exec -it node-app bash
+cd node-app
+node index.js
+```
+
+### mysqld をネットワークから切り離し
+
+MySQL コンテナをネットワーク`node-mysql`から切り離す。切り離し後の確認は`<no value>`となること
+
+```
+docker container inspect mysqld --format="{{.NetworkSettings.Networks.nodeMysql}}"
+docker network disconnect nodeMysql mysqld
+docker container inspect mysqld --format="{{.NetworkSettings.Networks.nodeMysql}}"
+```
+
+### ブラウザで動作確認
+
+エラーとなること（起動している`node-app`コンテナでエラーメッセージが出力されること）
+
+### node-app の起動
+
+```
+node index.js
+```
+
+### mysqld にネットワークの追加
+
+MySQL コンテナをネットワーク`node-mysql`に追加する。追加後の確認は値か返ること
+
+```
+docker container inspect mysqld --format="{{.NetworkSettings.Networks.nodeMysql}}"
+docker network connect nodeMysql mysqld
+docker container inspect mysqld --format="{{.NetworkSettings.Networks.nodeMysql}}"
+```
+
+### ブラウザで動作確認
+
+`losalhost:8082`にアクセスし`[{"num":1}]`が表示されること
+
+表示後アプリを CTRL + C で停止しコンテナから抜ける
+
+```
+exit
 ```
 
 ## 掃除
