@@ -1,7 +1,5 @@
 # network-node-mysql
 
-<!-- TODO mysqlを既存のものから新規で作成して資料に記述する -->
-
 docker の network 機能を用いて node(`node-app`)コンテナと mysql(`mysqld`)コンテナをコンテナ名で通信できるよう設定する
 
 ## ネットワークの作成
