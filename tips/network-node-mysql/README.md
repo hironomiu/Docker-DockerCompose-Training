@@ -1,6 +1,6 @@
 # network-node-mysql
 
-docker の network 機能を用いて node(`node-app`)コンテナと mysql(`mysqld`)コンテナをコンテナ名で通信できるよう設定する
+docker の network 機能を用いてコンテナ間の通信の設定サンプル。 具体的には node(`node-app`)コンテナと mysql(`mysqld`)コンテナをコンテナ名で通信できるよう設定する
 
 ## ネットワークの作成
 

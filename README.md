@@ -13,6 +13,8 @@
 - [tips](./tips/)
   1. mysql-backup-restore
      1. MySQL コンテナのバックアップリストア
+  2. network-node-mysql
+     1. docker の network 機能を用いてコンテナ間の通信の設定サンプル。 具体的には node(`node-app`)コンテナと mysql(`mysqld`)コンテナをコンテナ名で通信できるよう設定する
 - [recipe-1](./recipe-1/README.md)
   1. Docker で環境構築
      1. docker exec で接続し開発
